@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+//So for good measure, I should have a counter widget app which does render count and build on it's own.
+//But that is yet another layer of wrappers
+
 class Counter extends State {
 
   int value = 0;
