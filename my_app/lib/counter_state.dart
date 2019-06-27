@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-
 import 'counter.dart';
 
-//CounterPresenter does the rendering of our object
+//CounterState holds the state and renders the object
 
-class CounterPresenter extends State {
+class CounterState extends State {
 
   Counter _counter;
 
-  CounterPresenter() {
+  CounterState() {
     _counter = new Counter();
   }
 
