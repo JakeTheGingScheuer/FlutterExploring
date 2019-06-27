@@ -7,7 +7,7 @@
 **/build
 **/.metadata
 **/basic_app.iml
-**/pubspec.yaml
+**/pubspec.lock
 **/budget_calendar.iml
 **/my_app.iml
 **/.packages
