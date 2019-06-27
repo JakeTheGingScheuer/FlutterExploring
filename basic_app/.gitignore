@@ -1,3 +1,10 @@
+.idea
+android
+ios
+.metadata
+pubspec.lock
+**/**.iml
+
 # Miscellaneous
 *.class
 *.log
