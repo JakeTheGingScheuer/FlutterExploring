@@ -11,3 +11,11 @@
 **/budget_calendar.iml
 **/my_app.iml
 **/.packages
+
+**/android/**
+**/ios/**
+**/build/**
+
+**/android/
+**/ios/
+**/build/
