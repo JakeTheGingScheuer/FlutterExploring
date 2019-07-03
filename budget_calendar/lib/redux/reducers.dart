@@ -1,10 +1,22 @@
+import 'dart:core';
 import 'package:budget_calendar/model/model.dart';
 import 'package:budget_calendar/redux/actions.dart';
 
 AppState appStateReducer(AppState state, action) {
   return AppState(
+    dailyBalance: balanceReducer(state.transactions, action),
     transactions: itemReducer(state.transactions, action)
   );
+}
+
+double balanceReducer(List<Transaction> state, action) {
+  double balance = 0.00;
+  if (action is UpdateBalanceAction) {
+    for(int i = 0; i< state.length; i++) {
+      balance += state[i].transactionAmount;
+    }
+  }
+  return balance;
 }
 
 List<Transaction> itemReducer(List<Transaction> state, action) {

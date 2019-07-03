@@ -1,24 +1,22 @@
-import 'package:budget_calendar/screens/calendar_screen.dart';
+import 'package:budget_calendar/model/view_model.dart';
 import 'package:budget_calendar/widgets/common.dart';
 import 'package:flutter/material.dart';
 
-import 'day_screen.dart';
-
 class TransactionScreen extends StatelessWidget{
-  ViewModel model;
-  TransactionScreen(this.model);
+  ViewModel dayModel;
+  TransactionScreen(this.dayModel);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: Common.headBar(),
-        body: TransactionForm(this.model)
+        body: TransactionForm(this.dayModel)
     );
   }
 }
 class TransactionForm extends StatefulWidget {
-  ViewModel model;
-  TransactionForm(this.model);
+  ViewModel dayModel;
+  TransactionForm(this.dayModel);
 
   @override
   State<StatefulWidget> createState() {
@@ -32,18 +30,16 @@ class TransactionFormState extends State<TransactionForm> {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      keyboardType: TextInputType.number,
       controller: controller,
       decoration: InputDecoration(
         hintText: 'add a transaction'
       ),
       onSubmitted:(String input) {
-        widget.model.onAddTransaction(int.parse(input));
+        widget.dayModel.onAddTransaction(double.parse(input));
+        widget.dayModel.onUpdateBalance(double.parse(input));
         controller.text = '';
       }
     );
-
-  }
-  void addToList(String transaction){
-    ListTile addIt = new ListTile(title: Text(transaction));
   }
 }

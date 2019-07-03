@@ -2,7 +2,7 @@ import 'package:budget_calendar/model/model.dart';
 
 class AddTransactionAction {
   static int _id = 0;
-  int transAmount = 0;
+  double transAmount = 0;
   AddTransactionAction(this.transAmount){
     _id++;
   }
@@ -16,3 +16,8 @@ class RemoveTransactionAction {
 }
 
 class ClearBalanceAction {}
+
+class UpdateBalanceAction {
+  double balance = 0.00;
+  UpdateBalanceAction(this.balance);
+}

@@ -1,4 +1,5 @@
 import 'package:budget_calendar/model/model.dart';
+import 'package:budget_calendar/model/view_model.dart';
 import 'package:budget_calendar/redux/actions.dart';
 import 'package:budget_calendar/widgets/calendar_day_presenter.dart';
 import 'package:budget_calendar/widgets/common.dart';
@@ -16,50 +17,18 @@ class CalendarScreen extends StatelessWidget{
       appBar: Common.headBar(),
       body: StoreConnector<AppState, ViewModel>(
         converter: (Store<AppState> store) => ViewModel.create(store),
-        builder: (BuildContext context, ViewModel viewModel) => Container(
-          child: CalendarList(viewModel))
+        builder: (BuildContext context, ViewModel mainModel) => Container(
+          child: CalendarList(mainModel))
         )
       );
   }
 }
 
-class ViewModel {
-  List<Transaction> transactions;
-  Function(int) onAddTransaction;
-  Function(Transaction) onRemoveTransaction;
-  Function() onResetBalance;
-
-  ViewModel({
-    this.transactions,
-    this.onAddTransaction,
-    this.onRemoveTransaction,
-    this.onResetBalance
-});
-
-  factory ViewModel.create(Store<AppState> store) {
-    _onAddTransaction(int transAmount) {
-      store.dispatch(AddTransactionAction(transAmount));
-    }
-    _onRemoveTransaction(Transaction transaction) {
-      store.dispatch(RemoveTransactionAction(transaction));
-    }
-    _onResetBalance() {
-      store.dispatch(ClearBalanceAction());
-    }
-    return ViewModel(
-      transactions: store.state.transactions,
-      onAddTransaction: _onAddTransaction,
-      onRemoveTransaction: _onRemoveTransaction,
-      onResetBalance: _onResetBalance
-    );
-  }
-}
-
 class CalendarList extends StatelessWidget {
-  final ViewModel model;
+  final ViewModel mainModel;
   List<CalendarDay> dayTiles;
 
-  CalendarList(this.model) {
+  CalendarList(this.mainModel) {
     dayTiles = new List<CalendarDay>();
     makeCalendar();
   }
@@ -72,23 +41,16 @@ class CalendarList extends StatelessWidget {
           return GestureDetector(
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(
-                    builder: (context) => DayScreen(model)
+                    builder: (context) => DayScreen(mainModel)
                 ));
               },
               child:ListTile(
                 contentPadding: EdgeInsets.all(10.0),
                 leading: this.dayTiles[index],
-                title: checkIfNull(index),
+                title: Text(this.mainModel.dailyBalance.toString()),
                 subtitle: Text('credits and debits go here'),
               ));}
     );
-  }
-
-  Text checkIfNull(int index){
-    if(model.transactions.length>index){
-      return Text(model.transactions[index].transactionAmount.toString());
-    }
-    else return Text('');
   }
 
   void makeCalendar() {

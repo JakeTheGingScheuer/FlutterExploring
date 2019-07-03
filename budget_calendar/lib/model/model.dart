@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 
 class Transaction {
   final int id;
-  int transactionAmount;
+  double transactionAmount;
 
   Transaction({
     @required this.transactionAmount,
@@ -19,10 +19,15 @@ class Transaction {
 
 class AppState{
   List<Transaction> transactions;
+  double dailyBalance;
 
   AppState({
-    @required this.transactions
+    @required this.transactions,
+    @required this.dailyBalance
   });
 
-  AppState.initialState() : transactions = List.unmodifiable(<Transaction>[]);
+  AppState.initialState() : 
+        transactions = List.unmodifiable(<Transaction>[]),
+        dailyBalance = 0.00;
+  
 }
