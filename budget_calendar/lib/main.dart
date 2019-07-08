@@ -1,11 +1,9 @@
 import 'package:budget_calendar/screens/calendar_screen.dart';
+import 'package:budget_calendar/screens/day_screen.dart';
+import 'package:budget_calendar/screens/transaction_screen.dart';
 import 'package:flutter/material.dart';
-
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:redux/redux.dart';
-
-import 'package:budget_calendar/model/model.dart';
-import 'package:budget_calendar/redux/reducers.dart';
+import 'package:provider/provider.dart';
+import 'model/calendar_model.dart';
 
 void main() {
   runApp(App());
@@ -14,15 +12,16 @@ void main() {
 class App extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
-    final Store<AppState> store = Store<AppState>(
-      appStateReducer,
-      initialState: AppState.initialState(),
-    );
-    return StoreProvider<AppState>(
-      store: store,
+    return ChangeNotifierProvider(
+      builder: (context) => CalendarModel(),
       child: MaterialApp(
-          home: CalendarScreen()
-      ),
-    );
+        debugShowCheckedModeBanner: false,
+        title:'CaLeNdOom',
+        initialRoute: '/',
+        routes: {
+          '/': (context) => CalendarScreen(),
+          '/day': (context) => DayScreen(),
+          '/transaction': (context) => TransactionScreen()
+        }));
   }
 }

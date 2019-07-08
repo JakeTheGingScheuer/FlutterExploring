@@ -1,13 +1,6 @@
-import 'package:budget_calendar/model/model.dart';
-import 'package:budget_calendar/model/view_model.dart';
-import 'package:budget_calendar/redux/actions.dart';
-import 'package:budget_calendar/widgets/calendar_day_presenter.dart';
+import 'package:budget_calendar/model/calendar_model.dart';
 import 'package:budget_calendar/widgets/common.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:redux/redux.dart';
-
-import 'day_screen.dart';
 
 class CalendarScreen extends StatelessWidget{
 
@@ -15,22 +8,41 @@ class CalendarScreen extends StatelessWidget{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: Common.headBar(),
-      body: StoreConnector<AppState, ViewModel>(
-        converter: (Store<AppState> store) => ViewModel.create(store),
-        builder: (BuildContext context, ViewModel mainModel) => Container(
-          child: CalendarList(mainModel))
-        )
+      body: CalendarList()
       );
   }
 }
 
 class CalendarList extends StatelessWidget {
-  final ViewModel mainModel;
-  List<CalendarDay> dayTiles;
+  CalendarModel calendar;
+  List<Column> dayTiles;
 
-  CalendarList(this.mainModel) {
-    dayTiles = new List<CalendarDay>();
-    makeCalendar();
+  CalendarList() {
+    calendar = CalendarModel();
+    makeCalendarView();
+  }
+
+  void makeCalendarView() {
+    var days = calendar.days;
+    for (int i = 0; i < days.length; i++) {
+        dayTiles.add(
+            Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text(days[i].calendarDate.month),
+                  Text(days[i].calendarDate.weekday + ' ' +
+                      days[i].calendarDate.dayNum.toString())
+                ]
+            )
+        );
+    }
+  }
+
+  String getRunningBalance(int i) {
+    var theDay = calendar.days[i].dayModel;
+    if(theDay.transactions.length>0) {
+      return theDay.getDailyBalance().toString();
+    } else return '0.00';
   }
 
   @override
@@ -40,24 +52,14 @@ class CalendarList extends StatelessWidget {
         itemBuilder: (context, index) {
           return GestureDetector(
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(
-                    builder: (context) => DayScreen(mainModel)
-                ));
+                Navigator.pushReplacementNamed(context, '/day');
               },
               child:ListTile(
                 contentPadding: EdgeInsets.all(10.0),
                 leading: this.dayTiles[index],
-                title: Text(this.mainModel.dailyBalance.toString()),
+                title: Text(getRunningBalance(index)),
                 subtitle: Text('credits and debits go here'),
               ));}
     );
-  }
-
-  void makeCalendar() {
-    DateTime today = DateTime.now();
-    for(int i = 0; i<365; i++){
-      DateTime dayOf = today.add(new Duration(days: i));
-      dayTiles.add(new CalendarDay(dayOf.month, dayOf.weekday, dayOf.day));
-    }
   }
 }
