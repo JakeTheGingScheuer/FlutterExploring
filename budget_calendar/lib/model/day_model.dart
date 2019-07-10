@@ -1,30 +1,24 @@
-import 'dart:collection';
-
+import 'package:budget_calendar/widgets/Transaction.dart';
 import 'package:flutter/material.dart';
 
-class DayModel extends ChangeNotifier {
-  final List<Transaction> _transactions = [];
-  UnmodifiableListView<Transaction> get transactions => UnmodifiableListView(_transactions);
+class DayModel with ChangeNotifier {
+  List<Transaction> transactions = [];
 
   double getDailyBalance() {
     double balance = 0.0;
-    for(int i =0; i<_transactions.length; i++) {
-      balance += _transactions[i].amount;
+    for(int i =0; i<transactions.length; i++) {
+      balance += transactions[i].amount;
     }
     return balance;
   }
 
-  void add(Transaction transaction) {
-    _transactions.add(transaction);
+  void addTrans(String description, double amount) {
+    transactions.add(Transaction(description, amount));
     notifyListeners();
   }
-}
 
-@immutable
-class Transaction {
-  final int id;
-  final String description;
-  final double amount;
-
-  Transaction(this.id, this.description, this.amount);
+  void deleteTrans(Transaction transaction) {
+    this.transactions.remove(transaction);
+    notifyListeners();
+  }
 }

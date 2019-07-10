@@ -1,71 +1,72 @@
 import 'package:budget_calendar/model/day_model.dart';
 import 'package:budget_calendar/widgets/common.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class TransactionScreen extends StatelessWidget{
 
-  Transaction transaction = Transaction();
+  DayModel dayModel;
+  TransactionScreen(this.dayModel);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: Common.headBar(),
-        body: TransactionForm(),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        floatingActionButton: AddButton(),
+        body: TransactionForm(this.dayModel),
     );
-  }
-}
-
-class AddButton extends StatelessWidget {
-  Transaction transaction;
-
-  AddButton(this.transaction);
-
-  @override
-  Widget build(BuildContext context) {
-    var dailyTransactions = Provider.of<DayModel>(context);
-    return RaisedButton(
-      child: Text('Add To Ledger'),
-      color: Colors.red,
-      onPressed: () => addToLedger(dailyTransactions, context)
-    );
-  }
-
-  void addToLedger(DayModel provider, BuildContext context) {
-    provider.add(transaction);
-    Navigator.pushReplacementNamed(context, '/day');
   }
 }
 
 class TransactionForm extends StatefulWidget {
+  DayModel dayModel;
+  TransactionForm(this.dayModel);
 
   @override
   State<StatefulWidget> createState() {
-    return TransactionFormState();
+    return TransactionFormState(dayModel);
   }
 }
 
 class TransactionFormState extends State<TransactionForm> {
+  DayModel dayModel;
   TextEditingController controller = TextEditingController();
+  double transAmount = 0.0;
+
+  TransactionFormState(this.dayModel);
+
+  void setAmount(double input){
+    transAmount = input;
+  }
+  void addToLedger(double amount, BuildContext context) {
+    dayModel.addTrans('new trans', amount);
+    Navigator.pop(context);
+  }
 
   @override
   Widget build(BuildContext context) {
     return
-      Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Text('Amount:'),
-          SizedBox(height: 24),
-          TextField(
-              keyboardType: TextInputType.number,
-              controller: controller,
-              decoration: InputDecoration(
-                  hintText: 'add a transaction'
-              )
+    Container(padding: EdgeInsets.all(25.0),
+    child:Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget>[
+        SizedBox(height: 80),
+        Text('Amount:'),
+        SizedBox(height: 20),
+        TextField(
+          keyboardAppearance: Brightness.dark,
+          keyboardType: TextInputType.number,
+          controller: controller,
+          decoration: InputDecoration(
+              hintText: '\$0.00'
           ),
-        ],
-      );
+          onChanged: (input) => setAmount(double.parse(input)),
+        ),
+        SizedBox(height: 80),
+        RaisedButton(
+            child: Text('Add To Ledger'),
+            color: Colors.red,
+            onPressed: () => addToLedger(this.transAmount, context)
+        )
+      ],
+    ));
   }
 }

@@ -1,6 +1,4 @@
 import 'package:budget_calendar/screens/calendar_screen.dart';
-import 'package:budget_calendar/screens/day_screen.dart';
-import 'package:budget_calendar/screens/transaction_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'model/calendar_model.dart';
@@ -16,12 +14,10 @@ class App extends StatelessWidget{
       builder: (context) => CalendarModel(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title:'CaLeNdOom',
+        title:'CalenDOOM V 6.6.6',
         initialRoute: '/',
         routes: {
           '/': (context) => CalendarScreen(),
-          '/day': (context) => DayScreen(),
-          '/transaction': (context) => TransactionScreen()
         }));
   }
 }

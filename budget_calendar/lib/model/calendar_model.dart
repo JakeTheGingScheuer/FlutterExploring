@@ -1,9 +1,8 @@
-import 'dart:collection';
 import 'package:budget_calendar/model/day_model.dart';
 import 'package:flutter/material.dart';
 
-class CalendarModel extends ChangeNotifier {
-  List<Day> _days = [];
+class CalendarModel with ChangeNotifier {
+  List<Day> daysOfTheYear = [];
 
   CalendarModel(){
     makeCalendar();
@@ -13,11 +12,9 @@ class CalendarModel extends ChangeNotifier {
     DateTime today = DateTime.now();
     for(int i = 0; i<365; i++){
       DateTime dayOf = today.add(new Duration(days: i));
-      _days.add(new Day(dayOf.month, dayOf.weekday, dayOf.day));
+      daysOfTheYear.add(new Day(dayOf.month, dayOf.weekday, dayOf.day));
     }
   }
-
-  UnmodifiableListView<Day> get days => UnmodifiableListView(_days);
 }
 
 class Day {
@@ -29,16 +26,14 @@ class Day {
   }
 }
 
-
-@immutable
 class CalendarDate {
   String month;
   String weekday;
   int dayNum;
 
   CalendarDate(int monthNum, int weekdayNum, this.dayNum) {
-    monthSymb(monthNum);
-    weekdaySymb(weekdayNum);
+    month = monthSymb(monthNum);
+    weekday = weekdaySymb(weekdayNum);
   }
 
   String monthSymb(int monthNum) {
