@@ -42,7 +42,7 @@ class TransactionList extends StatelessWidget{
     List<ListTile> transactionTiles = makeTransactionTiles(this.dayModel.transactions);
     return
       Container(
-          height: 600,
+          height: 560,
           child: ListView(
           children: transactionTiles
       ));

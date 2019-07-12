@@ -8,17 +8,17 @@ class DateCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        width: 75.0,
+        width: 60,
         decoration: BoxDecoration(
-            color: Colors.amberAccent,
+            color: Colors.lightBlueAccent,
             borderRadius: BorderRadius.all(Radius.circular(10.0)),
             border: Border.all()),
         child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Text(dayModel.month, style: TextStyle(fontWeight: FontWeight.bold)),
-              Text(dayModel.weekday + ' ' +
-                  dayModel.dayNumber)
+              Text(dayModel.month, style: TextStyle(fontSize: 11)),
+              Text(dayModel.dayNumber, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+              Text(dayModel.weekday, style: TextStyle(fontSize: 10))
             ]));
   }
 }

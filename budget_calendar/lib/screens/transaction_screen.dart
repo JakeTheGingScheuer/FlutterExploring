@@ -73,14 +73,34 @@ class TransactionFormState extends State<TransactionForm> {
             reoccuring = value;
           });},
         ),
-        SizedBox(height: 40),
+        SizedBox(height: 50),
         RaisedButton(
             child: Text('Add To Ledger'),
-            color: Colors.red,
+            color: Colors.blue,
+            textColor: Colors.white,
             onPressed: () => addToLedger(this.transAmount, context)
         )
       ],
     ));
+  }
+  Container descriptionField() {
+    return Container(
+        child: Column(
+          children: <Widget>[
+            SizedBox(height: 40),
+            Text('Description',
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600)),
+            SizedBox(height: 20),
+            TextField(
+              keyboardAppearance: Brightness.dark,
+              decoration: InputDecoration(
+                  hintText: 'Rent, Electric Bill, etc.'
+              ),
+              onChanged: (input) => setDescription(input),
+            ),
+          ],
+        )
+    );
   }
 
   Container amountField(){
@@ -88,7 +108,7 @@ class TransactionFormState extends State<TransactionForm> {
       child: Column(
         children: <Widget>[
           SizedBox(height: 80),
-          Text('Amount:'),
+          Text('Amount', style:TextStyle(fontSize: 22, fontWeight: FontWeight.w600)),
           SizedBox(height: 20),
           TextField(
             keyboardAppearance: Brightness.dark,
@@ -103,24 +123,4 @@ class TransactionFormState extends State<TransactionForm> {
       )
     );
   }
-
-  Container descriptionField(){
-    return Container(
-        child: Column(
-          children: <Widget>[
-            SizedBox(height: 40),
-            Text('Description:'),
-            SizedBox(height: 20),
-            TextField(
-              keyboardAppearance: Brightness.dark,
-              decoration: InputDecoration(
-                  hintText: 'Rent, Electric Bill, etc.'
-              ),
-              onChanged: (input) => setDescription(input),
-            ),
-          ],
-        )
-    );
-  }
-
 }
