@@ -1,28 +1,32 @@
 import 'package:budget_calendar/model/day_model.dart';
 import 'package:budget_calendar/screens/transaction_screen.dart';
-import 'package:budget_calendar/widgets/Transaction.dart';
+import 'package:budget_calendar/widgets/transaction.dart';
 import 'package:budget_calendar/widgets/common.dart';
 import 'package:flutter/material.dart';
 
 
 class DayScreen extends StatelessWidget{
-  DayModel dayModel;
+  DayModel day;
 
-  DayScreen(this.dayModel);
+  DayScreen(this.day);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: Common.headBar(),
-        body: TransactionList(this.dayModel),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        floatingActionButton: RaisedButton(
-          child: Text('New Transaction'),
-          color: Colors.red,
-          onPressed: () => Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => TransactionScreen(this.dayModel))
-          )
+        appBar: Common.headBar(day.dayTitle()),
+        body: Column(
+          children: <Widget>[
+            TransactionList(this.day),
+            RaisedButton(
+                child: Text('New Transaction'),
+                color: Colors.blue,
+                textColor: Colors.white,
+                onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => TransactionScreen(this.day))
+                )
+            )
+          ]
         ),
     );
   }
@@ -36,9 +40,12 @@ class TransactionList extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     List<ListTile> transactionTiles = makeTransactionTiles(this.dayModel.transactions);
-    return ListView(
-        children: transactionTiles
-    );
+    return
+      Container(
+          height: 600,
+          child: ListView(
+          children: transactionTiles
+      ));
   }
 
   List<ListTile> makeTransactionTiles(List<Transaction> transactions){

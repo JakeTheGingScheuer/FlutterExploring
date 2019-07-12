@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import '../styles.dart';
 
 class Common {
-  static AppBar headBar() {
+  static AppBar headBar(String title) {
     return AppBar(
       backgroundColor: Colors.red,
-      title: Text('CalenDOOM V 6.6.6', style: Styles.headerLarge),
+      title: Text(title, style: Styles.headerLarge),
       leading: Builder(
           builder: (BuildContext context) {
             if(Navigator.canPop(context)) {

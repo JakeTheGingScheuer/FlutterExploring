@@ -1,17 +1,18 @@
 import 'package:budget_calendar/model/day_model.dart';
+import 'package:budget_calendar/widgets/transaction.dart';
 import 'package:budget_calendar/widgets/common.dart';
 import 'package:flutter/material.dart';
 
 class TransactionScreen extends StatelessWidget{
 
-  DayModel dayModel;
-  TransactionScreen(this.dayModel);
+  DayModel day;
+  TransactionScreen(this.day);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: Common.headBar(),
-        body: TransactionForm(this.dayModel),
+        appBar: Common.headBar(day.dayTitle()),
+        body: TransactionForm(this.day),
     );
   }
 }
@@ -28,16 +29,24 @@ class TransactionForm extends StatefulWidget {
 
 class TransactionFormState extends State<TransactionForm> {
   DayModel dayModel;
-  TextEditingController controller = TextEditingController();
   double transAmount = 0.0;
+  String description = '';
+  bool isCredit = false;
+  bool reoccuring = false;
 
   TransactionFormState(this.dayModel);
 
   void setAmount(double input){
     transAmount = input;
   }
+  void setDescription(String input){
+    description = input;
+  }
   void addToLedger(double amount, BuildContext context) {
-    dayModel.addTrans('new trans', amount);
+    Transaction transaction = Transaction(description, amount);
+    transaction.isCredit = isCredit;
+    transaction.reoccuring = reoccuring;
+    dayModel.addTrans(transaction);
     Navigator.pop(context);
   }
 
@@ -48,19 +57,23 @@ class TransactionFormState extends State<TransactionForm> {
     child:Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
-        SizedBox(height: 80),
-        Text('Amount:'),
-        SizedBox(height: 20),
-        TextField(
-          keyboardAppearance: Brightness.dark,
-          keyboardType: TextInputType.number,
-          controller: controller,
-          decoration: InputDecoration(
-              hintText: '\$0.00'
-          ),
-          onChanged: (input) => setAmount(double.parse(input)),
+        descriptionField(),
+        amountField(),
+        SwitchListTile(
+          title: Text('Debit(-) / Credit(+)'),
+          value: isCredit,
+          onChanged: (bool value) {setState(() {
+            isCredit = value;
+          });},
         ),
-        SizedBox(height: 80),
+        SwitchListTile(
+          title: Text('Reoccuring Payment'),
+          value: reoccuring,
+          onChanged: (bool value) {setState(() {
+            reoccuring = value;
+          });},
+        ),
+        SizedBox(height: 40),
         RaisedButton(
             child: Text('Add To Ledger'),
             color: Colors.red,
@@ -69,4 +82,45 @@ class TransactionFormState extends State<TransactionForm> {
       ],
     ));
   }
+
+  Container amountField(){
+    return Container(
+      child: Column(
+        children: <Widget>[
+          SizedBox(height: 80),
+          Text('Amount:'),
+          SizedBox(height: 20),
+          TextField(
+            keyboardAppearance: Brightness.dark,
+            keyboardType: TextInputType.number,
+            decoration: InputDecoration(
+                hintText: '\$0.00'
+            ),
+            onChanged: (input) => setAmount(double.parse(input)),
+          ),
+          SizedBox(height: 80)
+        ],
+      )
+    );
+  }
+
+  Container descriptionField(){
+    return Container(
+        child: Column(
+          children: <Widget>[
+            SizedBox(height: 40),
+            Text('Description:'),
+            SizedBox(height: 20),
+            TextField(
+              keyboardAppearance: Brightness.dark,
+              decoration: InputDecoration(
+                  hintText: 'Rent, Electric Bill, etc.'
+              ),
+              onChanged: (input) => setDescription(input),
+            ),
+          ],
+        )
+    );
+  }
+
 }
