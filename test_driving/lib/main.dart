@@ -31,7 +31,12 @@ class TransactionWidget extends StatelessWidget {
         children: <Widget>[
           Text(transaction.description),
           CupertinoTextField(
+            key: Key('descriptionInput'),
             onChanged: (input) => transaction.setDescription(input),
+          ),
+          CupertinoTextField(
+            key: Key('amountInput'),
+            onChanged: (input) => transaction.setAmount(double.parse(input)),
           ),
           Text(transaction.value.toStringAsPrecision(3))
         ],

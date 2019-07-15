@@ -21,8 +21,8 @@ void main() {
 
 
   group('widget tests for transaction', () {
-    testWidgets(
-        'Transaction widget displays value', (WidgetTester tester) async {
+
+    testWidgets('Transaction widget displays value', (WidgetTester tester) async {
       await tester.pumpWidget(MyApp());
 
       Finder valueFinder = find.text('0.00');
@@ -31,8 +31,7 @@ void main() {
     });
 
 
-    testWidgets(
-        'Transaction widget dispalys description', (WidgetTester tester) async {
+    testWidgets('Transaction widget dispalys description', (WidgetTester tester) async {
       await tester.pumpWidget(MyApp());
 
       Finder descriptionFinder = find.text('description here');
@@ -40,23 +39,38 @@ void main() {
       expect(descriptionFinder, findsOneWidget);
     });
 
-    testWidgets('Transaction should have a text input field', (
-        WidgetTester tester) async {
+    testWidgets('Transaction description input works', (WidgetTester tester) async {
       await tester.pumpWidget(MyApp());
-
-      Finder amountInputFinder = find.byType(CupertinoTextField);
-
-      expect(amountInputFinder, findsOneWidget);
-    });
-
-    testWidgets(
-        'Transaction description input works', (WidgetTester tester) async {
-      await tester.pumpWidget(MyApp());
-      await tester.enterText(find.byType(CupertinoTextField), 'BILL');
+      await tester.enterText(find.byKey(Key('descriptionInput')), 'BILL');
 
       Finder descriptionInputFinder = find.text('BILL');
 
       expect(descriptionInputFinder, findsOneWidget);
+    });
+
+    testWidgets('Transaction should have an description input field', (WidgetTester tester) async {
+      await tester.pumpWidget(MyApp());
+
+      Finder descriptionInputFinder = find.byKey(Key('descriptionInput'));
+
+      expect(descriptionInputFinder, findsOneWidget);
+    });
+
+    testWidgets('Transaction should have an amount input field', (WidgetTester tester) async {
+      await tester.pumpWidget(MyApp());
+
+      Finder amountInputFinder = find.byKey(Key('amountInput'));
+
+      expect(amountInputFinder, findsOneWidget);
+    });
+
+    testWidgets('Transaction amount input works', (WidgetTester tester) async {
+      await tester.pumpWidget(MyApp());
+      await tester.enterText(find.byKey(Key('amountInput')), '23.00');
+
+      Finder amountInputFinder = find.text('23.00');
+
+      expect(amountInputFinder, findsOneWidget);
     });
   });
 }

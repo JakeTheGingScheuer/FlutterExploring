@@ -8,4 +8,9 @@ class Transaction extends ChangeNotifier{
     description = input;
     notifyListeners();
   }
+
+  setAmount(double input) {
+    value = input;
+    notifyListeners();
+  }
 }
