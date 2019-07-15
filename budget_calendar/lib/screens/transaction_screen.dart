@@ -73,7 +73,7 @@ class TransactionFormState extends State<TransactionForm> {
             reoccuring = value;
           });},
         ),
-        SizedBox(height: 50),
+        SizedBox(height: 10),
         RaisedButton(
             child: Text('Add To Ledger'),
             color: Colors.blue,
@@ -87,10 +87,10 @@ class TransactionFormState extends State<TransactionForm> {
     return Container(
         child: Column(
           children: <Widget>[
-            SizedBox(height: 40),
+            SizedBox(height: 10),
             Text('Description',
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600)),
-            SizedBox(height: 20),
+            SizedBox(height: 10),
             TextField(
               keyboardAppearance: Brightness.dark,
               decoration: InputDecoration(
@@ -107,9 +107,9 @@ class TransactionFormState extends State<TransactionForm> {
     return Container(
       child: Column(
         children: <Widget>[
-          SizedBox(height: 80),
+          SizedBox(height: 30),
           Text('Amount', style:TextStyle(fontSize: 22, fontWeight: FontWeight.w600)),
-          SizedBox(height: 20),
+          SizedBox(height: 10),
           TextField(
             keyboardAppearance: Brightness.dark,
             keyboardType: TextInputType.number,
