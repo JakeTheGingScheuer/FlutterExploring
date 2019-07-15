@@ -10,4 +10,12 @@ void main() {
 
     expect(testTransaction.value, 0.00);
   });
+
+  testWidgets('Transaction widget displays value', (WidgetTester tester) async {
+    await tester.pumpWidget(MyApp());
+
+    Finder valueFinder = find.text('0.00');
+
+    expect(valueFinder, findsOneWidget);
+  });
 }
