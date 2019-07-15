@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:test_driving/transaction.dart';
 import 'package:provider/provider.dart';
+import 'package:test_driving/transaction_widget.dart';
 
 void main() => runApp(MyApp());
 
@@ -19,28 +20,4 @@ class MyApp extends StatelessWidget {
       )
     );
   }
-}
-
-class TransactionWidget extends StatelessWidget {
-
-  @override
-  Widget build(BuildContext context) {
-    Transaction transaction = Provider.of<Transaction>(context);
-
-    return Column(
-        children: <Widget>[
-          Text(transaction.description),
-          CupertinoTextField(
-            key: Key('descriptionInput'),
-            onChanged: (input) => transaction.setDescription(input),
-          ),
-          CupertinoTextField(
-            key: Key('amountInput'),
-            onChanged: (input) => transaction.setAmount(double.parse(input)),
-          ),
-          Text(transaction.value.toStringAsPrecision(3))
-        ],
-      );
-  }
-
 }

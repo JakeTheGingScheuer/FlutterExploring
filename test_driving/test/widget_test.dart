@@ -17,27 +17,22 @@ void main() {
 
       expect(testTransaction.description, 'description here');
     });
+
+    test('Transaction by default is debit', () {
+      Transaction testTransaction = Transaction();
+
+      expect(testTransaction.isCredit, false);
+    });
+
+    test('Transaction by default is not reoccuring', () {
+      Transaction testTransaction = Transaction();
+
+      expect(testTransaction.isReoccuring, false);
+    });
   });
 
 
   group('widget tests for transaction', () {
-
-    testWidgets('Transaction widget displays value', (WidgetTester tester) async {
-      await tester.pumpWidget(MyApp());
-
-      Finder valueFinder = find.text('0.00');
-
-      expect(valueFinder, findsOneWidget);
-    });
-
-
-    testWidgets('Transaction widget dispalys description', (WidgetTester tester) async {
-      await tester.pumpWidget(MyApp());
-
-      Finder descriptionFinder = find.text('description here');
-
-      expect(descriptionFinder, findsOneWidget);
-    });
 
     testWidgets('Transaction description input works', (WidgetTester tester) async {
       await tester.pumpWidget(MyApp());
@@ -71,6 +66,24 @@ void main() {
       Finder amountInputFinder = find.text('23.00');
 
       expect(amountInputFinder, findsOneWidget);
+    });
+
+    testWidgets('Transaction has a credit/debit switch', (WidgetTester tester) async {
+      await tester.pumpWidget(MyApp());
+
+      Finder creditDebitFinder = find.byKey(Key('creditDebit'));
+
+      expect(creditDebitFinder, findsOneWidget);
+
+    });
+
+    testWidgets('Transaction has a reoccuring switch', (WidgetTester tester) async {
+      await tester.pumpWidget(MyApp());
+
+      Finder reoccuringFinder = find.byKey(Key('reoccuring'));
+
+      expect(reoccuringFinder, findsOneWidget);
+
     });
   });
 }
