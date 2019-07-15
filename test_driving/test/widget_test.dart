@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:test_driving/main.dart';
@@ -20,17 +20,25 @@ void main() {
     expect(valueFinder, findsOneWidget);
   });
 
-  test('Transaction should have an empty description initally', () {
+  test('Transaction should have a default description initally', () {
     Transaction testTransaction = Transaction();
 
-    expect(testTransaction.description, '');
+    expect(testTransaction.description, 'description here');
   });
 
   testWidgets('Transaction widget dispalys description', (WidgetTester tester) async {
     await tester.pumpWidget(MyApp());
 
-    Finder descriptionFinder = find.text('');
+    Finder descriptionFinder = find.text('description here');
 
     expect(descriptionFinder, findsOneWidget);
+  });
+
+  testWidgets('Transaction should have a text input field', (WidgetTester tester) async {
+    await tester.pumpWidget(MyApp());
+
+    Finder amountInputFinder = find.byType(CupertinoTextField);
+
+  expect(amountInputFinder, findsOneWidget);
   });
 }

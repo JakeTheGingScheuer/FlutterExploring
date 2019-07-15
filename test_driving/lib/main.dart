@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:test_driving/transaction.dart';
 
@@ -26,6 +27,9 @@ class TransactionWidget extends StatelessWidget {
     return Column(
         children: <Widget>[
           Text(transaction.description),
+          CupertinoTextField(
+            onChanged: (input) => transaction.description,
+          ),
           Text(transaction.value.toStringAsPrecision(3))
         ],
       );

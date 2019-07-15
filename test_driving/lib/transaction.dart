@@ -1,4 +1,4 @@
 class Transaction{
   double value = 0.00;
-  String description = '';
+  String description = 'description here';
 }
