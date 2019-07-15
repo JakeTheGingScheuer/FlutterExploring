@@ -4,6 +4,7 @@ import 'package:test_driving/transaction.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -22,7 +23,12 @@ class TransactionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(transaction.value.toStringAsPrecision(3));
+    return Column(
+        children: <Widget>[
+          Text(transaction.description),
+          Text(transaction.value.toStringAsPrecision(3))
+        ],
+      );
   }
 
 }
