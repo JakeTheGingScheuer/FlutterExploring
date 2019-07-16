@@ -12,12 +12,20 @@ class Transaction extends ChangeNotifier{
   }
 
   void setAmount(double input) {
-    value = input;
+    if(isCredit){
+      value = input;
+    }
+    else{
+      value = (input * -1);
+    }
     notifyListeners();
   }
 
   void setIsCredit(bool input) {
     isCredit = input;
+    if((value < 0) && isCredit){
+      value *= -1;
+    }
     notifyListeners();
   }
 

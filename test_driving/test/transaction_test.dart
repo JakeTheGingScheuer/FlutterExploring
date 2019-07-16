@@ -28,6 +28,19 @@ void main() {
 
       expect(testTransaction.isReoccuring, false);
     });
+
+    test('Transaction is negative by default', () {
+      Transaction testTransaction = Transaction();
+      testTransaction.setAmount(5.00);
+      expect(testTransaction.value, -5.00);
+    });
+
+    test('Transaction is positive if isCredit', () {
+      Transaction testTransaction = Transaction();
+      testTransaction.setAmount(5.00);
+      testTransaction.setIsCredit(true);
+      expect(testTransaction.value, 5.00);
+    });
   });
 
 

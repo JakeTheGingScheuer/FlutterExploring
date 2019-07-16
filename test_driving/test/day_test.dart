@@ -28,5 +28,13 @@ void main() {
       expect(testDay.transactions.length, 0);
     });
 
+    test('Day should have a balance that reflects the amount of all transactions', () {
+      Day testDay = Day();
+      testDay.addTransaction();
+      testDay.addTransaction();
+      testDay.transactions[0].value = 5.00;
+      testDay.transactions[1].value = 3.00;
+      expect(testDay.getBalance(), 8.00);
+    });
   });
 }

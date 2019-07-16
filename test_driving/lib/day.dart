@@ -7,7 +7,12 @@ class Day extends ChangeNotifier {
   double balance = 0.00;
 
   double getBalance() {
-    return this.balance;
+    int i = 0;
+    while(transactions.length>i){
+      balance += transactions[i].value;
+      i++;
+    }
+    return balance;
   }
 
   void addTransaction() {
