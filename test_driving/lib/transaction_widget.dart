@@ -24,6 +24,7 @@ class TransactionWidget extends StatelessWidget {
               creditDebitSwitch(transaction),
               reoccuringSwitch(transaction),
               RaisedButton(
+                child:Text('Add To Ledger'),
                 key: Key('newTransaction'),
                 onPressed: () => addTransactionButton(transaction, day, context),
               )
