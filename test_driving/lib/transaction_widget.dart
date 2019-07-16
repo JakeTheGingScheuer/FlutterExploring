@@ -1,24 +1,35 @@
 import 'package:flutter/cupertino.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter/material.dart';
 import 'package:test_driving/transaction.dart';
 
+import 'day.dart';
+
 class TransactionWidget extends StatelessWidget {
+  Transaction transaction;
+  Day day;
+  TransactionWidget(this.transaction, this.day);
 
   @override
   Widget build(BuildContext context) {
-    Transaction transaction = Provider.of<Transaction>(context);
-
-    return Column(
-        children: <Widget>[
-          SizedBox(height: 40),
-          Text('Description', style: TextStyle(fontSize: 20)),
-          descriptionInput(transaction),
-          Text('Amount', style: TextStyle(fontSize: 20)),
-          amountInput(transaction),
-          creditDebitSwitch(transaction),
-          reoccuringSwitch(transaction)
-        ]
-    );
+    return
+      Scaffold(
+        appBar: AppBar(title: Text('Transaction')),
+          body: Column(
+            children: <Widget>[
+              SizedBox(height: 40),
+              Text('Description', style: TextStyle(fontSize: 20)),
+              descriptionInput(transaction),
+              Text('Amount', style: TextStyle(fontSize: 20)),
+              amountInput(transaction),
+              creditDebitSwitch(transaction),
+              reoccuringSwitch(transaction),
+              RaisedButton(
+                key: Key('newTransaction'),
+                onPressed: () => addTransactionButton(transaction, day, context),
+              )
+            ]
+          )
+      );
   }
 
   Container descriptionInput(Transaction transaction){
@@ -68,5 +79,10 @@ class TransactionWidget extends StatelessWidget {
                 onChanged: (bool value) => transaction.setIsReoccuring(value))
         ])
     );
+  }
+
+  addTransactionButton(Transaction transaction, Day day, BuildContext context) {
+    day.addTransaction(transaction);
+    Navigator.pop(context);
   }
 }

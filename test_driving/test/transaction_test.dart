@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:test_driving/day.dart';
 import 'package:test_driving/main.dart';
 import 'package:test_driving/transaction.dart';
+import 'package:test_driving/transaction_widget.dart';
 
 void main() {
   group('unit tests for transaction', () {
@@ -47,7 +50,8 @@ void main() {
   group('widget tests for transaction', () {
 
     testWidgets('Transaction description input works', (WidgetTester tester) async {
-      await tester.pumpWidget(MyApp());
+      await tester.pumpWidget(MockMaterialApp());
+
       await tester.enterText(find.byKey(Key('descriptionInput')), 'BILL');
 
       Finder descriptionInputFinder = find.text('BILL');
@@ -56,7 +60,7 @@ void main() {
     });
 
     testWidgets('Transaction should have an description input field', (WidgetTester tester) async {
-      await tester.pumpWidget(MyApp());
+      await tester.pumpWidget(MockMaterialApp());
 
       Finder descriptionInputFinder = find.byKey(Key('descriptionInput'));
 
@@ -64,7 +68,7 @@ void main() {
     });
 
     testWidgets('Transaction should have an amount input field', (WidgetTester tester) async {
-      await tester.pumpWidget(MyApp());
+      await tester.pumpWidget(MockMaterialApp());
 
       Finder amountInputFinder = find.byKey(Key('amountInput'));
 
@@ -72,7 +76,7 @@ void main() {
     });
 
     testWidgets('Transaction amount input works', (WidgetTester tester) async {
-      await tester.pumpWidget(MyApp());
+      await tester.pumpWidget(MockMaterialApp());
       await tester.enterText(find.byKey(Key('amountInput')), '23.00');
 
       Finder amountInputFinder = find.text('23.00');
@@ -81,7 +85,7 @@ void main() {
     });
 
     testWidgets('Transaction has a credit/debit switch', (WidgetTester tester) async {
-      await tester.pumpWidget(MyApp());
+      await tester.pumpWidget(MockMaterialApp());
 
       Finder creditDebitFinder = find.byKey(Key('creditDebit'));
 
@@ -90,7 +94,7 @@ void main() {
     });
 
     testWidgets('Transaction has a reoccuring switch', (WidgetTester tester) async {
-      await tester.pumpWidget(MyApp());
+      await tester.pumpWidget(MockMaterialApp());
 
       Finder reoccuringFinder = find.byKey(Key('reoccuring'));
 
@@ -98,4 +102,17 @@ void main() {
 
     });
   });
+}
+
+class MockMaterialApp extends StatelessWidget {
+  Day mockDay = Day();
+  Transaction mockTransaction = Transaction();
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: TransactionWidget(mockTransaction, mockDay)
+    );
+  }
+
 }

@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:test_driving/day.dart';
+import 'package:test_driving/transaction.dart';
 
 void main() {
   group('unit tests for day', () {
@@ -17,21 +18,21 @@ void main() {
 
     test('Day should be able to add a new tranaction', () {
       Day testDay = Day();
-      testDay.addTransaction();
+      testDay.addTransaction(Transaction());
       expect(testDay.transactions.length, 1);
     });
 
     test('Day should be able to delete a transaction', () {
       Day testDay = Day();
-      testDay.addTransaction();
+      testDay.addTransaction(Transaction());
       testDay.deleteTransaction(testDay.transactions[0]);
       expect(testDay.transactions.length, 0);
     });
 
     test('Day should have a balance that reflects the amount of all transactions', () {
       Day testDay = Day();
-      testDay.addTransaction();
-      testDay.addTransaction();
+      testDay.addTransaction(Transaction());
+      testDay.addTransaction(Transaction());
       testDay.transactions[0].setAmount(5.00);
       testDay.transactions[1].setAmount(3.00);
       testDay.calculateBalance();
@@ -40,8 +41,8 @@ void main() {
 
     test('Day should return total of all credits when get credits is called', () {
       Day testDay = Day();
-      testDay.addTransaction();
-      testDay.addTransaction();
+      testDay.addTransaction(Transaction());
+      testDay.addTransaction(Transaction());
       testDay.transactions[0].setAmount(5.00);
       testDay.transactions[0].setIsCredit(true);
       testDay.transactions[1].setAmount(3.00);
@@ -51,8 +52,8 @@ void main() {
 
     test('Day should return total of all debits when get debits is called', () {
       Day testDay = Day();
-      testDay.addTransaction();
-      testDay.addTransaction();
+      testDay.addTransaction(Transaction());
+      testDay.addTransaction(Transaction());
       testDay.transactions[0].setAmount(5.00);
       testDay.transactions[0].setIsCredit(true);
       testDay.transactions[1].setAmount(3.00);

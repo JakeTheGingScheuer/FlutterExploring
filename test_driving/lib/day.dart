@@ -21,8 +21,8 @@ class Day extends ChangeNotifier {
     balance = credits + debits;
   }
 
-  void addTransaction() {
-    transactions.add(Transaction());
+  void addTransaction(Transaction transaction) {
+    transactions.add(transaction);
   }
 
   void deleteTransaction(Transaction transaction) {
