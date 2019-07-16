@@ -1,12 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:test_driving/transaction.dart';
-import 'package:test_driving/transaction_widget.dart';
+import 'package:test_driving/models/transaction.dart';
+import 'package:test_driving/screens/transaction_screen.dart';
+import '../models/day.dart';
 
-import 'day.dart';
-
-class DayWidget extends StatelessWidget {
+class DayScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
@@ -32,7 +31,7 @@ class DayWidget extends StatelessWidget {
   addNewTransaction(Day day, BuildContext context) {
     Transaction transaction = Transaction();
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => TransactionWidget(transaction, day)));
+        context, MaterialPageRoute(builder: (context) => TransactionScreen(transaction, day)));
   }
 
   ListView transactionList(Day day) {

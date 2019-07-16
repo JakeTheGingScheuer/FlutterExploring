@@ -1,13 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:test_driving/transaction.dart';
+import 'package:test_driving/models/transaction.dart';
+import '../models/day.dart';
 
-import 'day.dart';
-
-class TransactionWidget extends StatelessWidget {
+class TransactionScreen extends StatelessWidget {
   Transaction transaction;
   Day day;
-  TransactionWidget(this.transaction, this.day);
+  TransactionScreen(this.transaction, this.day);
 
   @override
   Widget build(BuildContext context) {

@@ -1,52 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:test_driving/day.dart';
-import 'package:test_driving/main.dart';
-import 'package:test_driving/transaction.dart';
-import 'package:test_driving/transaction_widget.dart';
+import 'package:test_driving/models/day.dart';
+import 'package:test_driving/models/transaction.dart';
+import 'package:test_driving/screens/transaction_screen.dart';
 
 void main() {
-  group('unit tests for transaction', () {
-    test('Transaction should have 0.00 as starting value', () {
-      Transaction testTransaction = Transaction();
-
-      expect(testTransaction.value, 0.00);
-    });
-
-    test('Transaction should have a default description initally', () {
-      Transaction testTransaction = Transaction();
-
-      expect(testTransaction.description, 'description here');
-    });
-
-    test('Transaction by default is debit', () {
-      Transaction testTransaction = Transaction();
-
-      expect(testTransaction.isCredit, false);
-    });
-
-    test('Transaction by default is not reoccuring', () {
-      Transaction testTransaction = Transaction();
-
-      expect(testTransaction.isReoccuring, false);
-    });
-
-    test('Transaction is negative by default', () {
-      Transaction testTransaction = Transaction();
-      testTransaction.setAmount(5.00);
-      expect(testTransaction.value, -5.00);
-    });
-
-    test('Transaction is positive if isCredit', () {
-      Transaction testTransaction = Transaction();
-      testTransaction.setAmount(5.00);
-      testTransaction.setIsCredit(true);
-      expect(testTransaction.value, 5.00);
-    });
-  });
-
-
   group('widget tests for transaction', () {
 
     testWidgets('Transaction description input works', (WidgetTester tester) async {
@@ -111,8 +69,7 @@ class MockMaterialApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: TransactionWidget(mockTransaction, mockDay)
+        home: TransactionScreen(mockTransaction, mockDay)
     );
   }
-
 }

@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:test_driving/day.dart';
-import 'package:test_driving/transaction.dart';
+import 'package:test_driving/models/day.dart';
+import 'package:test_driving/models/transaction.dart';
 import 'package:provider/provider.dart';
-import 'package:test_driving/transaction_widget.dart';
+import 'package:test_driving/screens/transaction_screen.dart';
 
-import 'day_widget.dart';
+import 'package:test_driving/screens/day_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           initialRoute: '/',
           routes: {
-            '/': (context) => DayWidget()
+            '/': (context) => DayScreen()
           })
       );
   }
