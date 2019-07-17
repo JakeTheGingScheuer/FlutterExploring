@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:test_driving/models/day.dart';
 import 'package:test_driving/models/transaction.dart';
 import 'package:provider/provider.dart';
+import 'package:test_driving/screens/month_screen.dart';
 import 'package:test_driving/screens/transaction_screen.dart';
 
 import 'package:test_driving/screens/day_screen.dart';
+
+import 'models/month.dart';
 
 void main() => runApp(MyApp());
 
@@ -14,12 +17,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-        builder: (context) => Day(),
+        builder: (context) => Month(),
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           initialRoute: '/',
           routes: {
-            '/': (context) => DayScreen()
+            '/': (context) => MonthScreen()
           })
       );
   }

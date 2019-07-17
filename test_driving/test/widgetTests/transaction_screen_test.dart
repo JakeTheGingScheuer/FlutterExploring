@@ -64,12 +64,12 @@ void main() {
 
 class MockMaterialApp extends StatelessWidget {
   Day mockDay = Day();
-  Transaction mockTransaction = Transaction();
+  Transaction testTransaction = Transaction();
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        home: TransactionScreen(mockTransaction, mockDay)
+        home: TransactionScreen(testTransaction, mockDay)
     );
   }
 }

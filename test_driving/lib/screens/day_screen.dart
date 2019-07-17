@@ -6,13 +6,14 @@ import 'package:test_driving/screens/transaction_screen.dart';
 import '../models/day.dart';
 
 class DayScreen extends StatelessWidget {
+  Day day;
+  DayScreen(this.day);
+
   @override
   Widget build(BuildContext context) {
 
-    Day day = Provider.of<Day>(context);
-
     return Scaffold(
-      appBar: AppBar(title:Text('Day Widget')),
+      appBar: AppBar(title:Text('Day Screen')),
       body: Column(
         children: <Widget>[
           Container(

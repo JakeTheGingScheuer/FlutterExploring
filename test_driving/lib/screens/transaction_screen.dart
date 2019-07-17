@@ -12,7 +12,7 @@ class TransactionScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return
       Scaffold(
-        appBar: AppBar(title: Text('Transaction')),
+        appBar: AppBar(title: Text('Transaction Screen')),
           body: Column(
             children: <Widget>[
               SizedBox(height: 40),

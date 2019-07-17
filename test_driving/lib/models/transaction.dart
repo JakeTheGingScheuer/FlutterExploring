@@ -29,7 +29,7 @@ class Transaction extends ChangeNotifier{
     notifyListeners();
   }
 
-  setIsReoccuring(bool input) {
+  void setIsReoccuring(bool input) {
     isReoccuring = input;
     notifyListeners();
   }
