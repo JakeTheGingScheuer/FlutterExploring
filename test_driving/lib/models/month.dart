@@ -15,7 +15,7 @@ class Month extends ChangeNotifier{
 
     for(int i = 0; i< daysInMonth(thisYear, monthNumber); i++){
       DateTime time = firstDayOfTheMonth.add(new Duration(days: i));
-      days.add(Day(time.day, time.weekday));
+      days.add(Day(time.month, time.day, time.weekday));
     }
   }
 }

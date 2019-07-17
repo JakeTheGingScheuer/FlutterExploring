@@ -16,11 +16,21 @@ void main(){
       Finder transactionListFinder = find.byKey(Key('transactionList'));
       expect(transactionListFinder, findsOneWidget);
     });
+    testWidgets('Day displays weekday name and day number', (WidgetTester tester) async {
+      await tester.pumpWidget(MockMaterialApp());
+
+      Finder dayTitleFinder = find.byKey(Key('dayTitle'));
+
+      expect(dayTitleFinder, findsOneWidget);
+      expect(find.text('Monday, January 1'), findsOneWidget);
+
+    });
+
   });
 }
 
 class MockMaterialApp extends StatelessWidget {
-  Day testDay = Day(1,1);
+  Day testDay = Day(1,1,1);
 
   @override
   Widget build(BuildContext context) {

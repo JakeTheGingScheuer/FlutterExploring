@@ -16,6 +16,9 @@ class DayScreen extends StatelessWidget {
       appBar: AppBar(title:Text('Day Screen')),
       body: Column(
         children: <Widget>[
+          SizedBox(height: 15),
+          Text(day.weekday+' '+day.month+' '+day.dayNumber, key: Key('dayTitle'), style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),),
+          SizedBox(height: 15),
           Container(
               key: Key('transactionList'),
               height:400,

@@ -37,7 +37,7 @@ class MonthScreen extends StatelessWidget {
   List<GestureDetector> dayTiles(Month month, BuildContext context){
     List<GestureDetector> dayTiles = List<GestureDetector>();
 
-    addBlankTiles(month.days[0].weekday).forEach((blank) => dayTiles.add(blank));
+    addBlankTiles(month.days[0].weekdayNumber).forEach((blank) => dayTiles.add(blank));
 
     month.days.forEach((day) => dayTiles.add(
         dayTile(day, context)

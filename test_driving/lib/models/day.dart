@@ -1,3 +1,4 @@
+import 'package:date_util/date_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:test_driving/models/transaction.dart';
 
@@ -7,10 +8,18 @@ class Day extends ChangeNotifier {
   double credits = 0.00;
   double debits = 0.00;
   double balance = 0.00;
-  int dayNumber;
-  int weekday;
+  int weekdayNumber;
+  String month;
+  String dayNumber;
+  String weekday;
 
-  Day(this.dayNumber, this.weekday);
+  Day(int monthNum, int dayNum, int weekdayNum) {
+    DateUtil date = DateUtil();
+    weekdayNumber = weekdayNum;
+    month = date.month(monthNum);
+    dayNumber = dayNum.toString();
+    weekday = date.day(weekdayNum + 2);
+  }
 
   void calculateBalance() {
     int i = 0;
