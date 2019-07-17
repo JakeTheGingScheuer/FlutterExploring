@@ -7,6 +7,10 @@ class Day extends ChangeNotifier {
   double credits = 0.00;
   double debits = 0.00;
   double balance = 0.00;
+  int dayNumber;
+  int weekday;
+
+  Day(this.dayNumber, this.weekday);
 
   void calculateBalance() {
     int i = 0;

@@ -20,7 +20,7 @@ void main(){
 }
 
 class MockMaterialApp extends StatelessWidget {
-  Day testDay = Day();
+  Day testDay = Day(1,1);
 
   @override
   Widget build(BuildContext context) {

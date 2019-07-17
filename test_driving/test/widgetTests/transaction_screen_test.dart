@@ -63,7 +63,7 @@ void main() {
 }
 
 class MockMaterialApp extends StatelessWidget {
-  Day mockDay = Day();
+  Day mockDay = Day(1,1);
   Transaction testTransaction = Transaction();
 
   @override

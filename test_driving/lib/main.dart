@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-        builder: (context) => Month(),
+        builder: (context) => Month(7),
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           initialRoute: '/',

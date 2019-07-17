@@ -8,12 +8,14 @@ class Month extends ChangeNotifier{
   DateUtil dateUtil = DateUtil();
   String monthName;
 
-  Month() {
-    int month = DateTime.now().month;
-    int year = DateTime.now().year;
-    monthName = dateUtil.month(DateTime.now().month);
-    for(int i = 0; i< daysInMonth(year, month); i++){
-      days.add(Day());
+  Month(int monthNumber) {
+    int thisYear = DateTime.now().year;
+    DateTime firstDayOfTheMonth = DateTime(thisYear, monthNumber);
+    monthName = dateUtil.month(monthNumber);
+
+    for(int i = 0; i< daysInMonth(thisYear, monthNumber); i++){
+      DateTime time = firstDayOfTheMonth.add(new Duration(days: i));
+      days.add(Day(time.day, time.weekday));
     }
   }
 }

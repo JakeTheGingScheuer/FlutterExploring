@@ -1,15 +1,12 @@
-import 'dart:math';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:test_driving/main.dart';
 import 'package:date_util/date_util.dart';
-import 'package:test_driving/models/month.dart';
 
 void main() {
   group('widget tests for month screen', ()
   {
-    testWidgets('Month schiuld have a gridView', (WidgetTester tester) async {
+    testWidgets('Month should have a gridView', (WidgetTester tester) async {
       await tester.pumpWidget(MyApp());
 
       Finder monthGridFinder = find.byKey(Key('monthView'));
