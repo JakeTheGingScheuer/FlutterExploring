@@ -8,8 +8,7 @@ class Month extends ChangeNotifier{
   DateUtil dateUtil = DateUtil();
   String monthName;
 
-  Month(int monthNumber) {
-    int thisYear = DateTime.now().year;
+  Month(int thisYear, int monthNumber) {
     DateTime firstDayOfTheMonth = DateTime(thisYear, monthNumber);
     monthName = dateUtil.month(monthNumber);
 

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
+import 'package:test_driving/models/calendar.dart';
 import 'package:test_driving/models/day.dart';
 import 'package:test_driving/models/month.dart';
 
@@ -11,14 +12,14 @@ class MonthScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    Month month = Provider.of<Month>(context);
+    Calendar calendar = Provider.of<Calendar>(context);
 
     return Scaffold(
       appBar: AppBar(title: Text('Month Screen')),
       body: Column(
         children: <Widget>[
           SizedBox(height: 15),
-          Text(month.monthName, key: Key('monthTitle'), style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),),
+          Text(calendar.months[1].monthName, key: Key('monthTitle'), style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),),
           SizedBox(height: 15),
           Container(
             padding: EdgeInsets.all(12),
@@ -26,7 +27,7 @@ class MonthScreen extends StatelessWidget {
             child: GridView.count(
               key: Key('monthView'),
               crossAxisCount: 7,
-              children: dayTiles(month, context)
+              children: dayTiles(calendar.months[1], context)
             ),
           ),
         ],

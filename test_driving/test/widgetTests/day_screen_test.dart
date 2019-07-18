@@ -22,7 +22,7 @@ void main(){
       Finder dayTitleFinder = find.byKey(Key('dayTitle'));
 
       expect(dayTitleFinder, findsOneWidget);
-      expect(find.text('Monday, January 1'), findsOneWidget);
+      expect(find.text('Monday January 1'), findsOneWidget);
 
     });
 

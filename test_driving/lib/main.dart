@@ -8,6 +8,7 @@ import 'package:test_driving/screens/transaction_screen.dart';
 
 import 'package:test_driving/screens/day_screen.dart';
 
+import 'models/calendar.dart';
 import 'models/month.dart';
 
 void main() => runApp(MyApp());
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-        builder: (context) => Month(7),
+        builder: (context) => Calendar(),
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           initialRoute: '/',
