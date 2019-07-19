@@ -9,8 +9,6 @@ import 'package:test_driving/models/month.dart';
 import 'day_screen.dart';
 
 class MonthScreen extends StatelessWidget {
-  int monthNumber;
-  MonthScreen(this.monthNumber);
 
   @override
   Widget build(BuildContext context) {
@@ -23,26 +21,47 @@ class MonthScreen extends StatelessWidget {
         children: <Widget>[
           SizedBox(height: 15),
           Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  IconButton(icon: Icon(Icons.arrow_back_ios), onPressed: ()=> backButtonAction(context, monthNumber)),
-                  Text(calendar.months[monthNumber].monthName+' '+calendar.months[monthNumber].year, key: Key('monthTitle'), style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
-                  IconButton(icon: Icon(Icons.arrow_forward_ios), onPressed: ()=> Navigator.push(context, MaterialPageRoute( builder: (context) => MonthScreen(monthNumber+1))))
-                ],
-              )),
-          SizedBox(height: 15),
-          Container(
-            padding: EdgeInsets.all(12),
-            height: 400,
-            child: GridView.count(
-              key: Key('monthView'),
-              crossAxisCount: 7,
-              children: dayTiles(calendar.months[monthNumber], context)
-            ),
+            height: 600,
+            width: 400,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: 13,
+              itemBuilder: (BuildContext context, int index){
+                return monthTile(calendar, index, context);
+              },
+            )
           ),
         ],
       )
+    );
+  }
+
+  Container monthTile(Calendar calendar, int index, BuildContext context){
+    return Container(
+      padding: EdgeInsets.all(12),
+      height: 500,
+      width: 400,
+      child: Column(
+        children: <Widget>[
+          Container(
+            height: 30,
+            width: 400,
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(calendar.months[index].monthName+' '+calendar.months[index].year, key: Key('monthTitle'), style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
+                  ])),
+          SizedBox(height: 15),
+          Container(
+            height: 400,
+            child: GridView.count(
+                key: Key('monthView'),
+                crossAxisCount: 7,
+                children: dayTiles(calendar.months[index], context)
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -85,12 +104,5 @@ class MonthScreen extends StatelessWidget {
                 ],
               )
           )));
-  }
-
-  void backButtonAction(BuildContext context, int monthNumb) {
-    if (Navigator.canPop(context)){
-      Navigator.pop(context);
-    } else
-      Navigator.push(context, MaterialPageRoute( builder: (context) => MonthScreen(0)));
   }
 }

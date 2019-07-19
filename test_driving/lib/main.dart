@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           initialRoute: '/',
           routes: {
-            '/': (context) => MonthScreen(1)
+            '/': (context) => MonthScreen()
           })
       );
   }
