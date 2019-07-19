@@ -37,6 +37,8 @@ class MonthScreen extends StatelessWidget {
   }
 
   Container monthTile(Calendar calendar, int index, BuildContext context){
+    Month month = calendar.months[index];
+
     return Container(
       padding: EdgeInsets.all(12),
       height: 500,
@@ -49,7 +51,7 @@ class MonthScreen extends StatelessWidget {
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Text(calendar.months[index].monthName+' '+calendar.months[index].year, key: Key('monthTitle'), style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
+                    monthYearDisplay(month),
                   ])),
           SizedBox(height: 15),
           Container(
@@ -57,7 +59,7 @@ class MonthScreen extends StatelessWidget {
             child: GridView.count(
                 key: Key('monthView'),
                 crossAxisCount: 7,
-                children: dayTiles(calendar.months[index], context)
+                children: dayTiles(month, context)
             ),
           ),
         ],
@@ -65,21 +67,38 @@ class MonthScreen extends StatelessWidget {
     );
   }
 
-  List<GestureDetector> dayTiles(Month month, BuildContext context){
-    List<GestureDetector> dayTiles = List<GestureDetector>();
-    if(month.days[0].weekdayNumber < 7){
-      addBlankTiles(month.days[0].weekdayNumber).forEach((blank) => dayTiles.add(blank));
-    }
-    month.days.forEach((day) => dayTiles.add(
-        dayTile(day, context)
-    ));
-    return dayTiles;
+  Text monthYearDisplay(Month month){
+    return Text(
+        month.monthName+' '+month.year, key: Key('monthTitle'),
+        style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600)
+    );
   }
 
-  List<GestureDetector> addBlankTiles(int weekDay){
+  List<GestureDetector> dayTiles(Month month, BuildContext context){
+    List<GestureDetector> dayTilesForThisMonth = List<GestureDetector>();
+
+    int firstWeekdayOfTheMonth = month.days[0].weekdayNumber;
+
+    // checking if first day of month is a Sunday
+    if(isNotSunday(firstWeekdayOfTheMonth)){
+      blankTileListCreatedFor(firstWeekdayOfTheMonth).forEach(
+              (blankTile) => dayTilesForThisMonth.add(blankTile));
+    }
+
+    month.days.forEach((day) => dayTilesForThisMonth.add(
+        dayTile(day, context)
+    ));
+    return dayTilesForThisMonth;
+  }
+
+   bool isNotSunday(int firstWeekdayOfTheMonth){
+      return (firstWeekdayOfTheMonth < 7);
+  }
+
+  List<GestureDetector> blankTileListCreatedFor(int firstWeekdayOfTheMonth){
     List<GestureDetector> blankTiles = List<GestureDetector>();
 
-    for (int i = 0; i < weekDay; i++){
+    for (int i = 0; i < firstWeekdayOfTheMonth; i++){
       blankTiles.add(
           GestureDetector(child: GridTile(child: Text(''))));
     }
@@ -98,9 +117,12 @@ class MonthScreen extends StatelessWidget {
                 border: Border.all(),
               ),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  Container(child: Text(day.dayNumber.toString())),
-                  Container(child: Text(day.balance.toString()))
+                  Container(
+                      decoration: BoxDecoration(color: Colors.amberAccent),
+                      child: Text(day.dayNumber.toString(), style: TextStyle(fontWeight: FontWeight.w500),)),
+                  Container(child: Text('\$'+day.balance.toStringAsFixed(0)))
                 ],
               )
           )));
