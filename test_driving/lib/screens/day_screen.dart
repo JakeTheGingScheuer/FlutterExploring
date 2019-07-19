@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:test_driving/models/transaction.dart';
 import 'package:test_driving/screens/transaction_screen.dart';
 import '../models/day.dart';
@@ -40,6 +39,7 @@ class DayScreen extends StatelessWidget {
 
   ListView transactionList(Day day) {
     List<ListTile> tiles = List<ListTile>();
+
     day.transactions.forEach((trans) =>
         tiles.add(transactionTile(trans.description, trans.value)));
     return ListView(

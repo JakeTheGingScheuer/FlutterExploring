@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:test_driving/main.dart';
-import 'package:date_util/date_util.dart';
 
 void main() {
   group('widget tests for month screen', ()
@@ -16,11 +15,9 @@ void main() {
     });
     testWidgets('Month should display month name', (WidgetTester tester) async {
       await tester.pumpWidget(MyApp());
-      DateUtil dateUtil = DateUtil();
-      String month = dateUtil.month(DateTime.now().month);
 
       Finder monthTitleFinder = find.byKey(Key('monthTitle'));
-      Finder monthNameFinder = find.text(month);
+      Finder monthNameFinder = find.text('June 2019');
       expect(monthNameFinder, findsOneWidget);
       expect(monthTitleFinder, findsOneWidget);
   });
