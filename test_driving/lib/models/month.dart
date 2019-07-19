@@ -7,9 +7,11 @@ class Month extends ChangeNotifier{
   List<Day> days = List<Day>();
   DateUtil dateUtil = DateUtil();
   String monthName;
+  String year;
 
   Month(int thisYear, int monthNumber) {
     DateTime firstDayOfTheMonth = DateTime(thisYear, monthNumber);
+    year = thisYear.toString();
     monthName = dateUtil.month(monthNumber);
 
     for(int i = 0; i< daysInMonth(thisYear, monthNumber); i++){

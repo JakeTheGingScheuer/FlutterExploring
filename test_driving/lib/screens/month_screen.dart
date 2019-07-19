@@ -9,6 +9,9 @@ import 'package:test_driving/models/month.dart';
 import 'day_screen.dart';
 
 class MonthScreen extends StatelessWidget {
+  int monthNumber;
+  MonthScreen(this.monthNumber);
+
   @override
   Widget build(BuildContext context) {
 
@@ -19,7 +22,15 @@ class MonthScreen extends StatelessWidget {
       body: Column(
         children: <Widget>[
           SizedBox(height: 15),
-          Text(calendar.months[1].monthName, key: Key('monthTitle'), style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),),
+          Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  IconButton(icon: Icon(Icons.arrow_back_ios), onPressed: ()=> backButtonAction(context, monthNumber)),
+                  Text(calendar.months[monthNumber].monthName+' '+calendar.months[monthNumber].year, key: Key('monthTitle'), style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
+                  IconButton(icon: Icon(Icons.arrow_forward_ios), onPressed: ()=> Navigator.push(context, MaterialPageRoute( builder: (context) => MonthScreen(monthNumber+1))))
+                ],
+              )),
           SizedBox(height: 15),
           Container(
             padding: EdgeInsets.all(12),
@@ -27,7 +38,7 @@ class MonthScreen extends StatelessWidget {
             child: GridView.count(
               key: Key('monthView'),
               crossAxisCount: 7,
-              children: dayTiles(calendar.months[1], context)
+              children: dayTiles(calendar.months[monthNumber], context)
             ),
           ),
         ],
@@ -37,9 +48,9 @@ class MonthScreen extends StatelessWidget {
 
   List<GestureDetector> dayTiles(Month month, BuildContext context){
     List<GestureDetector> dayTiles = List<GestureDetector>();
-
-    addBlankTiles(month.days[0].weekdayNumber).forEach((blank) => dayTiles.add(blank));
-
+    if(month.days[0].weekdayNumber < 7){
+      addBlankTiles(month.days[0].weekdayNumber).forEach((blank) => dayTiles.add(blank));
+    }
     month.days.forEach((day) => dayTiles.add(
         dayTile(day, context)
     ));
@@ -67,7 +78,19 @@ class MonthScreen extends StatelessWidget {
               decoration: BoxDecoration(
                 border: Border.all(),
               ),
-              child: Text(day.dayNumber.toString())
+              child: Column(
+                children: <Widget>[
+                  Container(child: Text(day.dayNumber.toString())),
+                  Container(child: Text(day.balance.toString()))
+                ],
+              )
           )));
+  }
+
+  void backButtonAction(BuildContext context, int monthNumb) {
+    if (Navigator.canPop(context)){
+      Navigator.pop(context);
+    } else
+      Navigator.push(context, MaterialPageRoute( builder: (context) => MonthScreen(0)));
   }
 }

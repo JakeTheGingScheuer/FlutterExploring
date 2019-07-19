@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:date_util/date_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:test_driving/models/transaction.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Day extends ChangeNotifier {
   List<Transaction> transactions = List<Transaction>();
@@ -32,13 +35,23 @@ class Day extends ChangeNotifier {
       i++;
     }
     balance = credits + debits;
+    notifyListeners();
   }
 
   void addTransaction(Transaction transaction) {
     transactions.add(transaction);
+    calculateBalance();
+    notifyListeners();
   }
 
   void deleteTransaction(Transaction transaction) {
     transactions.remove(transaction);
+    calculateBalance();
+    notifyListeners();
   }
+//  void saveDay() async{
+//    final String dayKey = 'dayKeyUsedForAcessingIO';
+//    SharedPreferences sp = await SharedPreferences.getInstance();
+//    sp.setString(dayKey, json.encode(transactions));
+//  }
 }
