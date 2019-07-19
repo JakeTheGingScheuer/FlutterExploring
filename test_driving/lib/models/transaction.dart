@@ -5,7 +5,7 @@ class Transaction extends ChangeNotifier{
   double value = 0.00;
   String description = 'description here';
   bool isCredit = false;
-  bool isReoccuring = false;
+  bool isReoccurring = false;
 
   void setDescription(String input){
     description = input;
@@ -30,8 +30,8 @@ class Transaction extends ChangeNotifier{
     notifyListeners();
   }
 
-  void setIsReoccuring(bool input) {
-    isReoccuring = input;
+  void setIsReoccurring(bool input) {
+    isReoccurring = input;
     notifyListeners();
   }
 

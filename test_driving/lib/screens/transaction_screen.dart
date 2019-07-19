@@ -21,7 +21,7 @@ class TransactionScreen extends StatelessWidget {
               Text('Amount', style: TextStyle(fontSize: 20)),
               amountInput(transaction),
               creditDebitSwitch(transaction),
-              reoccuringSwitch(transaction),
+              reoccurringSwitch(transaction),
               RaisedButton(
                 child:Text('Add To Ledger'),
                 key: Key('newTransaction'),
@@ -67,7 +67,7 @@ class TransactionScreen extends StatelessWidget {
         );
   }
 
-  Container reoccuringSwitch(Transaction transaction){
+  Container reoccurringSwitch(Transaction transaction){
     return Container(
         padding: EdgeInsets.all(40),
         child: Row(
@@ -75,8 +75,8 @@ class TransactionScreen extends StatelessWidget {
               Text('   Reoccuring Payment                   '),
               CupertinoSwitch(
                 key: Key('reoccuring'),
-                value: transaction.isReoccuring,
-                onChanged: (bool value) => transaction.setIsReoccuring(value))
+                value: transaction.isReoccurring,
+                onChanged: (bool value) => transaction.setIsReoccurring(value))
         ])
     );
   }

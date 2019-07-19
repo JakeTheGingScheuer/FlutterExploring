@@ -24,7 +24,7 @@ void main() {
     test('Transaction by default is not reoccuring', () {
       Transaction testTransaction = Transaction();
 
-      expect(testTransaction.isReoccuring, false);
+      expect(testTransaction.isReoccurring, false);
     });
 
     test('Transaction is negative by default', () {
