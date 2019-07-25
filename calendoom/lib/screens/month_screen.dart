@@ -6,8 +6,9 @@ import 'package:test_driving/models/calendar.dart';
 import 'package:test_driving/models/month.dart';
 import 'package:test_driving/widgets/day_tile_builder.dart';
 
-
 class MonthScreen extends StatelessWidget {
+
+  MonthScreen({Map<String, Month> months});
 
   @override
   Widget build(BuildContext context) {

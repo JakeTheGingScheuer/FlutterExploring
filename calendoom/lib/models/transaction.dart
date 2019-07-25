@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Transaction extends ChangeNotifier{
   double value = 0.00;
@@ -34,14 +33,4 @@ class Transaction extends ChangeNotifier{
     isReoccurring = input;
     notifyListeners();
   }
-
-//  Transaction.fromJson(Map<String, dynamic> json) {
-//    description = json['description'];
-//    value = double.parse(json['value']);
-//    isCredit = (json['isCredit'] == 'true');
-//    isReoccuring = (json['isReoccuring'] == 'true');
-//  }
-
-//  final prefs = await SharedPreferences.getInstance();
-//  prefs.setString('description', description);
 }

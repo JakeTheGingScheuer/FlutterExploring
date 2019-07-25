@@ -8,6 +8,7 @@ import 'package:test_driving/screens/transaction_screen.dart';
 
 import 'package:test_driving/screens/day_screen.dart';
 
+import 'data_storage.dart';
 import 'models/calendar.dart';
 import 'models/month.dart';
 
@@ -17,14 +18,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-        builder: (context) => Calendar(),
-        child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          initialRoute: '/',
-          routes: {
-            '/': (context) => MonthScreen()
-          })
-      );
+    return DataStorage();
   }
 }
