@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:date_util/date_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:test_driving/models/transaction.dart';
@@ -45,5 +47,13 @@ class Day extends ChangeNotifier {
     transactions.remove(transaction);
     calculateBalance();
     notifyListeners();
+  }
+
+  String encode(){
+    Map<String, dynamic> fileToSave = new Map();
+    JsonCodec codec = JsonCodec();
+    transactions.forEach((transaction) => fileToSave[transaction.description] = transaction.encode());
+    String json = codec.encode(fileToSave);
+    return json;
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:provider/provider.dart';
@@ -16,18 +18,20 @@ class DataStorage extends StatelessWidget{
     return FutureBuilder(
         future: storage.ready,
         builder: (BuildContext context, snapshot) {
-          if(snapshot.data == true) {
-            monthMap = storage.getItem('calendar');
+          if(snapshot.data != true) {
+            Calendar calendar = new Calendar();
+            storage.setItem('calendar', calendar.encode());
           }
-          return ChangeNotifierProvider(
-                builder: (context) => Calendar(monthsFromDisk: monthMap),
-                child: MaterialApp(
-                    debugShowCheckedModeBanner: false,
-                    initialRoute: '/',
-                    routes: {
-                      '/': (context) => MonthScreen()
-                    })
-            );
+          JsonCodec codec = JsonCodec();
+          monthMap = codec.decode(storage.getItem('calendar'));
+          return
+                ChangeNotifierProvider(
+                  builder: (context) => Calendar(monthsFromDisk: monthMap),
+                  child: MaterialApp(
+                  debugShowCheckedModeBanner: false,
+                  initialRoute: '/',
+                  routes: {'/': (context) => MonthScreen(storage)
+                }));
         });
   }
 }

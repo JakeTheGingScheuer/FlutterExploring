@@ -1,14 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:localstorage/localstorage.dart';
 import 'package:provider/provider.dart';
 import 'package:test_driving/models/calendar.dart';
 import 'package:test_driving/models/month.dart';
 import 'package:test_driving/widgets/day_tile_builder.dart';
 
 class MonthScreen extends StatelessWidget {
+  LocalStorage storage;
 
-  MonthScreen({Map<String, Month> months});
+  MonthScreen(this.storage);
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +26,7 @@ class MonthScreen extends StatelessWidget {
                 width: 400,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: 13,
+                  itemCount: 12,
                   itemBuilder: (BuildContext context, int index) {
                     return monthTile(calendar, index, context);
                   },

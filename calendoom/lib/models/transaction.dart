@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 
 class Transaction extends ChangeNotifier{
@@ -32,5 +34,16 @@ class Transaction extends ChangeNotifier{
   void setIsReoccurring(bool input) {
     isReoccurring = input;
     notifyListeners();
+  }
+
+  String encode(){
+    Map<String, dynamic> transactionMap = new Map();
+    JsonCodec codec = JsonCodec();
+    transactionMap[this.description] = this.description;
+    transactionMap[this.value.toString()] = this.value;
+    transactionMap[this.isCredit.toString()] = this.isCredit;
+    transactionMap[this.isReoccurring.toString()] = this.isReoccurring;
+    String json = codec.encode(transactionMap);
+    return json;
   }
 }

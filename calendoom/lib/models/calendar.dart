@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'month.dart';
 
@@ -31,4 +33,16 @@ class Calendar extends ChangeNotifier {
     }
     return monthsBuilding;
   }
+
+    encode() {
+      Map<String, dynamic> fileToSave = new Map();
+      JsonCodec codec = JsonCodec();
+      months.forEach((month) =>
+      fileToSave[month.monthName + month.year] = month.encode());
+      String json = codec.encode(fileToSave);
+      return json;
+    }
+
+    decode(String jsonFile){
+    }
 }
