@@ -49,11 +49,35 @@ class Day extends ChangeNotifier {
     notifyListeners();
   }
 
-  String encode(){
-    Map<String, dynamic> fileToSave = new Map();
-    JsonCodec codec = JsonCodec();
-    transactions.forEach((transaction) => fileToSave[transaction.description] = transaction.encode());
-    String json = codec.encode(fileToSave);
-    return json;
+
+  Map<String,dynamic> toJson() {
+
+    Map<String,dynamic> dayJson =
+        Map<String,dynamic>();
+    dayJson.putIfAbsent('month', ()=> month);
+    dayJson.putIfAbsent('dayNumber', ()=> dayNumber);
+    dayJson.putIfAbsent('weekdayNum', ()=> weekdayNumber);
+    dayJson.putIfAbsent('weekday', ()=> weekday);
+
+    for(int i = 0; i<transactions.length; i++){
+      String transNumber = i.toString();
+      Map<String,dynamic> transaction = transactions[i].toJson();
+      dayJson.putIfAbsent(transNumber, () => transaction);
+    }
+    return dayJson;
+  }
+
+  String dayTitle(){
+    return weekday+' '+month+' '+dayNumber;
+  }
+
+  Day.fromJson(Map<String,dynamic> json){
+    month = json['month'];
+    dayNumber = json['dayNumber'];
+    weekdayNumber = json['weekdayNum'];
+    weekday = json['weekday'];
+    transactions = new List<Transaction>();
+    json.values.skip(4).forEach((trans) =>
+        transactions.add(Transaction.fromJson(trans)));
   }
 }

@@ -21,11 +21,21 @@ class Month extends ChangeNotifier{
       days.add(Day(time.month, time.day, time.weekday));
     }
   }
-  String encode(){
-    Map<String, dynamic> fileToSave = new Map();
-    JsonCodec codec = JsonCodec();
-    days.forEach((day) => fileToSave[day.month+day.dayNumber] = day.encode());
-    String json = codec.encode(fileToSave);
-    return json;
+
+  Map<String,dynamic> toJson() {
+    Map<String,dynamic> monthJson = Map<String,dynamic>();
+    monthJson.putIfAbsent('monthName', ()=> monthName);
+    monthJson.putIfAbsent('year', ()=> year);
+    days.forEach((day) => monthJson.putIfAbsent(day.dayTitle(), () => day.toJson()));
+
+    return monthJson;
+  }
+  Month.fromJson(Map<String, dynamic> json){
+    days = new List<Day>();
+    monthName = json['monthName'];
+    year = json['year'];
+
+    json.values.skip(2).forEach((day) =>
+        days.add(Day.fromJson(day)));
   }
 }

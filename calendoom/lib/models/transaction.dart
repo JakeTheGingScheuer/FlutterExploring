@@ -1,12 +1,13 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
+
 
 class Transaction extends ChangeNotifier{
   double value = 0.00;
   String description = 'description here';
   bool isCredit = false;
   bool isReoccurring = false;
+
+  Transaction();
 
   void setDescription(String input){
     description = input;
@@ -36,14 +37,17 @@ class Transaction extends ChangeNotifier{
     notifyListeners();
   }
 
-  String encode(){
-    Map<String, dynamic> transactionMap = new Map();
-    JsonCodec codec = JsonCodec();
-    transactionMap[this.description] = this.description;
-    transactionMap[this.value.toString()] = this.value;
-    transactionMap[this.isCredit.toString()] = this.isCredit;
-    transactionMap[this.isReoccurring.toString()] = this.isReoccurring;
-    String json = codec.encode(transactionMap);
-    return json;
-  }
+  Map<String, dynamic> toJson() =>
+      {
+        'description': description,
+        'value': value,
+        'isCredit': isCredit,
+        'isReoccuring': isReoccurring
+      };
+
+  Transaction.fromJson(Map<String, dynamic> json)
+      : description = json['description'],
+        value = json['value'],
+        isCredit = json['isCredit'],
+        isReoccurring = json['isReoccurring'];
 }

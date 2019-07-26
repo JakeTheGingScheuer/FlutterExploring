@@ -6,13 +6,7 @@ import 'month.dart';
 class Calendar extends ChangeNotifier {
   List<Month> months;
 
-  Calendar({Map<String, Month> monthsFromDisk}) {
-    if (monthsFromDisk != null) {
-      monthsFromDisk.values.forEach((month) => months.add(month));
-    } else {
-      months = makeCalendarModel();
-    }
-  }
+  Calendar() { months = makeCalendarModel(); }
 
   List<Month> makeCalendarModel(){
     List<Month> monthsBuilding = new List<Month>();
@@ -34,15 +28,15 @@ class Calendar extends ChangeNotifier {
     return monthsBuilding;
   }
 
-    encode() {
-      Map<String, dynamic> fileToSave = new Map();
-      JsonCodec codec = JsonCodec();
-      months.forEach((month) =>
-      fileToSave[month.monthName + month.year] = month.encode());
-      String json = codec.encode(fileToSave);
-      return json;
-    }
+  Map<String,dynamic> toJson() {
 
-    decode(String jsonFile){
-    }
+    Map<String,dynamic> json = Map<String,dynamic>();
+    months.forEach((month) => json.putIfAbsent(month.monthName, () => month.toJson()));
+    return json;
+  }
+
+  Calendar.fromJson(Map<String, dynamic> json){
+    months = new List<Month>();
+    json.values.forEach((month) => months.add(Month.fromJson(month)));
+  }
 }
