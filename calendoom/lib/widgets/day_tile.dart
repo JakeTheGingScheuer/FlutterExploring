@@ -1,19 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:localstorage/localstorage.dart';
 import 'package:test_driving/models/day.dart';
 import 'package:test_driving/screens/day_screen.dart';
 
 class DayTile extends BlankTile {
 
   Day day;
+  LocalStorage storage;
 
-  DayTile(this.day);
+  DayTile(this.day, this.storage);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () {
-          Navigator.push(context, MaterialPageRoute( builder: (context) => DayScreen(day)));},
+          Navigator.push(context, MaterialPageRoute( builder: (context) => DayScreen(day, storage)));},
         child: GridTile(
             child: Container(
                 padding: EdgeInsets.all(2),

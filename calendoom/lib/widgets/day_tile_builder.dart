@@ -1,3 +1,4 @@
+import 'package:localstorage/localstorage.dart';
 import 'package:test_driving/models/month.dart';
 import 'day_tile.dart';
 
@@ -6,14 +7,15 @@ class DayTileListBuilder{
   Month month;
   List<BlankTile> dayTilesForThisMonth = List<BlankTile>();
   int firstWeekdayOfTheMonth;
+  LocalStorage storage;
 
-  DayTileListBuilder(this.month){
+  DayTileListBuilder(this.month, this.storage){
     firstWeekdayOfTheMonth = month.days[0].weekdayNumber;
 
     addBlankTiles();
 
     month.days.forEach((day) => dayTilesForThisMonth.add(
-        DayTile(day)
+        DayTile(day, storage)
     ));
   }
 

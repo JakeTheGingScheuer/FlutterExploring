@@ -9,14 +9,20 @@ import 'package:test_driving/widgets/day_tile_builder.dart';
 
 class MonthScreen extends StatelessWidget {
 
-  MonthScreen();
+  LocalStorage storage;
+
+  MonthScreen(this.storage);
 
   @override
   Widget build(BuildContext context) {
     Calendar calendar = Provider.of<Calendar>(context);
 
     return Scaffold(
-        appBar: AppBar(title: Text('Month Screen')),
+        appBar: AppBar(
+          title: Text('Month Screen'),
+          leading: IconButton(
+              icon: Icon(Icons.save),
+              onPressed:()=> storage.setItem('calendar', calendar.toJson()))),
         body: Column(
           children: <Widget>[
             SizedBox(height: 15),
@@ -39,7 +45,7 @@ class MonthScreen extends StatelessWidget {
   Container monthTile(Calendar calendar, int index, BuildContext context) {
 
     Month month = calendar.months[index];
-    DayTileListBuilder buildList = DayTileListBuilder(month);
+    DayTileListBuilder buildList = DayTileListBuilder(month, storage);
 
     return Container(
       padding: EdgeInsets.all(12),

@@ -1,20 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
-import 'package:provider/provider.dart';
-import 'package:test_driving/models/month.dart';
 import 'package:test_driving/models/transaction.dart';
 import '../models/day.dart';
 
 class TransactionScreen extends StatelessWidget {
   Transaction transaction;
   Day day;
-  TransactionScreen(this.transaction, this.day);
   LocalStorage storage;
+  TransactionScreen(this.transaction, this.day, this.storage);
 
   @override
   Widget build(BuildContext context) {
-    storage = Provider.of<LocalStorage>(context);
     return
       Scaffold(
         appBar: AppBar(title: Text('Transaction Screen')),
@@ -88,9 +85,6 @@ class TransactionScreen extends StatelessWidget {
 
   addTransactionButton(Transaction transaction, Day day, BuildContext context) {
     day.addTransaction(transaction);
-//    Map<String, Month> calendar = storage.getItem('calendar');
-//    Month theMonth = calendar.values.where((month)=> month.monthName == day.month) as Month;
-
     Navigator.pop(context);
   }
 }
