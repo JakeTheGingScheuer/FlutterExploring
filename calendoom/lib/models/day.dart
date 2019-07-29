@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:test_driving/models/transaction.dart';
 
 class Day extends ChangeNotifier {
-  List<Transaction> transactions = List<Transaction>();
+  List<Transaction> transactions;
 
   double credits = 0.00;
   double debits = 0.00;
@@ -19,6 +19,7 @@ class Day extends ChangeNotifier {
     month = date.month(monthNum);
     dayNumber = dayNum.toString();
     weekday = date.day(weekdayNum + 2);
+    transactions = List<Transaction>();
   }
 
   void calculateBalance() {
@@ -49,20 +50,21 @@ class Day extends ChangeNotifier {
 
 
   Map<String,dynamic> toJson() {
+    Map<String, dynamic> map = new Map();
+    map['month'] = month;
+    map['dayNumber'] = dayNumber;
+    map['weekdayNumber'] = weekdayNumber;
+    map['weekday'] = weekday;
 
-    Map<String,dynamic> dayJson =
-        Map<String,dynamic>();
-    dayJson.putIfAbsent('month', ()=> month);
-    dayJson.putIfAbsent('dayNumber', ()=> dayNumber);
-    dayJson.putIfAbsent('weekdayNum', ()=> weekdayNumber);
-    dayJson.putIfAbsent('weekday', ()=> weekday);
-
+    Map<String, dynamic> transactionMap = new Map();
     for(int i = 0; i<transactions.length; i++){
       String transNumber = i.toString();
-      Map<String,dynamic> transaction = transactions[i].toJson();
-      dayJson.putIfAbsent(transNumber, () => transaction);
+      Map<String,dynamic> transactionJson = transactions[i].toJson();
+      transactionMap[transNumber] = transactionJson;
     }
-    return dayJson;
+    map['transactions'] = transactionMap;
+
+    return map;
   }
 
   String dayTitle(){
@@ -74,8 +76,15 @@ class Day extends ChangeNotifier {
     dayNumber = json['dayNumber'];
     weekdayNumber = json['weekdayNum'];
     weekday = json['weekday'];
-    transactions = new List<Transaction>();
-    json.values.skip(4).forEach((trans) =>
-        transactions.add(Transaction.fromJson(trans)));
+
+    List<Transaction> transactionList = new List<Transaction>();
+    Map<String, dynamic> transactionsJson = json['transactions'];
+
+    for(int i =0; i<transactionsJson.length; i++){
+      String transactionKey = i.toString();
+      transactionList.add(
+          Transaction.fromJson(transactionsJson[transactionKey]));
+    }
+    transactions = transactionList;
   }
 }

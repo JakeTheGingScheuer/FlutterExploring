@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:localstorage/localstorage.dart';
 import 'package:test_driving/main.dart';
 import 'package:test_driving/models/day.dart';
 import 'package:test_driving/screens/day_screen.dart';
@@ -31,11 +32,12 @@ void main(){
 
 class MockMaterialApp extends StatelessWidget {
   Day testDay = Day(1,1,1);
+  LocalStorage storage = new LocalStorage('fakeStorage');
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        home: DayScreen(testDay)
+        home: DayScreen(testDay, storage)
     );
   }
 }

@@ -22,9 +22,9 @@ class DataStorage extends StatelessWidget{
         );}
         if (!initialized) {
           calendar = Calendar.fromJson(storage.getItem('calendar'));
-          if(calendar =! null){
-            
-          }
+//          if(calendar =! null){
+//
+//          }
         } else {
           calendar = new Calendar();
           storage.setItem('calendar', calendar.toJson());

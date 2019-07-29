@@ -37,17 +37,20 @@ class Transaction extends ChangeNotifier{
     notifyListeners();
   }
 
-  Map<String, dynamic> toJson() =>
-      {
-        'description': description,
-        'value': value,
-        'isCredit': isCredit,
-        'isReoccuring': isReoccurring
-      };
+  Map<String, dynamic> toJson() {
+    Map<String, dynamic> map = new Map();
+    map['description'] = description;
+    map['value'] = value;
+    map['isCredit'] = isCredit;
+    map['isReoccurring'] = isReoccurring;
 
-  Transaction.fromJson(Map<String, dynamic> json)
-      : description = json['description'],
-        value = json['value'],
-        isCredit = json['isCredit'],
-        isReoccurring = json['isReoccurring'];
+    return map;
+  }
+
+  Transaction.fromJson(Map<String, dynamic> json){
+    description = json['description'];
+    value = json['value'];
+    isCredit = json['isCredit'];
+    isReoccurring = json['isReoccurring'];
+  }
 }

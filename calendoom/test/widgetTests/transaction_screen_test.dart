@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:localstorage/localstorage.dart';
 import 'package:test_driving/models/day.dart';
 import 'package:test_driving/models/transaction.dart';
 import 'package:test_driving/screens/transaction_screen.dart';
@@ -64,12 +65,13 @@ void main() {
 
 class MockMaterialApp extends StatelessWidget {
   Day mockDay = Day(1,1,1);
+  LocalStorage storage = new LocalStorage('fakeStoreage');
   Transaction testTransaction = Transaction();
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        home: TransactionScreen(testTransaction, mockDay)
+        home: TransactionScreen(testTransaction, mockDay, storage)
     );
   }
 }
