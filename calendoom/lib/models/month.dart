@@ -37,18 +37,24 @@ class Month extends ChangeNotifier{
     return map;
   }
 
+  String monthKey(){
+    return monthName+' '+year;
+  }
+
   Month.fromJson(Map<String, dynamic> json){
     monthName = json['monthName'];
     year = json['year'];
 
     List<Day> dayList = new List<Day>();
     Map<String, dynamic> daysJson = json['days'];
-  
+
     List<String> dayKeys = daysJson.keys.toList();
 
     for(int i =0; i<daysJson.length; i++){
-      dayList.add(Day.fromJson(daysJson[dayKeys[i]]));
+      Day day = Day.fromJson(daysJson[dayKeys[i]]);
+      dayList.add(day);
     }
     days = dayList;
+    notifyListeners();
   }
 }

@@ -7,15 +7,14 @@ class DayTileListBuilder{
   Month month;
   List<BlankTile> dayTilesForThisMonth = List<BlankTile>();
   int firstWeekdayOfTheMonth;
-  LocalStorage storage;
 
-  DayTileListBuilder(this.month, this.storage){
+  DayTileListBuilder(this.month){
     firstWeekdayOfTheMonth = month.days[0].weekdayNumber;
 
     addBlankTiles();
 
     month.days.forEach((day) => dayTilesForThisMonth.add(
-        DayTile(day, storage)
+        DayTile(day)
     ));
   }
 

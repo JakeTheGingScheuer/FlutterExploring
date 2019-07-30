@@ -28,13 +28,35 @@ class Calendar extends ChangeNotifier {
 
   Map<String,dynamic> toJson() {
 
-    Map<String,dynamic> json = Map<String,dynamic>();
-    months.forEach((month) => json.putIfAbsent(month.monthName, () => month.toJson()));
-    return json;
+    Map<String, dynamic> map = new Map();
+
+    Map<String, dynamic> monthsMap = new Map();
+    for(int i = 0; i<months.length; i++){
+      String monthKey = months[i].monthKey();
+      Map<String,dynamic> monthJson = months[i].toJson();
+      monthsMap[monthKey] = monthJson;
+    }
+    map['months'] = monthsMap;
+
+    return map;
+  }
+
+  void calculateBalance(){
+    months.forEach((month)=> month.days.forEach((day)=> day.calculateBalance()));
+    notifyListeners();
   }
 
   Calendar.fromJson(Map<String, dynamic> json){
-    months = new List<Month>();
-    json.values.forEach((month) => months.add(Month.fromJson(month)));
+    List<Month> monthList = new List<Month>();
+    Map<String, dynamic> monthsJson = json['months'];
+
+    List<String> monthKeys = monthsJson.keys.toList();
+
+    for(int i =0; i<monthsJson.length; i++){
+      monthList.add(Month.fromJson(monthsJson[monthKeys[i]]));
+    }
+    months = monthList;
+    calculateBalance();
+    notifyListeners();
   }
 }

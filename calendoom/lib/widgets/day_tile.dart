@@ -7,15 +7,14 @@ import 'package:test_driving/screens/day_screen.dart';
 class DayTile extends BlankTile {
 
   Day day;
-  LocalStorage storage;
 
-  DayTile(this.day, this.storage);
+  DayTile(this.day);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () {
-          Navigator.push(context, MaterialPageRoute( builder: (context) => DayScreen(day, storage)));},
+          Navigator.push(context, MaterialPageRoute( builder: (context) => DayScreen(day)));},
         child: GridTile(
             child: Container(
                 padding: EdgeInsets.all(2),

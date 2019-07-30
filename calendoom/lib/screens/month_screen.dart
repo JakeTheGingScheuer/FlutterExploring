@@ -16,17 +16,17 @@ class MonthScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Calendar calendar = Provider.of<Calendar>(context);
-
-    return Scaffold(
+      return Scaffold(
         appBar: AppBar(
           title: Text('Month Screen'),
           leading: IconButton(
               icon: Icon(Icons.save),
-              onPressed:()=> storage.setItem('calendar', calendar.toJson()))),
+              onPressed:()=> save(calendar))),
         body: Column(
           children: <Widget>[
             SizedBox(height: 15),
             Container(
+              key: Key('CalendarView'),
                 height: 500,
                 width: 400,
                 child: ListView.builder(
@@ -42,10 +42,17 @@ class MonthScreen extends StatelessWidget {
     );
   }
 
+  save(Calendar calendar){
+    storage.setItem('calendar', calendar.toJson());
+    print(storage.getItem('calendar'));
+  }
+
+
+
   Container monthTile(Calendar calendar, int index, BuildContext context) {
 
     Month month = calendar.months[index];
-    DayTileListBuilder buildList = DayTileListBuilder(month, storage);
+    DayTileListBuilder buildList = DayTileListBuilder(month);
 
     return Container(
       padding: EdgeInsets.all(12),

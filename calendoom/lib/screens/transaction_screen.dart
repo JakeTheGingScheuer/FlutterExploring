@@ -7,8 +7,8 @@ import '../models/day.dart';
 class TransactionScreen extends StatelessWidget {
   Transaction transaction;
   Day day;
-  LocalStorage storage;
-  TransactionScreen(this.transaction, this.day, this.storage);
+
+  TransactionScreen(this.transaction, this.day);
 
   @override
   Widget build(BuildContext context) {

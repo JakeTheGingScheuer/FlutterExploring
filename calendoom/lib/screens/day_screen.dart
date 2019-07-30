@@ -7,9 +7,8 @@ import '../models/day.dart';
 
 class DayScreen extends StatelessWidget {
   Day day;
-  LocalStorage storage;
 
-  DayScreen(this.day, this.storage);
+  DayScreen(this.day);
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +36,7 @@ class DayScreen extends StatelessWidget {
   addNewTransaction(Day day, BuildContext context) {
     Transaction transaction = Transaction();
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => TransactionScreen(transaction, day, storage)));
+        context, MaterialPageRoute(builder: (context) => TransactionScreen(transaction, day)));
   }
 
   ListView transactionList(Day day) {
