@@ -21,19 +21,34 @@ class Month extends ChangeNotifier{
   }
 
   Map<String,dynamic> toJson() {
-    Map<String,dynamic> monthJson = Map<String,dynamic>();
-    monthJson.putIfAbsent('monthName', ()=> monthName);
-    monthJson.putIfAbsent('year', ()=> year);
-    days.forEach((day) => monthJson.putIfAbsent(day.dayTitle(), () => day.toJson()));
 
-    return monthJson;
+    Map<String, dynamic> map = new Map();
+    map['monthName'] = monthName;
+    map['year'] = year;
+
+    Map<String, dynamic> daysMap = new Map();
+    for(int i = 0; i<days.length; i++){
+      String dayKey = days[i].dayTitle();
+      Map<String,dynamic> dayJson = days[i].toJson();
+      daysMap[dayKey] = dayJson;
+    }
+    map['days'] = daysMap;
+
+    return map;
   }
+
   Month.fromJson(Map<String, dynamic> json){
-    days = new List<Day>();
     monthName = json['monthName'];
     year = json['year'];
 
-    json.values.skip(2).forEach((day) =>
-        days.add(Day.fromJson(day)));
+    List<Day> dayList = new List<Day>();
+    Map<String, dynamic> daysJson = json['days'];
+  
+    List<String> dayKeys = daysJson.keys.toList();
+
+    for(int i =0; i<daysJson.length; i++){
+      dayList.add(Day.fromJson(daysJson[dayKeys[i]]));
+    }
+    days = dayList;
   }
 }
