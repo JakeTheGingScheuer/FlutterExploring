@@ -13,12 +13,12 @@ class Day extends ChangeNotifier {
   String dayNumber;
   String weekday;
 
-  Day(int monthNum, int dayNum, int weekdayNum) {
+  Day(int monthNum, int dayNum, int weekdayNumber) {
     DateUtil date = DateUtil();
-    weekdayNumber = weekdayNum;
+    this.weekdayNumber = weekdayNumber;
     month = date.month(monthNum);
     dayNumber = dayNum.toString();
-    weekday = date.day(weekdayNum + 2);
+    weekday = date.day(weekdayNumber + 2);
     transactions = List<Transaction>();
   }
 
@@ -74,7 +74,7 @@ class Day extends ChangeNotifier {
   Day.fromJson(Map<String,dynamic> json){
     month = json['month'];
     dayNumber = json['dayNumber'];
-    weekdayNumber = json['weekdayNum'];
+    weekdayNumber = json['weekdayNumber'];
     weekday = json['weekday'];
 
     List<Transaction> transactionList = new List<Transaction>();

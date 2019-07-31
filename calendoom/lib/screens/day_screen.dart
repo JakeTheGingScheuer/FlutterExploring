@@ -1,14 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:localstorage/localstorage.dart';
 import 'package:test_driving/models/transaction.dart';
 import 'package:test_driving/screens/transaction_screen.dart';
 import '../models/day.dart';
 
-class DayScreen extends StatelessWidget {
+class DayScreen extends StatefulWidget {
   Day day;
-
   DayScreen(this.day);
+
+  @override
+  State<StatefulWidget> createState() => DayScreenState(day);
+}
+
+class DayScreenState extends State<DayScreen>{
+  Day day;
+  DayScreenState(this.day);
 
   @override
   Widget build(BuildContext context) {

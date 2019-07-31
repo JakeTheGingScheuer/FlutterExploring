@@ -55,6 +55,5 @@ class Month extends ChangeNotifier{
       dayList.add(day);
     }
     days = dayList;
-    notifyListeners();
   }
 }

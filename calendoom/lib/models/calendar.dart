@@ -17,7 +17,7 @@ class Calendar extends ChangeNotifier {
     }
 
     for(int i = 0; i<13; i++){
-      if(date.month+i > 12){
+      if((date.month+i) > 12){
         monthsBuilding.add(Month(date.year+1, date.month+i-12));
       }else {
         monthsBuilding.add(Month(date.year, date.month + i));
@@ -31,7 +31,7 @@ class Calendar extends ChangeNotifier {
     Map<String, dynamic> map = new Map();
 
     Map<String, dynamic> monthsMap = new Map();
-    for(int i = 0; i<months.length; i++){
+    for(int i = 0; i < months.length; i++){
       String monthKey = months[i].monthKey();
       Map<String,dynamic> monthJson = months[i].toJson();
       monthsMap[monthKey] = monthJson;
@@ -52,11 +52,10 @@ class Calendar extends ChangeNotifier {
 
     List<String> monthKeys = monthsJson.keys.toList();
 
-    for(int i =0; i<monthsJson.length; i++){
+    for(int i =0; i < monthsJson.length; i++){
       monthList.add(Month.fromJson(monthsJson[monthKeys[i]]));
     }
     months = monthList;
     calculateBalance();
-    notifyListeners();
   }
 }

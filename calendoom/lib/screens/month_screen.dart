@@ -10,7 +10,6 @@ import 'package:test_driving/widgets/day_tile_builder.dart';
 class MonthScreen extends StatelessWidget {
 
   LocalStorage storage;
-
   MonthScreen(this.storage);
 
   @override
@@ -31,9 +30,9 @@ class MonthScreen extends StatelessWidget {
                 width: 400,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: 12,
+                  itemCount: 14,
                   itemBuilder: (BuildContext context, int index) {
-                    return monthTile(calendar, index, context);
+                    return monthTile(calendar,index, context);
                   },
                 )
             ),
@@ -44,13 +43,9 @@ class MonthScreen extends StatelessWidget {
 
   save(Calendar calendar){
     storage.setItem('calendar', calendar.toJson());
-    print(storage.getItem('calendar'));
   }
 
-
-
   Container monthTile(Calendar calendar, int index, BuildContext context) {
-
     Month month = calendar.months[index];
     DayTileListBuilder buildList = DayTileListBuilder(month);
 
@@ -88,6 +83,5 @@ class MonthScreen extends StatelessWidget {
         style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600)
     );
   }
-
 }
 
