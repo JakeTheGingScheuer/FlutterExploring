@@ -19,4 +19,41 @@ class Month extends ChangeNotifier{
       days.add(Day(time.month, time.day, time.weekday));
     }
   }
+
+  Map<String,dynamic> toJson() {
+
+    Map<String, dynamic> map = new Map();
+    map['monthName'] = monthName;
+    map['year'] = year;
+
+    Map<String, dynamic> daysMap = new Map();
+    for(int i = 0; i<days.length; i++){
+      String dayKey = days[i].dayTitle();
+      Map<String,dynamic> dayJson = days[i].toJson();
+      daysMap[dayKey] = dayJson;
+    }
+    map['days'] = daysMap;
+
+    return map;
+  }
+
+  String monthKey(){
+    return monthName+' '+year;
+  }
+
+  Month.fromJson(Map<String, dynamic> json){
+    monthName = json['monthName'];
+    year = json['year'];
+
+    List<Day> dayList = new List<Day>();
+    Map<String, dynamic> daysJson = json['days'];
+
+    List<String> dayKeys = daysJson.keys.toList();
+
+    for(int i =0; i<daysJson.length; i++){
+      Day day = Day.fromJson(daysJson[dayKeys[i]]);
+      dayList.add(day);
+    }
+    days = dayList;
+  }
 }

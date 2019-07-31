@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:localstorage/localstorage.dart';
 import 'package:test_driving/models/day.dart';
 import 'package:test_driving/screens/day_screen.dart';
 
@@ -26,7 +27,13 @@ class DayTile extends BlankTile {
                     Container(
                         decoration: BoxDecoration(color: Colors.amberAccent),
                         child: Text(day.dayNumber.toString(), style: TextStyle(fontWeight: FontWeight.w500),)),
-                    Container(child: Text('\$'+day.balance.toStringAsFixed(0)))
+                    SingleChildScrollView(
+                      child: Container(
+                          child: Text(
+                            '\$'+day.balance.toStringAsFixed(0),
+                            style: TextStyle(fontSize: 10),
+                      )),
+                    )
                   ],
                 )
             )));

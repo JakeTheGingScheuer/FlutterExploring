@@ -1,31 +1,38 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:localstorage/localstorage.dart';
 import 'package:provider/provider.dart';
 import 'package:test_driving/models/calendar.dart';
 import 'package:test_driving/models/month.dart';
 import 'package:test_driving/widgets/day_tile_builder.dart';
 
-
 class MonthScreen extends StatelessWidget {
+
+  LocalStorage storage;
+  MonthScreen(this.storage);
 
   @override
   Widget build(BuildContext context) {
     Calendar calendar = Provider.of<Calendar>(context);
-
-    return Scaffold(
-        appBar: AppBar(title: Text('Month Screen')),
+      return Scaffold(
+        appBar: AppBar(
+          title: Text('Month Screen'),
+          leading: IconButton(
+              icon: Icon(Icons.save),
+              onPressed:()=> save(calendar))),
         body: Column(
           children: <Widget>[
             SizedBox(height: 15),
             Container(
+              key: Key('CalendarView'),
                 height: 500,
                 width: 400,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: 13,
+                  itemCount: 14,
                   itemBuilder: (BuildContext context, int index) {
-                    return monthTile(calendar, index, context);
+                    return monthTile(calendar,index, context);
                   },
                 )
             ),
@@ -34,8 +41,11 @@ class MonthScreen extends StatelessWidget {
     );
   }
 
-  Container monthTile(Calendar calendar, int index, BuildContext context) {
+  save(Calendar calendar){
+    storage.setItem('calendar', calendar.toJson());
+  }
 
+  Container monthTile(Calendar calendar, int index, BuildContext context) {
     Month month = calendar.months[index];
     DayTileListBuilder buildList = DayTileListBuilder(month);
 
@@ -73,6 +83,5 @@ class MonthScreen extends StatelessWidget {
         style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600)
     );
   }
-
 }
 

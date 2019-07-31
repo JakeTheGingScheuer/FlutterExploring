@@ -1,35 +1,39 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:localstorage/localstorage.dart';
 import 'package:test_driving/models/transaction.dart';
 import '../models/day.dart';
 
 class TransactionScreen extends StatelessWidget {
   Transaction transaction;
   Day day;
+
   TransactionScreen(this.transaction, this.day);
+  LocalStorage storage = new LocalStorage('transaction');
 
   @override
   Widget build(BuildContext context) {
     return
       Scaffold(
         appBar: AppBar(title: Text('Transaction Screen')),
-          body: Column(
-            children: <Widget>[
-              SizedBox(height: 40),
-              Text('Description', style: TextStyle(fontSize: 20)),
-              descriptionInput(transaction),
-              Text('Amount', style: TextStyle(fontSize: 20)),
-              amountInput(transaction),
-              creditDebitSwitch(transaction),
-              reoccurringSwitch(transaction),
-              RaisedButton(
-                child:Text('Add To Ledger'),
-                key: Key('newTransaction'),
-                onPressed: () => addTransactionButton(transaction, day, context),
+          body: SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  SizedBox(height: 40),
+                    Text('Amount', style: TextStyle(fontSize: 20)),
+                    amountInput(transaction),
+                    Text('Description', style: TextStyle(fontSize: 20)),
+                    descriptionInput(transaction),
+                    creditDebitSwitch(transaction),
+                    reoccurringSwitch(transaction),
+                    RaisedButton(
+                      child:Text('Add To Ledger'),
+                      key: Key('newTransaction'),
+                      onPressed: () => addTransactionButton(transaction, day, context),
               )
             ]
           )
-      );
+      ));
   }
 
   Container descriptionInput(Transaction transaction){

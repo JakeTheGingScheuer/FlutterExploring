@@ -60,5 +60,48 @@ void main() {
       testDay.calculateBalance();
       expect(testDay.debits, -3.00);
     });
+
+    test('toJson', () {
+      Day testDay = Day(1,1,1);
+
+      Transaction fakeTrans = Transaction();
+      fakeTrans.setDescription('fake');
+      fakeTrans.setAmount(20.00);
+      fakeTrans.setIsCredit(true);
+      fakeTrans.setIsReoccurring(true);
+
+      testDay.addTransaction(fakeTrans);
+
+      Map<String,dynamic> testDayJson = testDay.toJson();
+      expect(testDayJson['month'], 'January');
+      expect(testDayJson['dayNumber'], '1');
+      expect(testDayJson['weekdayNumber'], 1);
+      expect(testDayJson['weekday'], 'Monday');
+      expect(testDayJson['transactions'].length, 1);
+      expect(testDayJson['transactions']['0']['description'], 'fake');
+      expect(testDayJson['transactions']['0']['value'], 20.00);
+      expect(testDayJson['transactions']['0']['isCredit'], true);
+      expect(testDayJson['transactions']['0']['isReoccurring'], true);
+    });
+
+    test('fromJson', () {
+      Day testDay = Day(1,1,1);
+      Transaction fakeTrans = Transaction();
+      fakeTrans.setDescription('fake');
+      fakeTrans.setAmount(20.00);
+      fakeTrans.setIsCredit(true);
+      fakeTrans.setIsReoccurring(true);
+
+      testDay.addTransaction(fakeTrans);
+
+      Map<String,dynamic> fakeDayJson = testDay.toJson();
+
+      Day actual = Day.fromJson(fakeDayJson);
+      expect(actual.month, 'January');
+      expect(actual.transactions.length, 1);
+      expect(actual.transactions[0].value, 20.0);
+      expect(actual.transactions[0].isCredit, true);
+      expect(actual.transactions[0].isReoccurring, true);
+    });
   });
 }

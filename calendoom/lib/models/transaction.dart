@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 
 class Transaction extends ChangeNotifier{
   double value = 0.00;
   String description = 'description here';
   bool isCredit = false;
   bool isReoccurring = false;
+
+  Transaction();
 
   void setDescription(String input){
     description = input;
@@ -35,13 +37,20 @@ class Transaction extends ChangeNotifier{
     notifyListeners();
   }
 
-//  Transaction.fromJson(Map<String, dynamic> json) {
-//    description = json['description'];
-//    value = double.parse(json['value']);
-//    isCredit = (json['isCredit'] == 'true');
-//    isReoccuring = (json['isReoccuring'] == 'true');
-//  }
+  Map<String, dynamic> toJson() {
+    Map<String, dynamic> map = new Map();
+    map['description'] = description;
+    map['value'] = value;
+    map['isCredit'] = isCredit;
+    map['isReoccurring'] = isReoccurring;
 
-//  final prefs = await SharedPreferences.getInstance();
-//  prefs.setString('description', description);
+    return map;
+  }
+
+  Transaction.fromJson(Map<String, dynamic> json){
+    description = json['description'];
+    value = json['value'];
+    isCredit = json['isCredit'];
+    isReoccurring = json['isReoccurring'];
+  }
 }
