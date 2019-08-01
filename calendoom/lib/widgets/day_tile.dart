@@ -17,21 +17,18 @@ class DayTile extends BlankTile {
           Navigator.push(context, MaterialPageRoute( builder: (context) => DayScreen(day)));},
         child: GridTile(
             child: Container(
-                padding: EdgeInsets.all(2),
-                decoration: BoxDecoration(
-                  border: Border.all(),
-                ),
+              decoration: BoxDecoration(border: Border.all(color: Colors.green)),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
                     Container(
-                        decoration: BoxDecoration(color: Colors.amberAccent),
+                        decoration: BoxDecoration(color: Colors.greenAccent),
                         child: Text(day.dayNumber.toString(), style: TextStyle(fontWeight: FontWeight.w500),)),
                     SingleChildScrollView(
                       child: Container(
                           child: Text(
                             '\$'+day.balance.toStringAsFixed(0),
-                            style: TextStyle(fontSize: 10),
+                            style: TextStyle(fontSize: 10, color: Colors.greenAccent),
                       )),
                     )
                   ],

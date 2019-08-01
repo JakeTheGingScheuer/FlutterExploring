@@ -16,9 +16,14 @@ class MonthScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Calendar calendar = Provider.of<Calendar>(context);
       return Scaffold(
-        appBar: AppBar(
-          title: Text('Month Screen'),
+        backgroundColor: Colors.black,
+        appBar: CupertinoNavigationBar(
+          middle: Text('Month Screen',
+              style: TextStyle(color: Colors.green)),
+              actionsForegroundColor: Colors.green,
+              backgroundColor: Colors.black,
           leading: IconButton(
+            color: Colors.green,
               icon: Icon(Icons.save),
               onPressed:()=> save(calendar))),
         body: Column(
@@ -80,7 +85,7 @@ class MonthScreen extends StatelessWidget {
   Text monthYearDisplay(Month month) {
     return Text(
         month.monthName + ' ' + month.year, key: Key('monthTitle'),
-        style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600)
+        style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600, color: Colors.green)
     );
   }
 }

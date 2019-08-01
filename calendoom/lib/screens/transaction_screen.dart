@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:test_driving/models/transaction.dart';
+import 'package:test_driving/widgets/credit_button.dart';
+import 'package:test_driving/widgets/reoccurring_button.dart';
 import '../models/day.dart';
 
 class TransactionScreen extends StatelessWidget {
@@ -15,19 +17,22 @@ class TransactionScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return
       Scaffold(
-        appBar: AppBar(title: Text('Transaction Screen')),
-          body: SingleChildScrollView(
+        backgroundColor: Colors.black,
+        appBar: CupertinoNavigationBar(middle: Text('New Transaction', style: TextStyle(color: Colors.green),), actionsForegroundColor: Colors.green, backgroundColor: Colors.black),
+              body: SingleChildScrollView(
               child: Column(
                 children: <Widget>[
-                  SizedBox(height: 40),
-                    Text('Amount', style: TextStyle(fontSize: 20)),
+                    SizedBox(height: 40),
                     amountInput(transaction),
-                    Text('Description', style: TextStyle(fontSize: 20)),
                     descriptionInput(transaction),
-                    creditDebitSwitch(transaction),
-                    reoccurringSwitch(transaction),
-                    RaisedButton(
+                    SizedBox(height: 40),
+                    CreditButton(transaction),
+                    SizedBox(height: 20),
+                    ReoccurringButton(transaction),
+                    SizedBox(height:40),
+                    CupertinoButton(
                       child:Text('Add To Ledger'),
+                      color: Colors.green,
                       key: Key('newTransaction'),
                       onPressed: () => addTransactionButton(transaction, day, context),
               )
@@ -40,7 +45,8 @@ class TransactionScreen extends StatelessWidget {
     return Container(
         padding: EdgeInsets.all(30),
         child:CupertinoTextField(
-            placeholder: 'Rent, electric, payday, etc.',
+          cursorColor: Colors.green,
+            placeholder: ' Description',
             key: Key('descriptionInput'),
             onChanged: (input) => transaction.setDescription(input)));
   }
@@ -49,44 +55,18 @@ class TransactionScreen extends StatelessWidget {
     return Container(
         padding: EdgeInsets.all(30),
         child: CupertinoTextField(
-            prefix: Text('\$'),
+            cursorColor: Colors.green,
+            prefix: Text(' \$', style: TextStyle(color: Colors.green),),
             keyboardType: TextInputType.numberWithOptions(),
-            placeholder: '0.00',
+            placeholder: 'Amount',
             key: Key('amountInput'),
             onChanged: (input) => transaction.setAmount(double.parse(input))));
   }
 
-  Container creditDebitSwitch(Transaction transaction){
-    return Container(
-      padding: EdgeInsets.all(40),
-      child: Row(
-        children: <Widget>[
-          Text('   (-)Debit/ (+)Credit                      '),
-          CupertinoSwitch(
-            key: Key('creditDebit'),
-            value: transaction.isCredit,
-            onChanged: (bool value) => transaction.setIsCredit(value)),
-        ],
-      )
-        );
-  }
-
-  Container reoccurringSwitch(Transaction transaction){
-    return Container(
-        padding: EdgeInsets.all(40),
-        child: Row(
-            children: <Widget>[
-              Text('   Reoccuring Payment                   '),
-              CupertinoSwitch(
-                key: Key('reoccuring'),
-                value: transaction.isReoccurring,
-                onChanged: (bool value) => transaction.setIsReoccurring(value))
-        ])
-    );
-  }
 
   addTransactionButton(Transaction transaction, Day day, BuildContext context) {
     day.addTransaction(transaction);
     Navigator.pop(context);
   }
 }
+

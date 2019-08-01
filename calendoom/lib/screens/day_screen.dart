@@ -20,21 +20,25 @@ class DayScreenState extends State<DayScreen>{
   Widget build(BuildContext context) {
 
     return Scaffold(
-      appBar: AppBar(title:Text('Day Screen')),
-      body: Column(
-        children: <Widget>[
-          SizedBox(height: 15),
-          Text(day.dayTitle(), key: Key('dayTitle'), style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),),
-          SizedBox(height: 15),
-          Container(
-              key: Key('transactionList'),
-              height:400,
-              child: transactionList(day)),
-          RaisedButton(
-              key: Key('newTransaction'),
-              child: Text('New Transaction'),
-              onPressed: () => addNewTransaction(day, context))
-        ],
+      backgroundColor: Colors.black,
+      appBar: CupertinoNavigationBar(middle:Text(day.dayTitle(),style: TextStyle(color: Colors.green),), actionsForegroundColor: Colors.green, backgroundColor: Colors.black),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: <Widget>[
+            SizedBox(height: 15),
+            SizedBox(height: 15),
+            Container(
+                key: Key('transactionList'),
+                height:400,
+                child: transactionList(day)),
+            CupertinoButton(
+                key: Key('newTransaction'),
+                child: Text('New Transaction'),
+                color: Colors.green,
+                onPressed: () => addNewTransaction(day, context))
+          ],
+        ),
       )
     );
   }
@@ -46,7 +50,7 @@ class DayScreenState extends State<DayScreen>{
   }
 
   ListView transactionList(Day day) {
-    List<ListTile> tiles = List<ListTile>();
+    List<Container> tiles = List<Container>();
 
     day.transactions.forEach((trans) =>
         tiles.add(transactionTile(trans.description, trans.value)));
@@ -55,10 +59,14 @@ class DayScreenState extends State<DayScreen>{
     );
   }
 
-  ListTile transactionTile(String description, double value){
-    return ListTile(
-      title: Text(description),
-      leading: Text(value.toStringAsFixed(2)),
+  Container transactionTile(String description, double value){
+    return Container(
+      decoration: BoxDecoration(border: Border.all(color: Colors.green), borderRadius: BorderRadius.all(Radius.circular(10))),
+      child: ListTile(
+        contentPadding: EdgeInsets.all(5),
+        title: Container(child: Text(description,style: TextStyle(color: Colors.white70))),
+        trailing: Container(child: Text(value.toStringAsFixed(2), style: TextStyle(color: Colors.green))),
+      ),
     );
   }
 }
