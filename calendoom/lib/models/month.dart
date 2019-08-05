@@ -8,10 +8,11 @@ class Month extends ChangeNotifier{
   DateUtil dateUtil = DateUtil();
   String monthName;
   String year;
+  double beginningMonthBalance;
   double endOfMonthBalance = 0;
   int monthNumber;
 
-  Month(int thisYear, int monthNumber) {
+  Month(int thisYear, int monthNumber, {this.beginningMonthBalance}) {
     DateTime firstDayOfTheMonth = DateTime(thisYear, monthNumber);
     year = thisYear.toString();
     monthName = dateUtil.month(monthNumber);

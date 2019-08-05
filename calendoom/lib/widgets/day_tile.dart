@@ -46,7 +46,6 @@ class DayTile extends BlankTile {
       return Colors.green;
     } return Colors.black;
   }
-
 }
 
 class BlankTile extends StatelessWidget{
@@ -54,5 +53,4 @@ class BlankTile extends StatelessWidget{
   Widget build(BuildContext context) {
     return GestureDetector(child: GridTile(child: Text('')));
   }
-
 }
