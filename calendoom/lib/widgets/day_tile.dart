@@ -1,3 +1,4 @@
+import 'package:date_util/date_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:test_driving/models/day.dart';
@@ -17,7 +18,7 @@ class DayTile extends BlankTile {
           Navigator.push(context, MaterialPageRoute( builder: (context) => DayScreen(day)));},
         child: GridTile(
             child: Container(
-              decoration: BoxDecoration(border: Border.all(color: Colors.green)),
+              decoration: BoxDecoration(border: Border.all(color: Colors.green), color: ifToday()),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
@@ -34,6 +35,16 @@ class DayTile extends BlankTile {
                   ],
                 )
             )));
+  }
+
+  Color ifToday(){
+    int dayNumb = int.parse(day.dayNumber);
+    DateTime today = DateTime.now();
+    DateUtil util = DateUtil();
+    String monthToday = util.month(today.month);
+    if((dayNumb == today.day)&&(monthToday == day.month)){
+      return Colors.green;
+    } return Colors.black;
   }
 
 }
