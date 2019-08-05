@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:localstorage/localstorage.dart';
 import 'package:test_driving/models/transaction.dart';
 import 'package:test_driving/widgets/credit_button.dart';
 import 'package:test_driving/widgets/reoccurring_button.dart';
@@ -11,7 +10,6 @@ class TransactionScreen extends StatelessWidget {
   Day day;
 
   TransactionScreen(this.transaction, this.day);
-  LocalStorage storage = new LocalStorage('transaction');
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +43,8 @@ class TransactionScreen extends StatelessWidget {
     return Container(
         padding: EdgeInsets.all(30),
         child:CupertinoTextField(
-          cursorColor: Colors.green,
+            style: TextStyle(color: Colors.greenAccent),
+            cursorColor: Colors.green,
             placeholder: ' Description',
             key: Key('descriptionInput'),
             onChanged: (input) => transaction.setDescription(input)));
@@ -55,6 +54,7 @@ class TransactionScreen extends StatelessWidget {
     return Container(
         padding: EdgeInsets.all(30),
         child: CupertinoTextField(
+            style: TextStyle(color: Colors.greenAccent),
             cursorColor: Colors.green,
             prefix: Text(' \$', style: TextStyle(color: Colors.green),),
             keyboardType: TextInputType.numberWithOptions(),

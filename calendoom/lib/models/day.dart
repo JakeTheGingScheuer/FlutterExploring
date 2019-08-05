@@ -58,9 +58,9 @@ class Day extends ChangeNotifier {
 
     Map<String, dynamic> transactionMap = new Map();
     for(int i = 0; i<transactions.length; i++){
-      String transNumber = i.toString();
+      transactions[i].setTransNumber(i);
       Map<String,dynamic> transactionJson = transactions[i].toJson();
-      transactionMap[transNumber] = transactionJson;
+      transactionMap[transactions[i].transNumber] = transactionJson;
     }
     map['transactions'] = transactionMap;
 
@@ -86,5 +86,8 @@ class Day extends ChangeNotifier {
           Transaction.fromJson(transactionsJson[transactionKey]));
     }
     transactions = transactionList;
+  }
+  void save(){
+
   }
 }

@@ -15,17 +15,14 @@ class MonthScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Calendar calendar = Provider.of<Calendar>(context);
+    autoSave(calendar);
       return Scaffold(
         backgroundColor: Colors.black,
         appBar: CupertinoNavigationBar(
           middle: Text('Month Screen',
               style: TextStyle(color: Colors.green)),
               actionsForegroundColor: Colors.green,
-              backgroundColor: Colors.black,
-          leading: IconButton(
-            color: Colors.green,
-              icon: Icon(Icons.save),
-              onPressed:()=> save(calendar))),
+              backgroundColor: Colors.black),
         body: Column(
           children: <Widget>[
             SizedBox(height: 15),
@@ -46,13 +43,13 @@ class MonthScreen extends StatelessWidget {
     );
   }
 
-  save(Calendar calendar){
+  autoSave(Calendar calendar){
     storage.setItem('calendar', calendar.toJson());
   }
 
   Container monthTile(Calendar calendar, int index, BuildContext context) {
     Month month = calendar.months[index];
-    DayTileListBuilder buildList = DayTileListBuilder(month);
+    DayTileListBuilder buildList = DayTileListBuilder(month, storage);
 
     return Container(
       padding: EdgeInsets.all(12),

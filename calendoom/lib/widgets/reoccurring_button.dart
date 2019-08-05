@@ -20,7 +20,7 @@ class ReoccurringButtonState extends State<ReoccurringButton> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              Container(child: Text('Reoccuring Payment',style: TextStyle(fontSize: 16, color: Colors.green))),
+              Container(child: Text('Reoccuring Payment',style: TextStyle(fontSize: 16, color: Colors.greenAccent))),
               CupertinoSwitch(
                 activeColor: Colors.green,
                   key: Key('reoccuring'),

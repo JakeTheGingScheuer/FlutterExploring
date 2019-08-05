@@ -4,11 +4,12 @@ import 'day_tile.dart';
 
 class DayTileListBuilder{
 
+  LocalStorage storage;
   Month month;
   List<BlankTile> dayTilesForThisMonth = List<BlankTile>();
   int firstWeekdayOfTheMonth;
 
-  DayTileListBuilder(this.month){
+  DayTileListBuilder(this.month, this.storage){
 
     firstWeekdayOfTheMonth = month.days[0].weekdayNumber;
 

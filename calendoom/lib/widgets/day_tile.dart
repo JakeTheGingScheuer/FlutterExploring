@@ -1,13 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:localstorage/localstorage.dart';
 import 'package:test_driving/models/day.dart';
 import 'package:test_driving/screens/day_screen.dart';
 
 class DayTile extends BlankTile {
 
   Day day;
-
   DayTile(this.day);
 
   @override

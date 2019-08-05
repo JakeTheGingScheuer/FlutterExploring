@@ -53,20 +53,26 @@ class DayScreenState extends State<DayScreen>{
     List<Container> tiles = List<Container>();
 
     day.transactions.forEach((trans) =>
-        tiles.add(transactionTile(trans.description, trans.value)));
+        tiles.add(transactionTile(trans)));
     return ListView(
       children: tiles
     );
   }
 
-  Container transactionTile(String description, double value){
+  Container transactionTile(Transaction trans){
     return Container(
       decoration: BoxDecoration(border: Border.all(color: Colors.green), borderRadius: BorderRadius.all(Radius.circular(10))),
       child: ListTile(
         contentPadding: EdgeInsets.all(5),
-        title: Container(child: Text(description,style: TextStyle(color: Colors.white70))),
-        trailing: Container(child: Text(value.toStringAsFixed(2), style: TextStyle(color: Colors.green))),
+        leading: CupertinoButton(child: Icon(CupertinoIcons.delete_solid, color: Colors.red), onPressed: ()=> delete(trans)),
+        title: Container(child: Text(trans.description,style: TextStyle(color: Colors.white70, fontSize: 18))),
+        trailing: Container(child: Text(trans.value.toStringAsFixed(2), style: TextStyle(color: Colors.greenAccent, fontSize: 18))),
       ),
     );
+  }
+
+  delete(Transaction trans){
+    day.deleteTransaction(trans);
+    setState(() {});
   }
 }
