@@ -8,6 +8,7 @@ class DayTileListBuilder{
   Month month;
   List<BlankTile> dayTilesForThisMonth = List<BlankTile>();
   int firstWeekdayOfTheMonth;
+  double endOfMonthBalance = 0;
 
   DayTileListBuilder(this.month, this.storage){
 
@@ -16,9 +17,10 @@ class DayTileListBuilder{
     addBlankTiles();
 
     month.days.forEach((day) => dayTilesForThisMonth.add(
-        DayTile(day)
+        DayTile(day, month.getRunningBalance(int.parse(day.dayNumber)))
     ));
   }
+
 
   void addBlankTiles(){
     if(isNotSunday(firstWeekdayOfTheMonth)){

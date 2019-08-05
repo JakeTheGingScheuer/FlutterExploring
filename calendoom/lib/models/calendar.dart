@@ -1,15 +1,17 @@
+import 'package:date_util/date_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'month.dart';
 
 class Calendar extends ChangeNotifier {
   List<Month> months;
 
-  Calendar() { months = makeCalendarModel(); }
+  Calendar() {
+    months = makeCalendarModel();
+  }
 
   List<Month> makeCalendarModel(){
     List<Month> monthsBuilding = new List<Month>();
     DateTime date = DateTime.now();
-
     if(date.month == 1) {
       monthsBuilding.add(Month(date.year - 1, 12));
     }else{
@@ -49,13 +51,25 @@ class Calendar extends ChangeNotifier {
   Calendar.fromJson(Map<String, dynamic> json){
     List<Month> monthList = new List<Month>();
     Map<String, dynamic> monthsJson = json['months'];
-
     List<String> monthKeys = monthsJson.keys.toList();
+    DateTime loadingDate = DateTime.now();
 
-    for(int i =0; i < monthsJson.length; i++){
-      monthList.add(Month.fromJson(monthsJson[monthKeys[i]]));
+    bool toDate = false;
+    for (int i = 0; i < monthsJson.length; i++) {
+      Month monthFromJson = Month.fromJson(monthsJson[monthKeys[i]]);
+      if (toDate) {
+        monthList.add(monthFromJson);
+      }
+      if(loadingDate.month-1 == monthFromJson.monthNumber) {
+        toDate = true;
+        monthList.add(monthFromJson);
+      }
     }
     months = monthList;
+    if(months.length < monthsJson.length){
+      DateTime endingDate = loadingDate.add(Duration(days: 400));
+      monthList.add(Month(endingDate.year, endingDate.month));
+    }
     calculateBalance();
   }
 }

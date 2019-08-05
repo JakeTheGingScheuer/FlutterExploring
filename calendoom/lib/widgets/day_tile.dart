@@ -6,7 +6,9 @@ import 'package:test_driving/screens/day_screen.dart';
 class DayTile extends BlankTile {
 
   Day day;
-  DayTile(this.day);
+  double runningBalance;
+  DayTile(this.day, this.runningBalance);
+
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,7 @@ class DayTile extends BlankTile {
                     SingleChildScrollView(
                       child: Container(
                           child: Text(
-                            '\$'+day.balance.toStringAsFixed(0),
+                            '\$'+runningBalance.toStringAsFixed(0),
                             style: TextStyle(fontSize: 10, color: Colors.greenAccent),
                       )),
                     )

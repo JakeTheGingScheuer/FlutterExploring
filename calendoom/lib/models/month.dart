@@ -8,11 +8,14 @@ class Month extends ChangeNotifier{
   DateUtil dateUtil = DateUtil();
   String monthName;
   String year;
+  double endOfMonthBalance = 0;
+  int monthNumber;
 
   Month(int thisYear, int monthNumber) {
     DateTime firstDayOfTheMonth = DateTime(thisYear, monthNumber);
     year = thisYear.toString();
     monthName = dateUtil.month(monthNumber);
+    this.monthNumber = monthNumber;
 
     for(int i = 0; i< daysInMonth(thisYear, monthNumber); i++){
       DateTime time = firstDayOfTheMonth.add(new Duration(days: i));
@@ -25,6 +28,7 @@ class Month extends ChangeNotifier{
     Map<String, dynamic> map = new Map();
     map['monthName'] = monthName;
     map['year'] = year;
+    map['monthNumber'] = monthNumber;
 
     Map<String, dynamic> daysMap = new Map();
     for(int i = 0; i<days.length; i++){
@@ -44,6 +48,7 @@ class Month extends ChangeNotifier{
   Month.fromJson(Map<String, dynamic> json){
     monthName = json['monthName'];
     year = json['year'];
+    monthNumber = json['monthNumber'];
 
     List<Day> dayList = new List<Day>();
     Map<String, dynamic> daysJson = json['days'];
@@ -55,5 +60,17 @@ class Month extends ChangeNotifier{
       dayList.add(day);
     }
     days = dayList;
+    getRunningBalance(days.length);
   }
+
+  double getRunningBalance(int dayNumber){
+      double balance = 0;
+      for(int i = 0; i<dayNumber; i++){
+        balance += days[i].balance;
+        if(i+1 == dayNumber){
+          endOfMonthBalance = balance;
+        }
+      }
+      return balance;
+    }
 }
