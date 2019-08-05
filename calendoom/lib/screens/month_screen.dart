@@ -19,13 +19,11 @@ class MonthScreen extends StatelessWidget {
       return Scaffold(
         backgroundColor: Colors.black,
         appBar: CupertinoNavigationBar(
-          middle: Text('Month Screen',
-              style: TextStyle(color: Colors.green)),
               actionsForegroundColor: Colors.green,
               backgroundColor: Colors.black),
         body: Column(
           children: <Widget>[
-            SizedBox(height: 15),
+            SizedBox(height: 80),
             Container(
               key: Key('CalendarView'),
                 height: 500,

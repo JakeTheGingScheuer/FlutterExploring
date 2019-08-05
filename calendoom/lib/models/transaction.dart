@@ -12,7 +12,6 @@ class Transaction extends ChangeNotifier{
 
   void setDescription(String input){
     description = input;
-    notifyListeners();
   }
 
   void setAmount(double input) {
@@ -22,7 +21,6 @@ class Transaction extends ChangeNotifier{
     else{
       value = (input * -1);
     }
-    notifyListeners();
   }
 
   void setIsCredit(bool input) {
@@ -30,12 +28,10 @@ class Transaction extends ChangeNotifier{
     if((value < 0) && isCredit){
       value *= -1;
     }
-    notifyListeners();
   }
 
   void setIsReoccurring(bool input) {
     isReoccurring = input;
-    notifyListeners();
   }
 
   void setTransNumber(int number){

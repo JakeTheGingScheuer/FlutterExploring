@@ -18,7 +18,6 @@ class DayScreenState extends State<DayScreen>{
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: CupertinoNavigationBar(middle:Text(day.dayTitle(),style: TextStyle(color: Colors.green),), actionsForegroundColor: Colors.green, backgroundColor: Colors.black),
@@ -73,6 +72,7 @@ class DayScreenState extends State<DayScreen>{
 
   delete(Transaction trans){
     day.deleteTransaction(trans);
+    day.calculateBalance();
     setState(() {});
   }
 }

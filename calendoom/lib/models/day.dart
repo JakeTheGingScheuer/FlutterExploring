@@ -24,6 +24,8 @@ class Day extends ChangeNotifier {
 
   void calculateBalance() {
     int i = 0;
+    credits = 0;
+    debits = 0;
     while(transactions.length>i){
       if(transactions[i].isCredit){
         credits += transactions[i].value;
@@ -38,13 +40,11 @@ class Day extends ChangeNotifier {
 
   void addTransaction(Transaction transaction) {
     transactions.add(transaction);
-    calculateBalance();
     notifyListeners();
   }
 
   void deleteTransaction(Transaction transaction) {
     transactions.remove(transaction);
-    calculateBalance();
     notifyListeners();
   }
 
@@ -86,8 +86,6 @@ class Day extends ChangeNotifier {
           Transaction.fromJson(transactionsJson[transactionKey]));
     }
     transactions = transactionList;
-  }
-  void save(){
-
+    calculateBalance();
   }
 }
