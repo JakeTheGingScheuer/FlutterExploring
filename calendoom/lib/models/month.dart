@@ -4,74 +4,68 @@ import 'package:quiver/time.dart';
 import 'day.dart';
 
 class Month extends ChangeNotifier{
-  List<Day> days = List<Day>();
-  DateUtil dateUtil = DateUtil();
   String monthName;
-  String year;
-  double beginningMonthBalance;
-  double endOfMonthBalance = 0;
   int monthNumber;
+  String year;
+  List<Day> days;
 
-  Month(int thisYear, int monthNumber, {this.beginningMonthBalance}) {
-    DateTime firstDayOfTheMonth = DateTime(thisYear, monthNumber);
-    year = thisYear.toString();
-    monthName = dateUtil.month(monthNumber);
+  DateUtil dateUtil = DateUtil();
+  double endOfMonthBalance = 0;
+
+  Month(int year, int monthNumber) {
+    this.days = new List<Day>();
+    this.year = year.toString();
+    this.monthName = dateUtil.month(monthNumber);
     this.monthNumber = monthNumber;
+    DateTime firstDayOfTheMonth = DateTime(year, monthNumber);
 
-    for(int i = 0; i< daysInMonth(thisYear, monthNumber); i++){
+    for(int i = 0; i< daysInMonth(year, monthNumber); i++){
       DateTime time = firstDayOfTheMonth.add(new Duration(days: i));
       days.add(Day(time.month, time.day, time.weekday));
     }
   }
 
-  Map<String,dynamic> toJson() {
-
-    Map<String, dynamic> map = new Map();
-    map['monthName'] = monthName;
-    map['year'] = year;
-    map['monthNumber'] = monthNumber;
-
-    Map<String, dynamic> daysMap = new Map();
-    for(int i = 0; i<days.length; i++){
-      String dayKey = days[i].dayTitle();
-      Map<String,dynamic> dayJson = days[i].toJson();
-      daysMap[dayKey] = dayJson;
+  double getRunningBalance(int dayNumber){
+    double balance = 0;
+    for(int i = 0; i<dayNumber; i++){
+      balance += days[i].balance;
+      if(i+1 == dayNumber){
+        endOfMonthBalance = balance;
+      }
     }
-    map['days'] = daysMap;
-
-    return map;
+    return balance;
   }
 
   String monthKey(){
     return monthName+' '+year;
   }
 
+  Map<String,dynamic> toJson() {
+
+    Map<String, dynamic> monthJson = new Map();
+    Map<String, dynamic> daysMap = new Map();
+    monthJson['monthName'] = monthName;
+    monthJson['year'] = year;
+    monthJson['monthNumber'] = monthNumber;
+
+    days.forEach((day)=> daysMap[day.dayKey()] = day.toJson());
+
+    monthJson['days'] = daysMap;
+
+    return monthJson;
+  }
+
+
   Month.fromJson(Map<String, dynamic> json){
+    days = new List<Day>();
     monthName = json['monthName'];
     year = json['year'];
     monthNumber = json['monthNumber'];
 
-    List<Day> dayList = new List<Day>();
     Map<String, dynamic> daysJson = json['days'];
 
-    List<String> dayKeys = daysJson.keys.toList();
+    daysJson.values.forEach((day) => days.add(Day.fromJson(day)));
 
-    for(int i =0; i<daysJson.length; i++){
-      Day day = Day.fromJson(daysJson[dayKeys[i]]);
-      dayList.add(day);
-    }
-    days = dayList;
     getRunningBalance(days.length);
   }
-
-  double getRunningBalance(int dayNumber){
-      double balance = 0;
-      for(int i = 0; i<dayNumber; i++){
-        balance += days[i].balance;
-        if(i+1 == dayNumber){
-          endOfMonthBalance = balance;
-        }
-      }
-      return balance;
-    }
 }

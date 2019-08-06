@@ -50,24 +50,24 @@ class Day extends ChangeNotifier {
 
 
   Map<String,dynamic> toJson() {
-    Map<String, dynamic> map = new Map();
-    map['month'] = month;
-    map['dayNumber'] = dayNumber;
-    map['weekdayNumber'] = weekdayNumber;
-    map['weekday'] = weekday;
+    Map<String, dynamic> dayJson = new Map();
+    dayJson['month'] = month;
+    dayJson['dayNumber'] = dayNumber;
+    dayJson['weekdayNumber'] = weekdayNumber;
+    dayJson['weekday'] = weekday;
 
     Map<String, dynamic> transactionMap = new Map();
-    for(int i = 0; i<transactions.length; i++){
-      transactions[i].setTransNumber(i);
-      Map<String,dynamic> transactionJson = transactions[i].toJson();
-      transactionMap[transactions[i].transNumber] = transactionJson;
-    }
-    map['transactions'] = transactionMap;
 
-    return map;
+    for(int i = 0; i<transactions.length; i++){
+      transactions[i].setTransKey(i);
+      transactionMap[transactions[i].transKey] = transactions[i].toJson();
+    }
+    dayJson['transactions'] = transactionMap;
+
+    return dayJson;
   }
 
-  String dayTitle(){
+  String dayKey(){
     return weekday+' '+month+' '+dayNumber;
   }
 

@@ -6,7 +6,7 @@ class Transaction extends ChangeNotifier{
   String description = 'description here';
   bool isCredit = false;
   bool isReoccurring = false;
-  String transNumber = '0';
+  String transKey = '0';
 
   Transaction();
 
@@ -34,8 +34,8 @@ class Transaction extends ChangeNotifier{
     isReoccurring = input;
   }
 
-  void setTransNumber(int number){
-    transNumber = number.toString();
+  void setTransKey(int number){
+    transKey = number.toString();
   }
 
   Map<String, dynamic> toJson() {

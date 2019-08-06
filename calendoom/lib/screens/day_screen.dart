@@ -20,7 +20,7 @@ class DayScreenState extends State<DayScreen>{
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      appBar: CupertinoNavigationBar(middle:Text(day.dayTitle(),style: TextStyle(color: Colors.green),), actionsForegroundColor: Colors.green, backgroundColor: Colors.black),
+      appBar: CupertinoNavigationBar(middle:Text(day.dayKey(),style: TextStyle(color: Colors.green),), actionsForegroundColor: Colors.green, backgroundColor: Colors.black),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
