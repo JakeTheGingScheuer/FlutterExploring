@@ -1,20 +1,19 @@
 import 'package:flutter/cupertino.dart';
 
-
 class Transaction extends ChangeNotifier{
   double value = 0.00;
-  String description = 'description here';
+  String description = 'No Description';
   bool isCredit = false;
   bool isReoccurring = false;
   String transKey = '0';
 
   Transaction();
 
-  void setDescription(String input){
+  setDescription(String input){
     description = input;
   }
 
-  void setAmount(double input) {
+  setAmount(double input) {
     if(isCredit){
       value = input;
     }
@@ -23,18 +22,18 @@ class Transaction extends ChangeNotifier{
     }
   }
 
-  void setIsCredit(bool input) {
+  setIsCredit(bool input) {
     isCredit = input;
     if((value < 0) && isCredit){
       value *= -1;
     }
   }
 
-  void setIsReoccurring(bool input) {
+  setIsReoccurring(bool input) {
     isReoccurring = input;
   }
 
-  void setTransKey(int number){
+  setTransKey(int number){
     transKey = number.toString();
   }
 
