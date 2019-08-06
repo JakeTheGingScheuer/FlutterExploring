@@ -3,71 +3,78 @@ import 'month.dart';
 
 class Calendar extends ChangeNotifier {
   List<Month> months;
+  final int monthsDisplayed = 13;
+  final int monthsInAYear = 12;
+  DateTime creationDate;
 
   Calendar() {
-    months = makeCalendarModel();
+    makeCalendarModel();
   }
 
-  List<Month> makeCalendarModel(){
-    List<Month> monthsBuilding = new List<Month>();
-    DateTime date = DateTime.now();
-    if(date.month == 1) {
-      monthsBuilding.add(Month(date.year - 1, 12));
-    }else{
-      monthsBuilding.add(Month(date.year, date.month - 1));
-    }
+  makeCalendarModel(){
+    months = new List<Month>();
+    creationDate = DateTime.now();
+    checkIfJanuary();
 
-    for(int i = 0; i<13; i++){
-      if((date.month+i) > 12){
-        monthsBuilding.add(Month(date.year+1, date.month+i-12));
+    for(int i = 0; i < monthsDisplayed; i++){
+      int currentMonth = creationDate.month+i;
+      if(currentMonth > monthsInAYear){
+        months.add(Month(creationDate.year+1, currentMonth-monthsInAYear));
       }else {
-        monthsBuilding.add(Month(date.year, date.month + i));
+        months.add(Month(creationDate.year, currentMonth));
       }
     }
-    return monthsBuilding;
   }
 
-  Map<String,dynamic> toJson() {
-
-    Map<String, dynamic> map = new Map();
-
-    Map<String, dynamic> monthsMap = new Map();
-    for(int i = 0; i < months.length; i++){
-      String monthKey = months[i].monthKey();
-      Map<String,dynamic> monthJson = months[i].toJson();
-      monthsMap[monthKey] = monthJson;
+  checkIfJanuary(){
+    if(creationDate.month == 1) {
+      months.add(Month(creationDate.year - 1, 12));
+    }else{
+      months.add(Month(creationDate.year, creationDate.month - 1));
     }
-    map['months'] = monthsMap;
-
-    return map;
   }
 
-  void calculateBalance(){
+  calculateBalance(){
     months.forEach((month)=> month.days.forEach((day)=> day.calculateBalance()));
     notifyListeners();
   }
+  
+
+  Map<String,dynamic> toJson() {
+
+    Map<String, dynamic> calendarJson = new Map();
+    Map<String, dynamic> monthsMap = new Map();
+
+    months.forEach((month) => monthsMap[month.monthKey()] = month.toJson());
+
+    calendarJson['months'] = monthsMap;
+
+    return calendarJson;
+  }
+
 
   Calendar.fromJson(Map<String, dynamic> json){
-    List<Month> monthList = new List<Month>();
+    months = new List<Month>();
+    creationDate = DateTime.now();
     Map<String, dynamic> monthsJson = json['months'];
     List<String> monthKeys = monthsJson.keys.toList();
-    DateTime loadingDate = DateTime.now();
+    int totalMonthsSaved = monthsJson.length;
 
-    bool toDate = false;
-    for (int i = 0; i < monthsJson.length; i++) {
-      Month monthFromJson = Month.fromJson(monthsJson[monthKeys[i]]);
-      if (toDate) {
-        monthList.add(monthFromJson);
+    bool upToDate = false;
+    for (int i = 0; i < totalMonthsSaved; i++) {
+      Month monthOnFile = Month.fromJson(monthsJson[monthKeys[i]]);
+
+      if(creationDate.month-1 == monthOnFile.monthNumber) {
+        upToDate = true;
       }
-      if(loadingDate.month-1 == monthFromJson.monthNumber) {
-        toDate = true;
-        monthList.add(monthFromJson);
+      if (upToDate) {
+        months.add(monthOnFile);
       }
     }
-    months = monthList;
-    if(months.length < monthsJson.length){
-      DateTime endingDate = loadingDate.add(Duration(days: 400));
-      monthList.add(Month(endingDate.year, endingDate.month));
+
+    if(months.length < totalMonthsSaved){
+      DateTime endingDate = creationDate.add(Duration(days: 400));
+      months.add(Month(endingDate.year, endingDate.month));
     }
     calculateBalance();
   }
