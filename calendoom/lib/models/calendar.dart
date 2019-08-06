@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'day.dart';
 import 'month.dart';
 
 class Calendar extends ChangeNotifier {
@@ -6,6 +7,7 @@ class Calendar extends ChangeNotifier {
   final int monthsDisplayed = 13;
   final int monthsInAYear = 12;
   DateTime creationDate;
+  List<double> endOfMonthBalances;
 
   Calendar() {
     makeCalendarModel();
@@ -35,8 +37,20 @@ class Calendar extends ChangeNotifier {
   }
 
   calculateBalance(){
-    months.forEach((month)=> month.days.forEach((day)=> day.calculateBalance()));
+    months.forEach((month) => month.days.forEach((day) => day.calculateBalance()));
+    setEndOfMonthBalances();
+    for(int i = 1; i < months.length; i++){
+      months[i].setBeginningBalance(endOfMonthBalances[i-1]);
+      setEndOfMonthBalances();
+      months[i].days.forEach((day) => day.calculateBalance());
+    }
     notifyListeners();
+  }
+
+  setEndOfMonthBalances(){
+    endOfMonthBalances = new List<double>();
+    months.forEach((month) => month.setEndOfMonthBalance());
+    months.forEach((month) => endOfMonthBalances.add(month.endOfMonthBalance));
   }
   
 

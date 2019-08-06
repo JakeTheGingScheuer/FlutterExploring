@@ -10,7 +10,8 @@ class Month extends ChangeNotifier{
   List<Day> days;
 
   DateUtil dateUtil = DateUtil();
-  double endOfMonthBalance = 0;
+  double endOfMonthBalance = 0.00;
+  double beginningMonthBalance = 0.00;
 
   Month(int year, int monthNumber) {
     this.days = new List<Day>();
@@ -25,20 +26,32 @@ class Month extends ChangeNotifier{
     }
   }
 
+  setBeginningBalance(double value) {
+    this.beginningMonthBalance = value;
+  }
+
   double getRunningBalance(int dayNumber){
-    double balance = 0;
-    for(int i = 0; i<dayNumber; i++){
+    double balance = beginningMonthBalance;
+    for(int i = 0; i < dayNumber; i++){
       balance += days[i].balance;
-      if(i+1 == dayNumber){
-        endOfMonthBalance = balance;
-      }
     }
     return balance;
+  }
+
+  setEndOfMonthBalance(){
+    double balance = beginningMonthBalance;
+    days.forEach((day)=> balance += day.balance);
+    this.endOfMonthBalance = balance;
   }
 
   String monthKey(){
     return monthName+' '+year;
   }
+
+
+
+
+
 
   Map<String,dynamic> toJson() {
 
@@ -54,7 +67,6 @@ class Month extends ChangeNotifier{
 
     return monthJson;
   }
-
 
   Month.fromJson(Map<String, dynamic> json){
     days = new List<Day>();
