@@ -44,7 +44,6 @@ class Calendar extends ChangeNotifier {
       setEndOfMonthBalances();
       months[i].days.forEach((day) => day.calculateBalance());
     }
-    notifyListeners();
   }
 
   setEndOfMonthBalances(){
