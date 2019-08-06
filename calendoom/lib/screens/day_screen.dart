@@ -43,7 +43,7 @@ class DayScreenState extends State<DayScreen>{
   }
 
   addNewTransaction(Day day, BuildContext context) {
-    Transaction transaction = Transaction();
+    Transaction transaction = Transaction(int.parse(day.dayNumber));
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => TransactionScreen(transaction, day)));
   }
@@ -72,7 +72,6 @@ class DayScreenState extends State<DayScreen>{
 
   delete(Transaction trans){
     day.deleteTransaction(trans);
-    day.calculateBalance();
     setState(() {});
   }
 }

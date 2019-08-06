@@ -66,7 +66,6 @@ class TransactionScreen extends StatelessWidget {
 
   addTransactionButton(Transaction transaction, Day day, BuildContext context) {
     day.addTransaction(transaction);
-    day.calculateBalance();
     Navigator.pop(context);
   }
 }

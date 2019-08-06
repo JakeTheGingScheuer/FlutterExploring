@@ -31,7 +31,6 @@ class Day extends ChangeNotifier {
     transactions.forEach((trans) => addToLedger(trans));
 
     balance = credits + debits;
-    notifyListeners();
   }
 
   addToLedger(Transaction transaction){
@@ -40,16 +39,15 @@ class Day extends ChangeNotifier {
     } else {
       debits += transaction.value;
     }
+    notifyListeners();
   }
 
   addTransaction(Transaction transaction) {
     transactions.add(transaction);
-    notifyListeners();
   }
 
   deleteTransaction(Transaction transaction) {
     transactions.remove(transaction);
-    notifyListeners();
   }
 
 
@@ -88,6 +86,5 @@ class Day extends ChangeNotifier {
       String transactionKey = i.toString();
       transactions.add(Transaction.fromJson(transactionsJson[transactionKey]));
     }
-    calculateBalance();
   }
 }

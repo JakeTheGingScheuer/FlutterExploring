@@ -6,8 +6,9 @@ class Transaction extends ChangeNotifier{
   bool isCredit = false;
   bool isReoccurring = false;
   String transKey = '0';
+  int dayNumber;
 
-  Transaction();
+  Transaction(this.dayNumber);
 
   setDescription(String input){
     description = input;

@@ -1,4 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:test_driving/models/transaction.dart';
 import 'day.dart';
 import 'month.dart';
 
@@ -8,6 +10,7 @@ class Calendar extends ChangeNotifier {
   final int monthsInAYear = 12;
   DateTime creationDate;
   List<double> endOfMonthBalances;
+  List<Transaction> reoccurringPayments;
 
   Calendar() {
     makeCalendarModel();
@@ -37,6 +40,7 @@ class Calendar extends ChangeNotifier {
   }
 
   calculateBalance(){
+    addReoccurringPayments();
     months.forEach((month) => month.days.forEach((day) => day.calculateBalance()));
     setEndOfMonthBalances();
     for(int i = 1; i < months.length; i++){
@@ -51,7 +55,39 @@ class Calendar extends ChangeNotifier {
     months.forEach((month) => month.setEndOfMonthBalance());
     months.forEach((month) => endOfMonthBalances.add(month.endOfMonthBalance));
   }
-  
+
+
+  addReoccurringPayments(){
+    getAllReoccurringPayments();
+    searchEachDayOfEachMonth();
+  }
+
+  getAllReoccurringPayments(){
+    reoccurringPayments =  new List<Transaction>();
+    months.forEach((month)=> month.days.forEach((day)=>
+        day.transactions.forEach((trans)=> verifyReoccurringTrans(trans)
+    )));
+  }
+
+  verifyReoccurringTrans(Transaction trans){
+    if(trans.isReoccurring){
+      reoccurringPayments.add(trans);
+    }
+  }
+
+  searchEachDayOfEachMonth(){
+    months.forEach((month)=> month.days.forEach((day)=> checkDay(day)));
+  }
+
+  checkDay(Day day){
+    reoccurringPayments.forEach((trans)=> checkDayNumber(trans, day));
+  }
+
+  checkDayNumber(Transaction trans, Day day){
+    if(trans.dayNumber == int.parse(day.dayNumber)){
+      day.addTransaction(trans);
+    }
+  }
 
   Map<String,dynamic> toJson() {
 
@@ -64,7 +100,6 @@ class Calendar extends ChangeNotifier {
 
     return calendarJson;
   }
-
 
   Calendar.fromJson(Map<String, dynamic> json){
     months = new List<Month>();
