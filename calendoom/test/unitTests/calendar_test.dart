@@ -32,7 +32,7 @@ void main() {
       Calendar fakeCalendar = Calendar();
       Month fakeMonth = fakeCalendar.months[1];
       Day fakeDay = fakeMonth.days[1];
-      Transaction fakeTrans = Transaction();
+      Transaction fakeTrans = Transaction(int.parse(fakeDay.dayNumber), fakeDay.monthNumber);
 
       fakeTrans.setDescription('fake');
       fakeTrans.setAmount(20.00);

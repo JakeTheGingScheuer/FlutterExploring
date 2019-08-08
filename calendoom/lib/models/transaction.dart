@@ -7,8 +7,9 @@ class Transaction extends ChangeNotifier{
   bool isReoccurring = false;
   String transKey = '0';
   int dayNumber;
+  int monthNumber;
 
-  Transaction(this.dayNumber);
+  Transaction(this.dayNumber, this.monthNumber);
 
   setDescription(String input){
     description = input;

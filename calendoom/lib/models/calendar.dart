@@ -39,6 +39,15 @@ class Calendar extends ChangeNotifier {
     }
   }
 
+
+
+
+
+
+
+
+
+
   calculateBalance(){
     addReoccurringPayments();
     months.forEach((month) => month.days.forEach((day) => day.calculateBalance()));
@@ -50,13 +59,6 @@ class Calendar extends ChangeNotifier {
     }
   }
 
-  setEndOfMonthBalances(){
-    endOfMonthBalances = new List<double>();
-    months.forEach((month) => month.setEndOfMonthBalance());
-    months.forEach((month) => endOfMonthBalances.add(month.endOfMonthBalance));
-  }
-
-
   addReoccurringPayments(){
     getAllReoccurringPayments();
     searchEachDayOfEachMonth();
@@ -66,28 +68,62 @@ class Calendar extends ChangeNotifier {
     reoccurringPayments =  new List<Transaction>();
     months.forEach((month)=> month.days.forEach((day)=>
         day.transactions.forEach((trans)=> verifyReoccurringTrans(trans)
-    )));
+        )));
   }
 
   verifyReoccurringTrans(Transaction trans){
     if(trans.isReoccurring){
+      trans.setIsReoccurring(false);
       reoccurringPayments.add(trans);
     }
   }
+
+
+
+
+
+
 
   searchEachDayOfEachMonth(){
     months.forEach((month)=> month.days.forEach((day)=> checkDay(day)));
   }
 
   checkDay(Day day){
-    reoccurringPayments.forEach((trans)=> checkDayNumber(trans, day));
+    reoccurringPayments.forEach((trans)=> checkDateOfTransaction(trans, day));
   }
 
-  checkDayNumber(Transaction trans, Day day){
-    if(trans.dayNumber == int.parse(day.dayNumber)){
-      day.addTransaction(trans);
+//  bool checkMonth(int monthChecking, int monthOfTransaction){
+//    if(monthChecking >= monthOfTransaction){
+//      return true;
+//    }
+//    if()
+//  }
+
+  checkDateOfTransaction(Transaction trans, Day day){
+    if(day.monthNumber >= trans.monthNumber+1){
+      if(trans.dayNumber == int.parse(day.dayNumber)){
+        day.addTransaction(trans);
+      }
     }
   }
+
+  setEndOfMonthBalances(){
+    endOfMonthBalances = new List<double>();
+    months.forEach((month) => month.setEndOfMonthBalance());
+    months.forEach((month) => endOfMonthBalances.add(month.endOfMonthBalance));
+  }
+
+
+
+
+
+
+
+
+
+
+
+
 
   Map<String,dynamic> toJson() {
 

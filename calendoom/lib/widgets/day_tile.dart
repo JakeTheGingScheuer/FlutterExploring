@@ -42,7 +42,7 @@ class DayTile extends BlankTile {
     DateTime today = DateTime.now();
     DateUtil util = DateUtil();
     String monthToday = util.month(today.month);
-    if((dayNumb == today.day)&&(monthToday == day.month)){
+    if((dayNumb == today.day)&&(monthToday == day.monthName)){
       return Colors.green;
     } return Colors.black;
   }

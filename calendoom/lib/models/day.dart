@@ -5,7 +5,8 @@ import 'package:test_driving/models/transaction.dart';
 class Day extends ChangeNotifier {
   DateUtil date = DateUtil();
 
-  String month;
+  int monthNumber;
+  String monthName;
   String dayNumber;
   String weekday;
   int weekdayNumber;
@@ -18,7 +19,8 @@ class Day extends ChangeNotifier {
 
   Day(int monthNum, int dayNum, int weekdayNumber) {
     this.weekdayNumber = weekdayNumber;
-    this.month = date.month(monthNum);
+    this.monthNumber = monthNum;
+    this.monthName = date.month(monthNum);
     this.dayNumber = dayNum.toString();
     this.weekday = date.day(weekdayNumber + offset);
     this.transactions = List<Transaction>();
@@ -39,7 +41,6 @@ class Day extends ChangeNotifier {
     } else {
       debits += transaction.value;
     }
-    notifyListeners();
   }
 
   addTransaction(Transaction transaction) {
@@ -51,9 +52,11 @@ class Day extends ChangeNotifier {
   }
 
 
+
   Map<String,dynamic> toJson() {
     Map<String, dynamic> dayJson = new Map();
-    dayJson['month'] = month;
+    dayJson['monthName'] = monthName;
+    dayJson['monthNumber'] = monthNumber;
     dayJson['dayNumber'] = dayNumber;
     dayJson['weekdayNumber'] = weekdayNumber;
     dayJson['weekday'] = weekday;
@@ -70,11 +73,12 @@ class Day extends ChangeNotifier {
   }
 
   String dayKey(){
-    return weekday+' '+month+' '+dayNumber;
+    return weekday+' '+monthName+' '+dayNumber;
   }
 
   Day.fromJson(Map<String,dynamic> json){
-    month = json['month'];
+    monthName = json['monthName'];
+    monthNumber = json['monthNumber'];
     dayNumber = json['dayNumber'];
     weekdayNumber = json['weekdayNumber'];
     weekday = json['weekday'];

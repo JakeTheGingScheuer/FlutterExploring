@@ -16,7 +16,6 @@ class MonthScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Calendar calendar = Provider.of<Calendar>(context);
     calendar.calculateBalance();
-    print(calendar.reoccurringPayments.length.toString()+' reoccuring payments');
     autoSave(calendar);
       return Scaffold(
         backgroundColor: Colors.black,
