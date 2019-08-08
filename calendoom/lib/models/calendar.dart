@@ -1,61 +1,131 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:test_driving/models/transaction.dart';
+import 'day.dart';
 import 'month.dart';
 
 class Calendar extends ChangeNotifier {
   List<Month> months;
+  final int monthsDisplayed = 13;
+  final int monthsInAYear = 12;
+  DateTime creationDate;
+  List<double> endOfMonthBalances;
+  List<Transaction> reoccurringPayments;
 
-  Calendar() { months = makeCalendarModel(); }
+  Calendar() {
+    makeCalendarModel();
+  }
 
-  List<Month> makeCalendarModel(){
-    List<Month> monthsBuilding = new List<Month>();
-    DateTime date = DateTime.now();
+  makeCalendarModel(){
+    months = new List<Month>();
+    creationDate = DateTime.now();
+    checkIfJanuary();
 
-    if(date.month == 1) {
-      monthsBuilding.add(Month(date.year - 1, 12));
-    }else{
-      monthsBuilding.add(Month(date.year, date.month - 1));
-    }
-
-    for(int i = 0; i<13; i++){
-      if((date.month+i) > 12){
-        monthsBuilding.add(Month(date.year+1, date.month+i-12));
+    for(int i = 0; i < monthsDisplayed; i++){
+      int currentMonth = creationDate.month+i;
+      if(currentMonth > monthsInAYear){
+        months.add(Month(creationDate.year+1, currentMonth-monthsInAYear));
       }else {
-        monthsBuilding.add(Month(date.year, date.month + i));
+        months.add(Month(creationDate.year, currentMonth));
       }
     }
-    return monthsBuilding;
+  }
+
+  checkIfJanuary(){
+    if(creationDate.month == 1) {
+      months.add(Month(creationDate.year - 1, 12));
+    }else{
+      months.add(Month(creationDate.year, creationDate.month - 1));
+    }
+  }
+
+  calculateBalance(){
+    addReoccurringPayments();
+    months.forEach((month) => month.days.forEach((day) => day.calculateBalance()));
+    setEndOfMonthBalances();
+    for(int i = 1; i < months.length; i++){
+      months[i].setBeginningBalance(endOfMonthBalances[i-1]);
+      setEndOfMonthBalances();
+      months[i].days.forEach((day) => day.calculateBalance());
+    }
+  }
+
+  addReoccurringPayments(){
+    getAllReoccurringPayments();
+    searchEachDayOfEachMonth();
+  }
+
+  getAllReoccurringPayments(){
+    reoccurringPayments =  new List<Transaction>();
+    months.forEach((month)=> month.days.forEach((day)=>
+        day.transactions.forEach((trans)=> verifyReoccurringTrans(trans)
+        )));
+  }
+
+  verifyReoccurringTrans(Transaction trans){
+    if(trans.isReoccurring){
+      trans.setIsReoccurring(false);
+      reoccurringPayments.add(trans);
+    }
+  }
+
+  searchEachDayOfEachMonth(){
+    months.forEach((month)=> month.days.forEach((day)=> checkReoccurringPayments(day)));
+  }
+
+  checkReoccurringPayments(Day calendar){
+    reoccurringPayments.forEach((payment)=> checkDateOfPayment(payment, calendar));
+  }
+
+  checkDateOfPayment(Transaction payment, Day calendar){
+    if(calendar.monthNumber > payment.monthNumber || calendar.year > payment.year){
+      if(calendar.dayNumber == payment.dayNumber){
+        calendar.addTransaction(payment);
+      }
+    }
+  }
+
+  setEndOfMonthBalances(){
+    endOfMonthBalances = new List<double>();
+    months.forEach((month) => month.setEndOfMonthBalance());
+    months.forEach((month) => endOfMonthBalances.add(month.endOfMonthBalance));
   }
 
   Map<String,dynamic> toJson() {
 
-    Map<String, dynamic> map = new Map();
-
+    Map<String, dynamic> calendarJson = new Map();
     Map<String, dynamic> monthsMap = new Map();
-    for(int i = 0; i < months.length; i++){
-      String monthKey = months[i].monthKey();
-      Map<String,dynamic> monthJson = months[i].toJson();
-      monthsMap[monthKey] = monthJson;
-    }
-    map['months'] = monthsMap;
 
-    return map;
-  }
+    months.forEach((month) => monthsMap[month.monthKey()] = month.toJson());
 
-  void calculateBalance(){
-    months.forEach((month)=> month.days.forEach((day)=> day.calculateBalance()));
-    notifyListeners();
+    calendarJson['months'] = monthsMap;
+
+    return calendarJson;
   }
 
   Calendar.fromJson(Map<String, dynamic> json){
-    List<Month> monthList = new List<Month>();
+    months = new List<Month>();
+    creationDate = DateTime.now();
     Map<String, dynamic> monthsJson = json['months'];
-
     List<String> monthKeys = monthsJson.keys.toList();
+    int totalMonthsSaved = monthsJson.length;
 
-    for(int i =0; i < monthsJson.length; i++){
-      monthList.add(Month.fromJson(monthsJson[monthKeys[i]]));
+    bool upToDate = false;
+    for (int i = 0; i < totalMonthsSaved; i++) {
+      Month monthOnFile = Month.fromJson(monthsJson[monthKeys[i]]);
+
+      if(creationDate.month-1 == monthOnFile.monthNumber) {
+        upToDate = true;
+      }
+      if (upToDate) {
+        months.add(monthOnFile);
+      }
     }
-    months = monthList;
+
+    if(months.length < totalMonthsSaved){
+      DateTime endingDate = creationDate.add(Duration(days: 400));
+      months.add(Month(endingDate.year, endingDate.month));
+    }
     calculateBalance();
   }
 }

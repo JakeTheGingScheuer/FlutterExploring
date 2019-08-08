@@ -18,47 +18,60 @@ class DayScreenState extends State<DayScreen>{
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      appBar: AppBar(title:Text('Day Screen')),
-      body: Column(
-        children: <Widget>[
-          SizedBox(height: 15),
-          Text(day.dayTitle(), key: Key('dayTitle'), style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),),
-          SizedBox(height: 15),
-          Container(
-              key: Key('transactionList'),
-              height:400,
-              child: transactionList(day)),
-          RaisedButton(
-              key: Key('newTransaction'),
-              child: Text('New Transaction'),
-              onPressed: () => addNewTransaction(day, context))
-        ],
+      backgroundColor: Colors.black,
+      appBar: CupertinoNavigationBar(middle:Text(day.dayKey(),style: TextStyle(color: Colors.green),), actionsForegroundColor: Colors.green, backgroundColor: Colors.black),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: <Widget>[
+            SizedBox(height: 15),
+            SizedBox(height: 15),
+            Container(
+                key: Key('transactionList'),
+                height:400,
+                child: transactionList(day)),
+            CupertinoButton(
+                key: Key('newTransaction'),
+                child: Text('New Transaction'),
+                color: Colors.green,
+                onPressed: () => addNewTransaction(day, context))
+          ],
+        ),
       )
     );
   }
 
   addNewTransaction(Day day, BuildContext context) {
-    Transaction transaction = Transaction();
+    Transaction transaction = Transaction(day.dayNumber, day.monthNumber, day.year);
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => TransactionScreen(transaction, day)));
   }
 
   ListView transactionList(Day day) {
-    List<ListTile> tiles = List<ListTile>();
+    List<Container> tiles = List<Container>();
 
     day.transactions.forEach((trans) =>
-        tiles.add(transactionTile(trans.description, trans.value)));
+        tiles.add(transactionTile(trans)));
     return ListView(
       children: tiles
     );
   }
 
-  ListTile transactionTile(String description, double value){
-    return ListTile(
-      title: Text(description),
-      leading: Text(value.toStringAsFixed(2)),
+  Container transactionTile(Transaction trans){
+    return Container(
+      decoration: BoxDecoration(border: Border.all(color: Colors.blue), borderRadius: BorderRadius.all(Radius.circular(10))),
+      child: ListTile(
+        contentPadding: EdgeInsets.all(5),
+        leading: CupertinoButton(child: Icon(CupertinoIcons.delete_solid, color: Colors.red), onPressed: ()=> delete(trans)),
+        title: Container(child: Text(trans.description,style: TextStyle(color: Colors.white70, fontSize: 18))),
+        trailing: Container(child: Text(trans.value.toStringAsFixed(2), style: TextStyle(color: Colors.greenAccent, fontSize: 18))),
+      ),
     );
+  }
+
+  delete(Transaction trans){
+    day.deleteTransaction(trans);
+    setState(() {});
   }
 }

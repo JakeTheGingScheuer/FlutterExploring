@@ -12,16 +12,15 @@ import 'package:test_driving/screens/month_screen.dart';
 class DataStorage extends StatelessWidget {
 
   final LocalStorage storage = LocalStorage('calendar_storage');
-  Calendar calendar;
+  Calendar calendar = Calendar();
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
         future: storage.ready,
         builder: (BuildContext context, snapshot) {
-          if (snapshot.data == true) {
-            Map<String, dynamic> data = storage.getItem('calendar');
-            setCalendar(data);
+          if (snapshot.connectionState == ConnectionState.done) {
+            setCalendar(snapshot.data);
             return
               ChangeNotifierProvider(
                 builder: (context) => calendar,
@@ -30,19 +29,19 @@ class DataStorage extends StatelessWidget {
           } else {
             return Scaffold(
                 body: Center(
-                    child: CircularProgressIndicator()
+                    child: CupertinoActivityIndicator()
                 )
             );
           }
         });
   }
 
-  setCalendar(Map<String, dynamic> json) {
-    if (json == null) {
-      Calendar blankCal = Calendar();
-      storage.setItem('calendar', blankCal.toJson());
-    } else {
-      calendar = Calendar.fromJson(json);
+  setCalendar(bool data) {
+    if (data) {
+      Map<String, dynamic> json = storage.getItem('calendar');
+      if(json != null){
+        calendar = Calendar.fromJson(json);
+      }
     }
   }
 }

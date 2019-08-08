@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -10,30 +12,34 @@ import 'package:test_driving/widgets/day_tile_builder.dart';
 class MonthScreen extends StatelessWidget {
 
   LocalStorage storage;
+  List<Container> monthViews;
   MonthScreen(this.storage);
 
   @override
   Widget build(BuildContext context) {
     Calendar calendar = Provider.of<Calendar>(context);
+    calendar.calculateBalance();
+    autoSave(calendar);
+    monthViews = buildMonthViews(calendar);
       return Scaffold(
-        appBar: AppBar(
-          title: Text('Month Screen'),
-          leading: IconButton(
-              icon: Icon(Icons.save),
-              onPressed:()=> save(calendar))),
+        backgroundColor: Colors.black,
+        appBar: CupertinoNavigationBar(
+              actionsForegroundColor: Colors.green,
+              backgroundColor: Colors.black),
         body: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            SizedBox(height: 15),
+            SizedBox(height: 80),
             Container(
               key: Key('CalendarView'),
                 height: 500,
                 width: 400,
-                child: ListView.builder(
+                child: PageView (
+                  controller: PageController(
+                    initialPage: 1
+                  ),
                   scrollDirection: Axis.horizontal,
-                  itemCount: 14,
-                  itemBuilder: (BuildContext context, int index) {
-                    return monthTile(calendar,index, context);
-                  },
+                  children: monthViews
                 )
             ),
           ],
@@ -41,16 +47,23 @@ class MonthScreen extends StatelessWidget {
     );
   }
 
-  save(Calendar calendar){
+  List<Widget> buildMonthViews(Calendar calendar){
+    List<Container> monthViews = new List<Container>();
+    for(int i = 0; i < 13; i++){
+      monthViews.add(monthTile(calendar, i));
+    }return monthViews;
+  }
+
+  autoSave(Calendar calendar){
     storage.setItem('calendar', calendar.toJson());
   }
 
-  Container monthTile(Calendar calendar, int index, BuildContext context) {
+  Container monthTile(Calendar calendar, int index) {
     Month month = calendar.months[index];
-    DayTileListBuilder buildList = DayTileListBuilder(month);
+    DayTileListBuilder buildList = DayTileListBuilder(month, storage);
 
     return Container(
-      padding: EdgeInsets.all(12),
+      padding: EdgeInsets.all(15),
       height: 450,
       width: 400,
       child: Column(
@@ -79,8 +92,8 @@ class MonthScreen extends StatelessWidget {
 
   Text monthYearDisplay(Month month) {
     return Text(
-        month.monthName + ' ' + month.year, key: Key('monthTitle'),
-        style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600)
+        month.monthName + ' ' + month.year.toString(), key: Key('monthTitle'),
+        style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600, color: Colors.green)
     );
   }
 }

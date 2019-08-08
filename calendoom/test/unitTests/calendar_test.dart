@@ -32,7 +32,7 @@ void main() {
       Calendar fakeCalendar = Calendar();
       Month fakeMonth = fakeCalendar.months[1];
       Day fakeDay = fakeMonth.days[1];
-      Transaction fakeTrans = Transaction();
+      Transaction fakeTrans = Transaction(fakeDay.dayNumber, fakeDay.monthNumber, fakeDay.year);
 
       fakeTrans.setDescription('fake');
       fakeTrans.setAmount(20.00);
@@ -49,5 +49,6 @@ void main() {
 
       expect(dayPersisted.balance, 20.00);
     });
+
   });
 }

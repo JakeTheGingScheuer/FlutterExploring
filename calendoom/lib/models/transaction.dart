@@ -1,44 +1,50 @@
 import 'package:flutter/cupertino.dart';
 
-
 class Transaction extends ChangeNotifier{
   double value = 0.00;
-  String description = 'description here';
+  String description = 'No Description';
   bool isCredit = false;
   bool isReoccurring = false;
+  String transKey = '0';
+  int dayNumber;
+  int monthNumber;
+  int year;
 
-  Transaction();
+  Transaction(this.dayNumber, this.monthNumber, this.year);
 
-  void setDescription(String input){
+  setDescription(String input){
     description = input;
-    notifyListeners();
   }
 
-  void setAmount(double input) {
+  setAmount(double input) {
     if(isCredit){
       value = input;
     }
     else{
       value = (input * -1);
     }
-    notifyListeners();
   }
 
-  void setIsCredit(bool input) {
+  setIsCredit(bool input) {
     isCredit = input;
     if((value < 0) && isCredit){
       value *= -1;
     }
-    notifyListeners();
   }
 
-  void setIsReoccurring(bool input) {
+  setIsReoccurring(bool input) {
     isReoccurring = input;
-    notifyListeners();
+  }
+
+  setTransKey(int number){
+    transKey = number.toString();
   }
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> map = new Map();
+    map['dayNumber'] = dayNumber;
+    map['monthNumber'] = monthNumber;
+    map['year'] = year;
     map['description'] = description;
     map['value'] = value;
     map['isCredit'] = isCredit;
@@ -48,6 +54,9 @@ class Transaction extends ChangeNotifier{
   }
 
   Transaction.fromJson(Map<String, dynamic> json){
+    year = json['year'];
+    monthNumber = json['monthNumber'];
+    dayNumber = json['dayNumber'];
     description = json['description'];
     value = json['value'];
     isCredit = json['isCredit'];

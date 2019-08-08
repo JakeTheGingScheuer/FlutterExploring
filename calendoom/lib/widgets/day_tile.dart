@@ -1,14 +1,15 @@
+import 'package:date_util/date_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:localstorage/localstorage.dart';
 import 'package:test_driving/models/day.dart';
 import 'package:test_driving/screens/day_screen.dart';
 
 class DayTile extends BlankTile {
 
   Day day;
+  double runningBalance;
+  DayTile(this.day, this.runningBalance);
 
-  DayTile(this.day);
 
   @override
   Widget build(BuildContext context) {
@@ -17,28 +18,51 @@ class DayTile extends BlankTile {
           Navigator.push(context, MaterialPageRoute( builder: (context) => DayScreen(day)));},
         child: GridTile(
             child: Container(
-                padding: EdgeInsets.all(2),
-                decoration: BoxDecoration(
-                  border: Border.all(),
-                ),
+              decoration: BoxDecoration(border: Border.all(color: Colors.blue), color: ifToday()),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
                     Container(
-                        decoration: BoxDecoration(color: Colors.amberAccent),
+                        decoration: BoxDecoration(color: Colors.blue[300]),
                         child: Text(day.dayNumber.toString(), style: TextStyle(fontWeight: FontWeight.w500),)),
                     SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
                       child: Container(
                           child: Text(
-                            '\$'+day.balance.toStringAsFixed(0),
-                            style: TextStyle(fontSize: 10),
-                      )),
-                    )
+                            '\$'+runningBalance.toStringAsFixed(0),
+                            style: TextStyle(fontSize: 10, color: Colors.greenAccent),
+                      ))),
+                    dailyDiff()
                   ],
                 )
             )));
   }
 
+  Container dailyDiff(){
+    if(day.balance>0){
+      return Container(
+        alignment: Alignment.center,
+        child: Icon(
+          CupertinoIcons.up_arrow, color: Colors.green[500], size: 16,
+        ));
+    }
+    if(day.balance<0){
+      return Container(
+       child: Icon(
+       CupertinoIcons.down_arrow, color: Colors.red, size: 16,
+      ));
+    }
+    return Container();
+  }
+
+  Color ifToday(){
+    DateTime today = DateTime.now();
+    DateUtil util = DateUtil();
+    String monthToday = util.month(today.month);
+    if((day.dayNumber == today.day)&&(monthToday == day.monthName) &&(day.year == today.year)){
+      return Colors.blue[900];
+    } return Colors.black;
+  }
 }
 
 class BlankTile extends StatelessWidget{
@@ -46,5 +70,4 @@ class BlankTile extends StatelessWidget{
   Widget build(BuildContext context) {
     return GestureDetector(child: GridTile(child: Text('')));
   }
-
 }
