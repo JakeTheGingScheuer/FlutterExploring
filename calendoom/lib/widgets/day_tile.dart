@@ -38,11 +38,10 @@ class DayTile extends BlankTile {
   }
 
   Color ifToday(){
-    int dayNumb = int.parse(day.dayNumber);
     DateTime today = DateTime.now();
     DateUtil util = DateUtil();
     String monthToday = util.month(today.month);
-    if((dayNumb == today.day)&&(monthToday == day.monthName)){
+    if((day.dayNumber == today.day)&&(monthToday == day.monthName)){
       return Colors.green;
     } return Colors.black;
   }

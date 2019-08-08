@@ -17,7 +17,7 @@ class DayTileListBuilder{
     addBlankTiles();
 
     month.days.forEach((day) => dayTilesForThisMonth.add(
-        DayTile(day, month.getRunningBalance(int.parse(day.dayNumber)))
+        DayTile(day, month.getRunningBalance(day.dayNumber))
     ));
   }
 

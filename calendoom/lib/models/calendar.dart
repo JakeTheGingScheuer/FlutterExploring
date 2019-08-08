@@ -85,24 +85,17 @@ class Calendar extends ChangeNotifier {
 
 
   searchEachDayOfEachMonth(){
-    months.forEach((month)=> month.days.forEach((day)=> checkDay(day)));
+    months.forEach((month)=> month.days.forEach((day)=> checkReoccurringPayments(day)));
   }
 
-  checkDay(Day day){
-    reoccurringPayments.forEach((trans)=> checkDateOfTransaction(trans, day));
+  checkReoccurringPayments(Day calendar){
+    reoccurringPayments.forEach((payment)=> checkDateOfPayment(payment, calendar));
   }
 
-//  bool checkMonth(int monthChecking, int monthOfTransaction){
-//    if(monthChecking >= monthOfTransaction){
-//      return true;
-//    }
-//    if()
-//  }
-
-  checkDateOfTransaction(Transaction trans, Day day){
-    if(day.monthNumber >= trans.monthNumber+1){
-      if(trans.dayNumber == int.parse(day.dayNumber)){
-        day.addTransaction(trans);
+  checkDateOfPayment(Transaction payment, Day calendar){
+    if(calendar.monthNumber > payment.monthNumber){
+      if(calendar.dayNumber == payment.dayNumber){
+        calendar.addTransaction(payment);
       }
     }
   }

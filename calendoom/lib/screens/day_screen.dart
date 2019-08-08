@@ -43,7 +43,7 @@ class DayScreenState extends State<DayScreen>{
   }
 
   addNewTransaction(Day day, BuildContext context) {
-    Transaction transaction = Transaction(int.parse(day.dayNumber), day.monthNumber);
+    Transaction transaction = Transaction(day.dayNumber, day.monthNumber);
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => TransactionScreen(transaction, day)));
   }

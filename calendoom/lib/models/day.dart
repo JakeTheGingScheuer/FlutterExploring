@@ -7,7 +7,7 @@ class Day extends ChangeNotifier {
 
   int monthNumber;
   String monthName;
-  String dayNumber;
+  int dayNumber;
   String weekday;
   int weekdayNumber;
   final int offset = 2;
@@ -21,7 +21,7 @@ class Day extends ChangeNotifier {
     this.weekdayNumber = weekdayNumber;
     this.monthNumber = monthNum;
     this.monthName = date.month(monthNum);
-    this.dayNumber = dayNum.toString();
+    this.dayNumber = dayNum;
     this.weekday = date.day(weekdayNumber + offset);
     this.transactions = List<Transaction>();
   }
@@ -73,7 +73,7 @@ class Day extends ChangeNotifier {
   }
 
   String dayKey(){
-    return weekday+' '+monthName+' '+dayNumber;
+    return weekday+' '+monthName+' '+dayNumber.toString();
   }
 
   Day.fromJson(Map<String,dynamic> json){

@@ -18,21 +18,21 @@ void main() {
 
     test('Day should be able to add a new tranaction', () {
       Day testDay = Day(1,1,1);
-      testDay.addTransaction(Transaction(int.parse(testDay.dayNumber), testDay.monthNumber));
+      testDay.addTransaction(Transaction(testDay.dayNumber, testDay.monthNumber));
       expect(testDay.transactions.length, 1);
     });
 
     test('Day should be able to delete a transaction', () {
       Day testDay = Day(1,1,1);
-      testDay.addTransaction(Transaction(int.parse(testDay.dayNumber), testDay.monthNumber));
+      testDay.addTransaction(Transaction(testDay.dayNumber, testDay.monthNumber));
       testDay.deleteTransaction(testDay.transactions[0]);
       expect(testDay.transactions.length, 0);
     });
 
     test('Day should have a balance that reflects the amount of all transactions', () {
       Day testDay = Day(1,1,1);
-      testDay.addTransaction(Transaction(int.parse(testDay.dayNumber), testDay.monthNumber));
-      testDay.addTransaction(Transaction(int.parse(testDay.dayNumber), testDay.monthNumber));
+      testDay.addTransaction(Transaction(testDay.dayNumber, testDay.monthNumber));
+      testDay.addTransaction(Transaction(testDay.dayNumber, testDay.monthNumber));
       testDay.transactions[0].setAmount(5.00);
       testDay.transactions[1].setAmount(3.00);
       testDay.calculateBalance();
@@ -41,8 +41,8 @@ void main() {
 
     test('Day should return total of all credits when get credits is called', () {
       Day testDay = Day(1,1,1);
-      testDay.addTransaction(Transaction(int.parse(testDay.dayNumber), testDay.monthNumber));
-      testDay.addTransaction(Transaction(int.parse(testDay.dayNumber), testDay.monthNumber));
+      testDay.addTransaction(Transaction(testDay.dayNumber, testDay.monthNumber));
+      testDay.addTransaction(Transaction(testDay.dayNumber, testDay.monthNumber));
       testDay.transactions[0].setAmount(5.00);
       testDay.transactions[0].setIsCredit(true);
       testDay.transactions[1].setAmount(3.00);
@@ -52,8 +52,8 @@ void main() {
 
     test('Day should return total of all debits when get debits is called', () {
       Day testDay = Day(1,1,1);
-      testDay.addTransaction(Transaction(int.parse(testDay.dayNumber), testDay.monthNumber));
-      testDay.addTransaction(Transaction(int.parse(testDay.dayNumber), testDay.monthNumber));
+      testDay.addTransaction(Transaction(testDay.dayNumber, testDay.monthNumber));
+      testDay.addTransaction(Transaction(testDay.dayNumber, testDay.monthNumber));
       testDay.transactions[0].setAmount(5.00);
       testDay.transactions[0].setIsCredit(true);
       testDay.transactions[1].setAmount(3.00);
@@ -64,7 +64,7 @@ void main() {
     test('toJson', () {
       Day testDay = Day(1,1,1);
 
-      Transaction fakeTrans = Transaction(int.parse(testDay.dayNumber), testDay.monthNumber);
+      Transaction fakeTrans = Transaction(testDay.dayNumber, testDay.monthNumber);
       fakeTrans.setDescription('fake');
       fakeTrans.setAmount(20.00);
       fakeTrans.setIsCredit(true);
@@ -86,7 +86,7 @@ void main() {
 
     test('fromJson', () {
       Day testDay = Day(1,1,1);
-      Transaction fakeTrans = Transaction(int.parse(testDay.dayNumber), testDay.monthNumber);
+      Transaction fakeTrans = Transaction(testDay.dayNumber, testDay.monthNumber);
       fakeTrans.setDescription('fake');
       fakeTrans.setAmount(20.00);
       fakeTrans.setIsCredit(true);
