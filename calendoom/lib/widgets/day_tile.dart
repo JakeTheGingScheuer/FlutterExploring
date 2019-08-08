@@ -18,23 +18,41 @@ class DayTile extends BlankTile {
           Navigator.push(context, MaterialPageRoute( builder: (context) => DayScreen(day)));},
         child: GridTile(
             child: Container(
-              decoration: BoxDecoration(border: Border.all(color: Colors.green), color: ifToday()),
+              decoration: BoxDecoration(border: Border.all(color: Colors.blue), color: ifToday()),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
                     Container(
-                        decoration: BoxDecoration(color: Colors.greenAccent),
+                        decoration: BoxDecoration(color: Colors.blue[300]),
                         child: Text(day.dayNumber.toString(), style: TextStyle(fontWeight: FontWeight.w500),)),
                     SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
                       child: Container(
                           child: Text(
                             '\$'+runningBalance.toStringAsFixed(0),
                             style: TextStyle(fontSize: 10, color: Colors.greenAccent),
-                      )),
-                    )
+                      ))),
+                    dailyDiff()
                   ],
                 )
             )));
+  }
+
+  Container dailyDiff(){
+    if(day.balance>0){
+      return Container(
+        alignment: Alignment.center,
+        child: Icon(
+          CupertinoIcons.up_arrow, color: Colors.green[500], size: 16,
+        ));
+    }
+    if(day.balance<0){
+      return Container(
+       child: Icon(
+       CupertinoIcons.down_arrow, color: Colors.red, size: 16,
+      ));
+    }
+    return Container();
   }
 
   Color ifToday(){
@@ -42,7 +60,7 @@ class DayTile extends BlankTile {
     DateUtil util = DateUtil();
     String monthToday = util.month(today.month);
     if((day.dayNumber == today.day)&&(monthToday == day.monthName) &&(day.year == today.year)){
-      return Colors.green;
+      return Colors.blue[900];
     } return Colors.black;
   }
 }

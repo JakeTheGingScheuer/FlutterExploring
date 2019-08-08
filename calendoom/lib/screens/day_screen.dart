@@ -60,7 +60,7 @@ class DayScreenState extends State<DayScreen>{
 
   Container transactionTile(Transaction trans){
     return Container(
-      decoration: BoxDecoration(border: Border.all(color: Colors.green), borderRadius: BorderRadius.all(Radius.circular(10))),
+      decoration: BoxDecoration(border: Border.all(color: Colors.blue), borderRadius: BorderRadius.all(Radius.circular(10))),
       child: ListTile(
         contentPadding: EdgeInsets.all(5),
         leading: CupertinoButton(child: Icon(CupertinoIcons.delete_solid, color: Colors.red), onPressed: ()=> delete(trans)),
