@@ -91,18 +91,6 @@ class Calendar extends ChangeNotifier {
     months.forEach((month) => endOfMonthBalances.add(month.endOfMonthBalance));
   }
 
-
-
-
-
-
-
-
-
-
-
-
-
   Map<String,dynamic> toJson() {
 
     Map<String, dynamic> calendarJson = new Map();

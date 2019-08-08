@@ -12,7 +12,7 @@ import 'package:test_driving/screens/month_screen.dart';
 class DataStorage extends StatelessWidget {
 
   final LocalStorage storage = LocalStorage('calendar_storage');
-  Calendar calendar;
+  Calendar calendar = Calendar();
 
   @override
   Widget build(BuildContext context) {
@@ -37,12 +37,11 @@ class DataStorage extends StatelessWidget {
   }
 
   setCalendar(bool data) {
-    if (!data) {
-      calendar = Calendar();
-      storage.setItem('calendar', calendar.toJson());
-    } else {
+    if (data) {
       Map<String, dynamic> json = storage.getItem('calendar');
-      calendar = Calendar.fromJson(json);
+      if(json != null){
+        calendar = Calendar.fromJson(json);
+      }
     }
   }
 }
