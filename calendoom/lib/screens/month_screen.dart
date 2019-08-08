@@ -27,6 +27,7 @@ class MonthScreen extends StatelessWidget {
               actionsForegroundColor: Colors.green,
               backgroundColor: Colors.black),
         body: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             SizedBox(height: 80),
             Container(
@@ -62,7 +63,7 @@ class MonthScreen extends StatelessWidget {
     DayTileListBuilder buildList = DayTileListBuilder(month, storage);
 
     return Container(
-      padding: EdgeInsets.all(12),
+      padding: EdgeInsets.all(15),
       height: 450,
       width: 400,
       child: Column(
