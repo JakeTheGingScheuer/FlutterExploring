@@ -19,9 +19,8 @@ class DataStorage extends StatelessWidget {
     return FutureBuilder(
         future: storage.ready,
         builder: (BuildContext context, snapshot) {
-          if (snapshot.data == true) {
-            Map<String, dynamic> data = storage.getItem('calendar');
-            setCalendar(data);
+          if (snapshot.connectionState == ConnectionState.done) {
+            setCalendar(snapshot.data);
             return
               ChangeNotifierProvider(
                 builder: (context) => calendar,
@@ -30,18 +29,19 @@ class DataStorage extends StatelessWidget {
           } else {
             return Scaffold(
                 body: Center(
-                    child: CircularProgressIndicator()
+                    child: CupertinoActivityIndicator()
                 )
             );
           }
         });
   }
 
-  setCalendar(Map<String, dynamic> json) {
-    if (json == null) {
-      Calendar blankCal = Calendar();
-      storage.setItem('calendar', blankCal.toJson());
+  setCalendar(bool data) {
+    if (data) {
+      calendar = Calendar();
+      storage.setItem('calendar', calendar.toJson());
     } else {
+      Map<String, dynamic> json = storage.getItem('calendar');
       calendar = Calendar.fromJson(json);
     }
   }

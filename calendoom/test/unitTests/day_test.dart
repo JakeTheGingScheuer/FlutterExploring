@@ -74,7 +74,7 @@ void main() {
 
       Map<String,dynamic> testDayJson = testDay.toJson();
       expect(testDayJson['monthName'], 'January');
-      expect(testDayJson['dayNumber'], '1');
+      expect(testDayJson['dayNumber'], 1);
       expect(testDayJson['weekdayNumber'], 1);
       expect(testDayJson['weekday'], 'Monday');
       expect(testDayJson['transactions'].length, 1);
