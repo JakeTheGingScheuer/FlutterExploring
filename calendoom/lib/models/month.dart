@@ -6,7 +6,7 @@ import 'day.dart';
 class Month extends ChangeNotifier{
   String monthName;
   int monthNumber;
-  String year;
+  int year;
   List<Day> days;
 
   DateUtil dateUtil = DateUtil();
@@ -15,14 +15,14 @@ class Month extends ChangeNotifier{
 
   Month(int year, int monthNumber) {
     this.days = new List<Day>();
-    this.year = year.toString();
+    this.year = year;
     this.monthName = dateUtil.month(monthNumber);
     this.monthNumber = monthNumber;
     DateTime firstDayOfTheMonth = DateTime(year, monthNumber);
 
     for(int i = 0; i< daysInMonth(year, monthNumber); i++){
       DateTime time = firstDayOfTheMonth.add(new Duration(days: i));
-      days.add(Day(time.month, time.day, time.weekday));
+      days.add(Day(time.month, time.day, time.weekday, time.year));
     }
   }
 
@@ -45,7 +45,7 @@ class Month extends ChangeNotifier{
   }
 
   String monthKey(){
-    return monthName+' '+year;
+    return monthName+' '+year.toString();
   }
 
 

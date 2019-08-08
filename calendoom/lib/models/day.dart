@@ -5,6 +5,7 @@ import 'package:test_driving/models/transaction.dart';
 class Day extends ChangeNotifier {
   DateUtil date = DateUtil();
 
+  int year;
   int monthNumber;
   String monthName;
   int dayNumber;
@@ -17,9 +18,10 @@ class Day extends ChangeNotifier {
   double debits = 0.00;
   double balance = 0.00;
 
-  Day(int monthNum, int dayNum, int weekdayNumber) {
+  Day(int monthNum, int dayNum, int weekdayNumber, int year) {
     this.weekdayNumber = weekdayNumber;
     this.monthNumber = monthNum;
+    this.year = year;
     this.monthName = date.month(monthNum);
     this.dayNumber = dayNum;
     this.weekday = date.day(weekdayNumber + offset);
@@ -57,6 +59,7 @@ class Day extends ChangeNotifier {
     Map<String, dynamic> dayJson = new Map();
     dayJson['monthName'] = monthName;
     dayJson['monthNumber'] = monthNumber;
+    dayJson['year'] = year;
     dayJson['dayNumber'] = dayNumber;
     dayJson['weekdayNumber'] = weekdayNumber;
     dayJson['weekday'] = weekday;
@@ -80,6 +83,7 @@ class Day extends ChangeNotifier {
     monthName = json['monthName'];
     monthNumber = json['monthNumber'];
     dayNumber = json['dayNumber'];
+    year = json['year'];
     weekdayNumber = json['weekdayNumber'];
     weekday = json['weekday'];
     transactions = List<Transaction>();

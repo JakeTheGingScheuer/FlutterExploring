@@ -8,8 +8,9 @@ class Transaction extends ChangeNotifier{
   String transKey = '0';
   int dayNumber;
   int monthNumber;
+  int year;
 
-  Transaction(this.dayNumber, this.monthNumber);
+  Transaction(this.dayNumber, this.monthNumber, this.year);
 
   setDescription(String input){
     description = input;
@@ -43,6 +44,7 @@ class Transaction extends ChangeNotifier{
     Map<String, dynamic> map = new Map();
     map['dayNumber'] = dayNumber;
     map['monthNumber'] = monthNumber;
+    map['year'] = year;
     map['description'] = description;
     map['value'] = value;
     map['isCredit'] = isCredit;
@@ -52,8 +54,9 @@ class Transaction extends ChangeNotifier{
   }
 
   Transaction.fromJson(Map<String, dynamic> json){
-    monthNumber =json['monthNumber'];
-    dayNumber =json['dayNumber'];
+    year = json['year'];
+    monthNumber = json['monthNumber'];
+    dayNumber = json['dayNumber'];
     description = json['description'];
     value = json['value'];
     isCredit = json['isCredit'];

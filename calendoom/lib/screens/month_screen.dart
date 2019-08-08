@@ -12,6 +12,7 @@ import 'package:test_driving/widgets/day_tile_builder.dart';
 class MonthScreen extends StatelessWidget {
 
   LocalStorage storage;
+  List<Container> monthViews;
   MonthScreen(this.storage);
 
   @override
@@ -19,6 +20,7 @@ class MonthScreen extends StatelessWidget {
     Calendar calendar = Provider.of<Calendar>(context);
     calendar.calculateBalance();
     autoSave(calendar);
+    monthViews = buildMonthViews(calendar);
       return Scaffold(
         backgroundColor: Colors.black,
         appBar: CupertinoNavigationBar(
@@ -31,12 +33,12 @@ class MonthScreen extends StatelessWidget {
               key: Key('CalendarView'),
                 height: 500,
                 width: 400,
-                child: ListView.builder(
+                child: PageView (
+                  controller: PageController(
+                    initialPage: 1
+                  ),
                   scrollDirection: Axis.horizontal,
-                  itemCount: 14,
-                  itemBuilder: (BuildContext context, int index) {
-                    return monthTile(calendar,index, context);
-                  },
+                  children: monthViews
                 )
             ),
           ],
@@ -44,11 +46,18 @@ class MonthScreen extends StatelessWidget {
     );
   }
 
+  List<Widget> buildMonthViews(Calendar calendar){
+    List<Container> monthViews = new List<Container>();
+    for(int i = 0; i < 13; i++){
+      monthViews.add(monthTile(calendar, i));
+    }return monthViews;
+  }
+
   autoSave(Calendar calendar){
     storage.setItem('calendar', calendar.toJson());
   }
 
-  Container monthTile(Calendar calendar, int index, BuildContext context) {
+  Container monthTile(Calendar calendar, int index) {
     Month month = calendar.months[index];
     DayTileListBuilder buildList = DayTileListBuilder(month, storage);
 
@@ -82,7 +91,7 @@ class MonthScreen extends StatelessWidget {
 
   Text monthYearDisplay(Month month) {
     return Text(
-        month.monthName + ' ' + month.year, key: Key('monthTitle'),
+        month.monthName + ' ' + month.year.toString(), key: Key('monthTitle'),
         style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600, color: Colors.green)
     );
   }

@@ -39,15 +39,6 @@ class Calendar extends ChangeNotifier {
     }
   }
 
-
-
-
-
-
-
-
-
-
   calculateBalance(){
     addReoccurringPayments();
     months.forEach((month) => month.days.forEach((day) => day.calculateBalance()));
@@ -78,12 +69,6 @@ class Calendar extends ChangeNotifier {
     }
   }
 
-
-
-
-
-
-
   searchEachDayOfEachMonth(){
     months.forEach((month)=> month.days.forEach((day)=> checkReoccurringPayments(day)));
   }
@@ -93,7 +78,7 @@ class Calendar extends ChangeNotifier {
   }
 
   checkDateOfPayment(Transaction payment, Day calendar){
-    if(calendar.monthNumber > payment.monthNumber){
+    if(calendar.monthNumber > payment.monthNumber || calendar.year > payment.year){
       if(calendar.dayNumber == payment.dayNumber){
         calendar.addTransaction(payment);
       }

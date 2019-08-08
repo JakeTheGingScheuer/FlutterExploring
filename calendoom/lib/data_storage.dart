@@ -37,7 +37,7 @@ class DataStorage extends StatelessWidget {
   }
 
   setCalendar(bool data) {
-    if (data) {
+    if (!data) {
       calendar = Calendar();
       storage.setItem('calendar', calendar.toJson());
     } else {
