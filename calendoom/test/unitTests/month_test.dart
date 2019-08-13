@@ -52,7 +52,7 @@ void main() {
       Month fakeMonth = Month(2019, 1);
       Day fakeDay = fakeMonth.days[1];
 
-      Transaction fakeTrans = Transaction(fakeDay.dayNumber, fakeDay.monthNumber, fakeDay.year);
+      Transaction fakeTrans = Transaction(fakeDay.date);
       fakeTrans.setDescription('fake');
       fakeTrans.setAmount(20.00);
       fakeTrans.setIsCredit(true);

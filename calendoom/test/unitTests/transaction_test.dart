@@ -1,13 +1,14 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:test_driving/models/date.dart';
 import 'package:test_driving/models/transaction.dart';
-final int fakeDayNumber = 1;
-final int fakeMonthNumber = 1;
-final int fakeYear = 2000;
+
+DateTime dateTime = new DateTime(2000, 1, 1);
+Date fakeDate = Date(dateTime);
+
 void main() {
   group('unit tests for transaction', () {
     test('Transaction initialization', () {
-      Transaction testTransaction = Transaction(fakeDayNumber, fakeMonthNumber, fakeYear);
-
+      Transaction testTransaction = Transaction(fakeDate);
       expect(testTransaction.isReoccurring, false);
       expect(testTransaction.isCredit, false);
       expect(testTransaction.description, 'No Description');
@@ -15,20 +16,20 @@ void main() {
     });
 
     test('Transaction value is a debit and negative by default', () {
-      Transaction testTransaction = Transaction(fakeDayNumber, fakeMonthNumber, fakeYear);
+      Transaction testTransaction = Transaction(fakeDate);
       testTransaction.setAmount(5.00);
       expect(testTransaction.value, -5.00);
     });
 
     test('Transaction is positive if isCredit', () {
-      Transaction testTransaction = Transaction(fakeDayNumber, fakeMonthNumber, fakeYear);
+      Transaction testTransaction = Transaction(fakeDate);
       testTransaction.setAmount(5.00);
       testTransaction.setIsCredit(true);
       expect(testTransaction.value, 5.00);
     });
 
     test('persists data appropriatley', () {
-      Transaction testTransaction = Transaction(fakeDayNumber, fakeMonthNumber, fakeYear);
+      Transaction testTransaction = Transaction(fakeDate);
       testTransaction.setDescription('fake');
       testTransaction.setAmount(20.00);
       testTransaction.setIsCredit(true);

@@ -2,29 +2,17 @@ import 'package:date_util/date_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:test_driving/models/transaction.dart';
 
+import 'date.dart';
+
 class Day extends ChangeNotifier {
-  DateUtil date = DateUtil();
 
-  int year;
-  int monthNumber;
-  String monthName;
-  int dayNumber;
-  String weekday;
-  int weekdayNumber;
-  final int offset = 2;
-
+  Date date;
   List<Transaction> transactions;
   double credits = 0.00;
   double debits = 0.00;
   double balance = 0.00;
 
-  Day(int monthNum, int dayNum, int weekdayNumber, int year) {
-    this.weekdayNumber = weekdayNumber;
-    this.monthNumber = monthNum;
-    this.year = year;
-    this.monthName = date.month(monthNum);
-    this.dayNumber = dayNum;
-    this.weekday = date.day(weekdayNumber + offset);
+  Day(this.date) {
     this.transactions = List<Transaction>();
   }
 
@@ -53,19 +41,15 @@ class Day extends ChangeNotifier {
     transactions.remove(transaction);
   }
 
-
+  String dayKey(){
+    return date.getTitle();
+  }
 
   Map<String,dynamic> toJson() {
     Map<String, dynamic> dayJson = new Map();
-    dayJson['monthName'] = monthName;
-    dayJson['monthNumber'] = monthNumber;
-    dayJson['year'] = year;
-    dayJson['dayNumber'] = dayNumber;
-    dayJson['weekdayNumber'] = weekdayNumber;
-    dayJson['weekday'] = weekday;
+    dayJson['date'] = date.toJson();
 
     Map<String, dynamic> transactionMap = new Map();
-
     for(int i = 0; i<transactions.length; i++){
       transactions[i].setTransKey(i);
       transactionMap[transactions[i].transKey] = transactions[i].toJson();
@@ -75,17 +59,8 @@ class Day extends ChangeNotifier {
     return dayJson;
   }
 
-  String dayKey(){
-    return weekday+' '+monthName+' '+dayNumber.toString();
-  }
-
   Day.fromJson(Map<String,dynamic> json){
-    monthName = json['monthName'];
-    monthNumber = json['monthNumber'];
-    dayNumber = json['dayNumber'];
-    year = json['year'];
-    weekdayNumber = json['weekdayNumber'];
-    weekday = json['weekday'];
+    date = Date.fromJson(json['date']);
     transactions = List<Transaction>();
 
     Map<String, dynamic> transactionsJson = json['transactions'];

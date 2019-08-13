@@ -1,16 +1,16 @@
 import 'package:flutter/cupertino.dart';
 
+import 'date.dart';
+
 class Transaction extends ChangeNotifier{
   double value = 0.00;
   String description = 'No Description';
   bool isCredit = false;
   bool isReoccurring = false;
   String transKey = '0';
-  int dayNumber;
-  int monthNumber;
-  int year;
+  Date date;
 
-  Transaction(this.dayNumber, this.monthNumber, this.year);
+  Transaction(this.date);
 
   setDescription(String input){
     description = input;
@@ -42,9 +42,7 @@ class Transaction extends ChangeNotifier{
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> map = new Map();
-    map['dayNumber'] = dayNumber;
-    map['monthNumber'] = monthNumber;
-    map['year'] = year;
+    map['date'] = date.toJson();
     map['description'] = description;
     map['value'] = value;
     map['isCredit'] = isCredit;
@@ -54,9 +52,7 @@ class Transaction extends ChangeNotifier{
   }
 
   Transaction.fromJson(Map<String, dynamic> json){
-    year = json['year'];
-    monthNumber = json['monthNumber'];
-    dayNumber = json['dayNumber'];
+    date = Date.fromJson(json['date']);
     description = json['description'];
     value = json['value'];
     isCredit = json['isCredit'];
