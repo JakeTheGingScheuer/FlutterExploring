@@ -18,7 +18,7 @@ class MonthScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Calendar calendar = Provider.of<Calendar>(context);
-    calendar.calculateBalance();
+    calendar.update();
     autoSave(calendar);
     monthViews = buildMonthViews(calendar);
       return Scaffold(
