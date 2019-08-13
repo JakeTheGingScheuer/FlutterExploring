@@ -5,31 +5,16 @@ final int fakeMonthNumber = 1;
 final int fakeYear = 2000;
 void main() {
   group('unit tests for transaction', () {
-    test('Transaction should have 0.00 as starting value', () {
-      Transaction testTransaction = Transaction(fakeDayNumber, fakeMonthNumber, fakeYear);
-
-      expect(testTransaction.value, 0.00);
-    });
-
-    test('Transaction should have a default description initally', () {
-      Transaction testTransaction = Transaction(fakeDayNumber, fakeMonthNumber, fakeYear);
-
-      expect(testTransaction.description, 'No Description');
-    });
-
-    test('Transaction by default is debit', () {
-      Transaction testTransaction = Transaction(fakeDayNumber, fakeMonthNumber, fakeYear);
-
-      expect(testTransaction.isCredit, false);
-    });
-
-    test('Transaction by default is not reoccuring', () {
+    test('Transaction initialization', () {
       Transaction testTransaction = Transaction(fakeDayNumber, fakeMonthNumber, fakeYear);
 
       expect(testTransaction.isReoccurring, false);
+      expect(testTransaction.isCredit, false);
+      expect(testTransaction.description, 'No Description');
+      expect(testTransaction.value, 0.00);
     });
 
-    test('Transaction is negative by default', () {
+    test('Transaction value is a debit and negative by default', () {
       Transaction testTransaction = Transaction(fakeDayNumber, fakeMonthNumber, fakeYear);
       testTransaction.setAmount(5.00);
       expect(testTransaction.value, -5.00);

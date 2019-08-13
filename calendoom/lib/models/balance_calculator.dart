@@ -6,7 +6,6 @@ class BalanceCalculator{
   ReoccurringPayments reoccurringPayments;
   List<double> endOfMonthBalances;
 
-
   BalanceCalculator(this.monthList){
     reoccurringPayments = ReoccurringPayments(monthList);
     calculateBalance();
